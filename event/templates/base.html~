@@ -3,7 +3,7 @@
 <meta charset="utf-8" />
 {% block title %}
 <title>USF Event Demo</title>
-{% endblock %}
+{% block title %}
 <link rel="stylesheet" href="{{ STATIC_URL }}960gs/css/reset.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}960gs/css/text.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}960gs/css/960.css" />

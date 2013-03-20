@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
-{% block content %}
 
+{% block title %}
+<title>USF Event Demo</title>
+{% endblock %}
+
+{% block content %}
 {% for event in object_list %}
 
 <h2><a href="/event/{{event.id}}">{{ event.title }}</a></h2>
@@ -16,7 +20,7 @@
 
 <div class="event_tags">
   {% for tag in event.tags.all %}
-  <a href="/events/tag/{{tag}}">{{tag}}</a>
+  <a href="/event/tag/{{tag}}">{{tag}}</a>
   {% if not forloop.last %}, {% endif %}
   {% endfor %}
 </div>
