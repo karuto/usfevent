@@ -4,8 +4,8 @@ from event.models import Event
 
 urlpatterns = patterns('event.views',
 
-    url(r'^', ListView.as_view(
-	queryset = Event.objects.all().order_by("-created")[:5],
+    url(r'^$', ListView.as_view(
+	queryset = Event.objects.all().order_by("-created")[:2],
 	template_name = "events.html")),
 
     url(r'^(?P<pk>\d+)$', DetailView.as_view(
