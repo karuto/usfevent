@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Events tagged with {{ tag }}</h2>
+
+{% for event in events %}
+
+<p>{{ event.created|date:"Y-m-d" }}: <a href="/event/{{event.id}}">{{ event.title }}</a></p>
+
+{% endfor %}
+
+{% endblock %}

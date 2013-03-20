@@ -4,7 +4,7 @@
 
 {% for event in object_list %}
 
-<h2><a href="/events/{{event.id}}">{{ event.title }}</a></h2>
+<h2><a href="/event/{{event.id}}">{{ event.title }}</a></h2>
 
 <div class="event_meta">
   on {{ event.created }}
@@ -16,7 +16,7 @@
 
 <div class="event_tags">
   {% for tag in event.tags.all %}
-  <a href="/event/tag/{{tag}}">{{tag}}</a>
+  <a href="/events/tag/{{tag}}">{{tag}}</a>
   {% if not forloop.last %}, {% endif %}
   {% endfor %}
 </div>
