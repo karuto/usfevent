@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'usfevent.views.home', name='home'),
     # url(r'^usfevent/', include('usfevent.foo.urls')),
-    url(r'^event/', include('event.urls')),
+    url(r'^events/', include('event.urls')),
 
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
