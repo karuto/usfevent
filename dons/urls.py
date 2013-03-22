@@ -5,8 +5,9 @@ from dons import views
 
 urlpatterns = patterns('dons.views',
 
+    url(r'^register/$', 'DonsReg'),
     url(r'^login/$', 'DonsLogin'),
-    url(r'^register/$', 'DonsReg')
+    url(r'^logout/$', 'DonsLogout'),
 #    url(r'^$', ListView.as_view(
 #	queryset = Event.objects.all().order_by("-created")[:6],
 #	template_name = "event_homepage.html")),

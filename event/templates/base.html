@@ -15,6 +15,14 @@
 <div class="grid_4"><h1><a href="/event">USF Event Functional Demo</a></h1>
 <h4><a href="/admin">Superuser Login</a></h4>
 <h4><a href="/event/archives">Event archives</a></h4>
+<h4>
+{% if user.is_authenticated %}
+<a href="/user/logout/">Logout</a>
+{% else %}
+<a href="/user/login/">Login</a>
+<a href="/user/register/">Register</a>
+{% endif %}
+</h4>
 </div>
 
 <div class="grid_12">
