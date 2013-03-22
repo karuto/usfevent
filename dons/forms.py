@@ -26,6 +26,7 @@ class RegForm(ModelForm):
                         raise forms.ValidationError("The passwords did not match.  Please try again.")
                 return self.cleaned_data
 
+
 class LoginForm(forms.Form):
         username        = forms.CharField(label=(u'User Name'))
         password        = forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))

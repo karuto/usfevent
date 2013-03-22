@@ -18,7 +18,8 @@ def DonsReg(request):
                 if form.is_valid():
                         user = User.objects.create_user(username=form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password'])
                         user.save()
-                        don = Don(user=user, name=form.cleaned_data['name'])
+                        #don = Don(user=user, name=form.cleaned_data['name'])
+                        don = Don(user=user)
                         don.save()
                         return HttpResponseRedirect('/user/profile/')
                 else:
@@ -63,7 +64,7 @@ def Profile(request):
         if not request.user.is_authenticated():
                 return HrttpResponseRedirect('/user/login/')
         don = request.user.get_profile
-        context = {'user': don}
+        context = {'user': don.user}
         return render_to_response('user_profile.html', context, context_instance=RequestContext(request))
 		
 

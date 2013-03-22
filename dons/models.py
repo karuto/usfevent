@@ -14,20 +14,22 @@ class Don(models.Model):
 	user = models.OneToOneField(User)
 #	email = models.EmailField(max_length=254, unique=True)
 #	name = models.CharField(max_length=100, unique=True, db_index=True)
-	name = models.CharField(max_length=100)	
+#	name = models.CharField(max_length=100)	
 
-	def __unicode__(self):
-		return self.name
+#	def __unicode__(self):
+#		return self.name
 
 #	USERNAME_FIELD = 'email'
 #	REQUIRED_FIELDS = ['name']
 
 
+
+
 # No longer supported in Django 1.5, comment it out
 # Create our user object to attach to our Don object
-def create_don_user_callback(sender, instance, **kwargs):
-	dons, new = Don.objects.get_or_create(user = instance)
-post_save.connect(create_don_user_callback, User)
+#def create_don_user_callback(sender, instance, **kwargs):
+#	dons, new = Don.objects.get_or_create(user = instance)
+#post_save.connect(create_don_user_callback, User)
 
 
 
