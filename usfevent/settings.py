@@ -121,8 +121,8 @@ TEMPLATE_DIRS = (
 )
 
 # Provide our get_profile()
-AUTH_USER_MODULE = "dons.Don"
-
+#AUTH_USER_MODULE = "dons.Don"
+AUTH_PROFILE_MODULE = 'dons.Don'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -137,7 +137,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'taggit',
     'event',
-    'dons'
+    'dons',
 )
 
 # A sample logging configuration. The only tangible logging
