@@ -6,15 +6,15 @@ urlpatterns = patterns('event.views',
 
     url(r'^$', ListView.as_view(
 	queryset = Event.objects.all().order_by("-created")[:6],
-	template_name = "events.html")),
+	template_name = "event_homepage.html")),
 
     url(r'^(?P<pk>\d+)$', DetailView.as_view(
 	model = Event,
-	template_name = "event.html")),
+	template_name = "event_single.html")),
 
     url(r'^archives/$', ListView.as_view(
 	queryset = Event.objects.all().order_by("-created"),
-	template_name = "archives.html")),
+	template_name = "event_listview.html")),
 
     url(r'^tag/(?P<tag>\w+)$', 'tagpage'),
 
