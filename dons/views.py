@@ -1,6 +1,7 @@
 #from event.models import Event
 from dons.models import *
 from django.shortcuts import render_to_response
+from django.contrib.auth.models import User
 
 # Create your views here.
 """
