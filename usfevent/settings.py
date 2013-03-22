@@ -2,6 +2,7 @@
 # Let Python generate the absolute path name 
 import os
 DIRNAME = os.path.dirname(__file__)
+APPEND_SLASH = True
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -132,7 +133,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     'taggit',
     'event',
-    'dons',
+    'dons'
 )
 
 # A sample logging configuration. The only tangible logging
