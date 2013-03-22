@@ -7,8 +7,8 @@
 
 {% block content %}
 {% for event in object_list %}
-<div class="grid_9 event-block">
-{% if flagged %}
+<div class="grid_12 event-block">
+{% if event.flagged %}
 <h4>This event is not showing because it's flagged.</h4>
 {% else %}
 <h2><a href="/event/{{event.id}}">{{ event.title }}</a></h2>
