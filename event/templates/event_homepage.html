@@ -12,7 +12,7 @@
 {% if event.flagged %}
 <h4>This event is not showing because it's flagged.</h4>
 {% else %}
-<h2><a href="/event/{{event.id}}">{{ event.title }}</a></h2>
+<h2><a href="{% url 'single' event.id %}">{{ event.title }}</a></h2>
 
 <div class="event_meta">
   on {{ event.created }}
@@ -24,7 +24,7 @@
 -->
 <div class="event_tags">
   {% for tag in event.tags.all %}
-  <a href="/event/tag/{{tag}}">{{tag}}</a>
+  <a href="{% url 'tag' tag %}">{{tag}}</a>
   {% if not forloop.last %}, {% endif %}
   {% endfor %}
 </div>

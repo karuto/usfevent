@@ -4,7 +4,9 @@
 
 {% for event in object_list %}
 
-<p>{{ event.created|date:"Y-m-d" }}: <a href="/event/{{event.id}}">{{ event.title }}</a></p>
+<p>{{ event.created|date:"Y-m-d" }}: 
+<a href="{% url 'single' event.id %}">
+{{ event.title }}</a></p>
 
 {% endfor %}
 
