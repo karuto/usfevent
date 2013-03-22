@@ -12,7 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 
 def DonsReg(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect('/profile')
+		return HttpResponseRedirect('/user/profile')
 	if request.method == 'POST':
                 form = RegForm(request.POST)
                 if form.is_valid():
@@ -20,7 +20,7 @@ def DonsReg(request):
                         user.save()
                         don = Don(user=user, name=form.cleaned_data['name'])
                         don.save()
-                        return HttpResponseRedirect('/profile/')
+                        return HttpResponseRedirect('/user/profile/')
                 else:
                         return render_to_response('user_register.html', {'form': form}, context_instance=RequestContext(request))
         else:
@@ -33,7 +33,7 @@ def DonsReg(request):
 
 def DonsLogin(request):
         if request.user.is_authenticated():
-                return HttpResponseRedirect('/profile/')
+                return HttpResponseRedirect('/user/profile/')
         if request.method == 'POST':
                 form = LoginForm(request.POST)
                 if form.is_valid():
@@ -42,7 +42,7 @@ def DonsLogin(request):
                         don = authenticate(username=username, password=password)
                         if don is not None:
                                 login(request, don)
-                                return HttpResponseRedirect('/profile/')
+                                return HttpResponseRedirect('/user/profile/')
                         else: # don is not found in database
                                 return render_to_response('user_login.html', {'form': form}, context_instance=RequestContext(request))
                 else: # form data is invalid
@@ -57,3 +57,14 @@ def DonsLogin(request):
 def DonsLogout(request):
         logout(request)
         return HttpResponseRedirect('/event/')
+
+@login_required
+def Profile(request):
+        if not request.user.is_authenticated():
+                return HrttpResponseRedirect('/user/login/')
+        don = request.user.get_profile
+        context = {'user': don}
+        return render_to_response('user_profile.html', context, context_instance=RequestContext(request))
+		
+
+

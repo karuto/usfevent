@@ -123,6 +123,11 @@ TEMPLATE_DIRS = (
 # Provide our get_profile()
 #AUTH_USER_MODULE = "dons.Don"
 AUTH_PROFILE_MODULE = 'dons.Don'
+# URL for @login_required decorator to use
+LOGIN_URL = '/user/login/'
+# Redirect authenticated users
+LOGIN_REDIRECT_URL = '/user/profile'
+
 
 INSTALLED_APPS = (
     'django.contrib.auth',
