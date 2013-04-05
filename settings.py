@@ -1,4 +1,7 @@
 # Django settings for usfevent project.
+# Let Python generate the absolute path name 
+import os
+DIRNAME = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
