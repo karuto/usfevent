@@ -3,13 +3,20 @@ from taggit.managers import TaggableManager
 
 # Create your models here.
 class Event(models.Model):
-	title = models.CharField(max_length = 100)
-	body = models.TextField()
-        refer = models.URLField()
-	created = models.DateTimeField()
-	tags = TaggableManager()
-	flagged = models.BooleanField(default = False)
-	#image1 = models.ImageField(upload_to="images/eventthumb")
+    title = models.CharField(max_length = 100)
+    body = models.TextField()
+    refer = models.URLField()
+    created = models.DateTimeField()
+    tags = TaggableManager()
+    flagged = models.BooleanField(default = False)
+    #image1 = models.ImageField(upload_to="images/eventthumb")
 
-	def __unicode__(self):
-		return self.title
+    def __unicode__(self):
+        return self.title
+        
+
+class Comment(models.Model):
+    user_id = models.CharField(max_length=200)
+    event_id = models.CharField(max_length=200)
+    content = models.TextField()
+    date = models.DateTimeField(auto_now=True)
