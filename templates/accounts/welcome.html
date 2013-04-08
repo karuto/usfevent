@@ -31,9 +31,9 @@
 
 			{%if request.user.is_authenticated%}
 	
-     <a href="{%url logout%}">logout</a> 
-    {%else%}<a href="{%url login%}">login</a>  |  
-    <a href="{%url register%}">register</a>   
+     <a href="{%url accounts.views.logout %}">logout</a> 
+    {%else%}<a href="{%url accounts.views.login %}">login</a>  |  
+    <a href="{%url accounts.views.register %}">register</a>   
     			{%endif%}
     
 
