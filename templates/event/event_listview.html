@@ -5,8 +5,8 @@
 {% for event in events %}
 
 <p>{{ event.created|date:"Y-m-d" }}: 
-<a href="{% url 'single' event.id %}">
-{{ event.title }}</a></p>
+<a href="">{{ event.title }}</a>
+</p>
 
 {% endfor %}
 

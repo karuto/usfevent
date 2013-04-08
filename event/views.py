@@ -17,7 +17,7 @@ def index(request):
 def archives(request):
     template_var = {}
     try:
-        template_var["event"] = Event.objects.all().order_by("-created")
+        template_var["events"] = Event.objects.all().order_by("-created")
     except Event.DoesNotExist:
         raise Http404
     return render_to_response("event/event_listview.html", template_var)
