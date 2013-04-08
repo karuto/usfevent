@@ -26,3 +26,9 @@ def archives(request):
 def tagpage(request, tag):
 	events = Event.objects.filter(tags__name = tag)
 	return render_to_response("event/tag_single.html", {"events":events, "tag":tag})
+	
+	
+def add_comment(request):
+    template_var = {}
+    return render_to_response("event/index.html", template_var)
+    

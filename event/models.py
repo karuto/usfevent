@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 from accounts.models import UserProfile
 from taggit.managers import TaggableManager
 
@@ -21,3 +22,11 @@ class Comment(models.Model):
     event_id = models.ForeignKey(Event)
     content = models.TextField()
     date = models.DateTimeField(auto_now=True)
+    
+    def __unicode(self):
+        return unicode("%s: %s" % (self.event_id, self.content[:50]))
+        
+class CommentAdmin(admin.ModelAdmin):
+    display_fields = []
+    
+admin.site.register(Comment, CommentAdmin)
