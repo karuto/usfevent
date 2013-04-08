@@ -13,13 +13,6 @@
   {{ event.body|safe|linebreaks }}
 </div>
 
-<div class="event_tags">
-  This event is tagged with 
-  {% for tag in event.tags.all %}
-  <a href="{% url 'tag' tag %}">{{tag}}</a>
-  {% if not forloop.last %}, {% endif %}
-  {% endfor %}
-</div>
 
 <div class="event_navi">
 <a href="/admin/event/event/{{event.id}}">Edit this event</a>

@@ -1,5 +1,5 @@
-{% extends "base.html" %}
-
+{% extends "base.html"%}
+<!-- http://stackoverflow.com/questions/3066391/extend-base-html-problem -->
 
 {% block title %}
 <title>USF Event - Homepage</title>
@@ -12,7 +12,7 @@
 {% if event.flagged %}
 <h4>This event is not showing because it's flagged.</h4>
 {% else %}
-<h2><a href="{% url 'single' event.id %}">{{ event.title }}</a></h2>
+<h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>
 
 <div class="event_meta">
   on {{ event.created }}
@@ -22,12 +22,6 @@
   {{ event.body|safe|linebreaks }}
 </div>
 -->
-<div class="event_tags">
-  {% for tag in event.tags.all %}
-  <a href="{% url 'tag' tag %}">{{tag}}</a>
-  {% if not forloop.last %}, {% endif %}
-  {% endfor %}
-</div>
 
 </div><!-- .grid_12 -->
 <!-- clear the row every 3 blocks -->

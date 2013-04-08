@@ -14,10 +14,7 @@ urlpatterns = patterns('event.views',
 	template_name = "event/event_single.html"),
 	name = 'single'),
 
-    url(r'^archives/$', ListView.as_view(
-	queryset = Event.objects.all().order_by("-created"),
-	template_name = "event/event_listview.html")),
-
-    url(r'^tag/(?P<tag>\w+)$', 'tagpage', name = 'tag'),
+    url(r'^archives/$', 'archives', name='archives'),
+    url(r'^tag/(?P<tag>\w+)$', 'tagpage', name='tag'),
 
 )
