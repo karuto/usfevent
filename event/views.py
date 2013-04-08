@@ -14,4 +14,6 @@ def index(request):
     template_var["events"] = output	
     return render_to_response("event/index.html", template_var)
 
-
+def tagpage(request, tag):
+	events = Event.objects.filter(tags__name = tag)
+	return render_to_response("event/tag_single.html", {"events":events, "tag":tag})
