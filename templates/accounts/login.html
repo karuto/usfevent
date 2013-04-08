@@ -1,0 +1,38 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+	<title></title>
+	<link rel="stylesheet" href="http://www.cs.usfca.edu/~yzhang8/login.css" type="text/css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	</head>
+		<body>
+		    <center>
+			
+<img src="http://www.cs.usfca.edu/~yzhang8/logo.gif" %}" alt="My image"/>
+			
+			<div id="login">
+			
+			 {% if messages %}
+<ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <form action="" method="post">{% csrf_token %}
+    <table border="0" cellpadding="0" >
+        {{form.as_table}}        
+    </table>
+    <p> <a href="{%url register%}">register</a> <a href="{%url index%}">return to index</a> <input type="submit" value="login"/></p>
+    </form>
+            
+			</div>
+            </center>
+		</body>
+</html>

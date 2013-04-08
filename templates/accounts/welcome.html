@@ -1,0 +1,70 @@
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="http://cs.usfca.edu/~yzhang8/reset.css">
+     <link rel="stylesheet" type="text/css" href="http://cs.usfca.edu/~yzhang8/960.css">
+	<link rel="stylesheet" href="http://cs.usfca.edu/~yzhang8/profilepage.css" type="text/css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="http://cs.usfca.edu/~yzhang8/profilepage.js"></script>
+
+	
+	</head>
+		<body>
+			<div id="header"><h1>Profile Page</h1><h2>&emsp;Search</h2>
+			    <div style="display: inline-block">
+			    <input type="text" name="searchquery">
+			    <input onclick='window.location.href="homepage.html"' value="&nbsp;&nbsp;Submit&nbsp;&nbsp;" type="button" tabindex="3"/>
+			    <a href="homepage.html">Home&nbsp;&nbsp;</a>
+			    <a href="profilepage.html">Profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+
+			{%if request.user.is_authenticated%}
+	
+     <a href="{%url logout%}">logout</a> 
+    {%else%}<a href="{%url login%}">login</a>  |  
+    <a href="{%url register%}">register</a>   
+    			{%endif%}
+    
+
+
+			    </div>
+			</div>
+
+			<div class = "container">
+				<div style="padding: 50px;" class="grid_12">
+				<div class="grid_4">
+					<div id="picture">
+					</div>
+				</div>
+				<div class="grid_8">
+					<div id = "textresult">	
+						{%if request.user.is_authenticated%}
+	  <h3>My Interest is {{up.interest}}</h3>
+    <h3>My Location is {{up.location}}</h3>
+	
+    {%endif%}
+	
+					</div>
+					
+				</div>
+
+			</div>
+
+				
+		</body>
+</html>
+
+
+
+
