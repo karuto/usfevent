@@ -52,6 +52,21 @@
 						{%if request.user.is_authenticated%}
 	  <h3>My Interest is {{up.interest}}</h3>
     <h3>My Location is {{up.location}}</h3>
+
+    <h3>My Preference is {{preferences}}</h3>
+
+    <h3>My Event Preferenced is{{eventPreferenced}}:</h3>
+    {% for event in eventPreferenced %}
+    <p>Event Title: {{event.title}}</p>
+    <p>Event Body: {{event.body}}</p>
+    <br><br>
+
+
+
+    {% endfor %}
+
+	
+
 	
     {%endif%}
 	

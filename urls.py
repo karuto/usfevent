@@ -14,6 +14,6 @@ urlpatterns = patterns('',
     url(r'^events/', include('event.urls')),
     url(r'^accounts/', include('accounts.urls')),
 
-	url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', include(admin.site.urls)),
 
 )
