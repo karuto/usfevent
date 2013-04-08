@@ -17,6 +17,6 @@ urlpatterns = patterns('event.views',
     url(r'^archives/$', 'archives', name='archives'),
     url(r'^tag/(?P<tag>\w+)$', 'tagpage', name='tag'),
 
-    url(r'^add_comment/', 'add_comment', name="add_comment"),
+    url(r'^add_comment/(\d+)/$', 'add_comment', name="add_comment"),
 
 )

@@ -1,4 +1,4 @@
-from event.models import Event
+from event.models import Event, Comment
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from django.template import Context, loader, RequestContext
@@ -28,7 +28,19 @@ def tagpage(request, tag):
 	return render_to_response("event/tag_single.html", {"events":events, "tag":tag})
 	
 	
-def add_comment(request):
+def add_comment(request, pk):
+    print pk;
     template_var = {}
+    p = request.POST
+    
+    if p.has_key("content") and p["content"]:
+        if request.user.is_authenticated():
+            user = UserProfile.objects.filter(userReference=request.user)
+            comment = Comment(event_id=Event.objects.get(id=pk))
+            comment.userid = user.id
+            #comment.content =
+            #comment.date = 
+            comment.save()
+    
     return render_to_response("event/index.html", template_var)
     
