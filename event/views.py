@@ -1,6 +1,8 @@
 from event.models import Event, Comment
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.contrib.auth.models import User
+from accounts.models import UserProfile
+from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 
 def index(request):
@@ -35,12 +37,10 @@ def add_comment(request, pk):
     
     if p.has_key("content") and p["content"]:
         if request.user.is_authenticated():
-            user = UserProfile.objects.filter(userReference=request.user)
-            comment = Comment(event_id=Event.objects.get(id=pk))
-            comment.userid = user.id
-            #comment.content =
-            #comment.date = 
+            comment = Comment(event=Event.objects.get(id=pk))
+            comment.user = UserProfile.objects.filter(userReference=request.user)[0]
+            comment.content = p["content"]
             comment.save()
     
-    return render_to_response("event/index.html", template_var)
+    return redirect('index')
     
