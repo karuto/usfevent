@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib import messages
-from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login ,logout as auth_logout
+from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from forms import RegisterForm,LoginForm
 from models import UserProfile
@@ -17,7 +17,7 @@ def index(request):
     template_var={"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
         template_var["w"]=_(u"welcome %s!")%request.user.username
-        up = UserProfile.objects.filter(userReference=request.user)
+        up = UserProfile.objects.filter(django_user=request.user)
         template_var["up"]=up[0]
 
         template_var["preferences"] = up[0].preferences
@@ -62,7 +62,7 @@ def register(request):
             preferences_ = preferences_[:len(preferences_)-1]
 
 
-            profile = UserProfile(userReference = user, location = locaiton_, interest = interest_, preferences = preferences_)
+            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_)
             profile.save()
 
             

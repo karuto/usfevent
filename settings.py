@@ -3,6 +3,11 @@
 import os
 DIRNAME = os.path.dirname(__file__)
 
+# This retrieves the directory path of current file
+# Example: /home/vincent/Code/usfevent
+# DIRNAME_ABSOLUTE = os.path.dirname(os.path.abspath(__file__))
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -15,9 +20,9 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'usfeventimage',                      # Or path to database file if using sqlite3.
+        'NAME': 'usfevent',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
+        'PASSWORD': 'q',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
@@ -48,6 +53,9 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
+# User uploaded files belong to media folder
+# This points to a directory on your hard drive
+# MEDIA_ROOT = os.path.join(DIRNAME, '/media')
 MEDIA_ROOT = 'media/'
 
 
@@ -57,6 +65,7 @@ MEDIA_ROOT = 'media/'
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+# This is the URL parent used for accessing this file
 MEDIA_URL = '/webhost_media/'
 
 # Absolute path to the directory static files should be collected to.
@@ -107,7 +116,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'usfeventimage.urls'
+# HARDCODED, PLS CHANGE IF YOUR PARENT DIRECTORY NAME IS DIFFERENT
+ROOT_URLCONF = 'usfevent.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
