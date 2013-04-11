@@ -48,7 +48,7 @@ def add_comment(request, pk):
     return redirect('index')
     
 
-def postEvent(request):
+def post(request):
     template_var = {}
     if request.method=="POST":
         title_ = request.POST["title"]
@@ -62,4 +62,4 @@ def postEvent(request):
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 
-    return render_to_response("event/postEvent.html",template_var,context_instance=RequestContext(request))
+    return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))

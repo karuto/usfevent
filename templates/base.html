@@ -14,7 +14,14 @@
 <div class="container_16" style="padding-top: 50px;">
 <div class="grid_4"><h1><a href="/events">USF Event Functional Demo</a></h1>
 <h4><a href="/admin">Superuser Login</a></h4>
-<h4><a href="/events/archives">Event archives</a></h4>
+<h4><a href="/">Normal user profile</a></h4>
+{% if request.user.is_authenticated %}
+<h4><a href="{%url accounts.views.logout %}">Normal user logout</a></h4>
+{% else %}
+<h4><a href="{%url accounts.views.login %}">Normal user login</a></h4>
+{% endif %}
+<h4><a href="{%url event.views.archives %}">Event archives</a></h4>
+<h4><a href="{%url event.views.post %}">Post event</a></h4>
 </div>
 
 <div class="grid_12">
