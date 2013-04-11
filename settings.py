@@ -2,6 +2,14 @@
 # Let Python generate the absolute path name 
 import os
 DIRNAME = os.path.dirname(__file__)
+DIR_ABS = os.path.dirname(os.path.abspath(__file__))
+
+# Detect system and change slashes in directory path
+if(DIR_ABS.rfind("\\") != -1):
+    print DIR_ABS[DIR_ABS.rfind("\\") + 1: ]
+elif(DIR_ABS.rfind("/") != -1):
+    print DIR_ABS[DIR_ABS.rfind("/") + 1: ]
+
 
 # This retrieves the directory path of current file
 # Example: /home/vincent/Code/usfevent
