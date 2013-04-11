@@ -12,7 +12,7 @@ class Event(models.Model):
     created = models.DateTimeField()
     tags = TaggableManager()
     flagged = models.BooleanField(default = False)
-    #image1 = models.ImageField(upload_to="images/eventthumb")
+    image1 = models.ImageField('picture',upload_to='uploadImages')
 
     def __unicode__(self):
         return self.title

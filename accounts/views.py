@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login as auth_login ,logout as aut
 from django.utils.translation import ugettext_lazy as _
 from forms import RegisterForm,LoginForm
 from models import UserProfile
+from event.models import Event
 
 
 def index(request):
@@ -18,6 +19,22 @@ def index(request):
         template_var["w"]=_(u"welcome %s!")%request.user.username
         up = UserProfile.objects.filter(userReference=request.user)
         template_var["up"]=up[0]
+
+        template_var["preferences"] = up[0].preferences
+        preferencelist = up[0].preferences.split(",")
+        eventPreferenced = []
+
+        for preference in preferencelist:
+            eventPreferenced_ = Event.objects.filter(tags__name__in=[preference])
+            eventPreferenced.extend(eventPreferenced_)
+
+
+        #eventList = []
+        #for e in eventPreferenced:
+        #    eventList.append(e.title)
+        #template_var["eventPreferenced"] = str(eventList)
+
+        template_var["eventPreferenced"] = eventPreferenced
 
         
     return render_to_response("accounts/welcome.html",template_var,context_instance=RequestContext(request))
@@ -35,8 +52,17 @@ def register(request):
             user=User.objects.create_user(username,email,password)
             user.save()
             locaiton_ = request.POST['location']
-            interest_ = request.POST['interest'] 
-            profile = UserProfile(userReference = user, location = locaiton_, interest = interest_)
+            interest_ = request.POST['interest']
+            preferencelist = request.POST.getlist('preferences')
+
+            preferences_ = ""
+            for preference in preferencelist:
+                preferences_ += preference + ","
+            
+            preferences_ = preferences_[:len(preferences_)-1]
+
+
+            profile = UserProfile(userReference = user, location = locaiton_, interest = interest_, preferences = preferences_)
             profile.save()
 
             
