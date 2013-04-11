@@ -1,12 +1,13 @@
 from accounts.models import UserProfile
 from datetime import datetime
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from taggit.managers import TaggableManager
 from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 from event.models import Event, Comment
+from taggit.managers import TaggableManager
 
 def index(request):
     template_var = {}

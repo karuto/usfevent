@@ -18,6 +18,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'usfevent',                      # Or path to database file if using sqlite3.
@@ -43,6 +44,7 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
+
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -63,6 +65,7 @@ MEDIA_ROOT = 'media/'
 
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
+
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
 # This is the URL parent used for accessing this file
@@ -79,6 +82,7 @@ STATIC_ROOT = os.path.join(DIRNAME, '/static')
 STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
+
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -87,6 +91,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
+
     # Don't forget to use absolute paths, not relative paths.
 )
 
@@ -97,6 +102,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '#90glw&ozax8f=r2)x6hlg96r(g$!78kt_irn59b5$v0hipp=9'
@@ -118,6 +124,7 @@ MIDDLEWARE_CLASSES = (
 
 # HARDCODED, PLS CHANGE IF YOUR PARENT DIRECTORY NAME IS DIFFERENT
 ROOT_URLCONF = 'usfevent.urls'
+
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
