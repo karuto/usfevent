@@ -18,4 +18,17 @@
 <a href="/admin/event/event/{{event.id}}">Edit this event</a>
 </div>
 
+
+<div class="event_comments">
+{% if request.user.is_authenticated %}
+<form action="{% url event.views.add_comment event.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" height="200" width="500" name="content" value="Post your comment here!"><br>
+    <input type="submit" value="Post comment" />
+</form>
+{% else %}
+<h2>Login is required for posting comments.</h2>
+{% endif %}
+</div>
+
 {% endblock %}

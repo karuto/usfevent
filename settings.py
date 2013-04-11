@@ -2,6 +2,19 @@
 # Let Python generate the absolute path name 
 import os
 DIRNAME = os.path.dirname(__file__)
+DIR_ABS = os.path.dirname(os.path.abspath(__file__))
+
+# Detect system and change slashes in directory path
+if(DIR_ABS.rfind("\\") != -1):
+    print DIR_ABS[DIR_ABS.rfind("\\") + 1: ]
+elif(DIR_ABS.rfind("/") != -1):
+    print DIR_ABS[DIR_ABS.rfind("/") + 1: ]
+
+
+# This retrieves the directory path of current file
+# Example: /home/vincent/Code/usfevent
+# DIRNAME_ABSOLUTE = os.path.dirname(os.path.abspath(__file__))
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -13,9 +26,10 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASES = {
+
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'usfeventimage',                      # Or path to database file if using sqlite3.
+        'NAME': 'usfevent',                      # Or path to database file if using sqlite3.
         'USER': 'root',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -38,6 +52,7 @@ LANGUAGE_CODE = 'en-us'
 
 SITE_ID = 1
 
+
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
 USE_I18N = True
@@ -48,6 +63,9 @@ USE_L10N = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
+# User uploaded files belong to media folder
+# This points to a directory on your hard drive
+# MEDIA_ROOT = os.path.join(DIRNAME, '/media')
 MEDIA_ROOT = 'media/'
 
 
@@ -55,8 +73,10 @@ MEDIA_ROOT = 'media/'
 
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
+
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+# This is the URL parent used for accessing this file
 MEDIA_URL = '/webhost_media/'
 
 # Absolute path to the directory static files should be collected to.
@@ -70,6 +90,7 @@ STATIC_ROOT = os.path.join(DIRNAME, '/static')
 STATIC_URL = '/static/'
 
 # URL prefix for admin static files -- CSS, JavaScript and images.
+
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -78,6 +99,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
+
     # Don't forget to use absolute paths, not relative paths.
 )
 
@@ -88,6 +110,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
+
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '#90glw&ozax8f=r2)x6hlg96r(g$!78kt_irn59b5$v0hipp=9'
@@ -107,7 +130,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'usfeventimage.urls'
+# HARDCODED, PLS CHANGE IF YOUR PARENT DIRECTORY NAME IS DIFFERENT
+ROOT_URLCONF = 'usfevent.urls'
+
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -132,7 +157,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'taggit',
+    'taggit', # 3rd-party #
+    'south', # 3rd-party #
     'event',
     'accounts',
 )

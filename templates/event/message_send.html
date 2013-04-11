@@ -1,0 +1,46 @@
+
+
+<form action="" method="post">{% csrf_token %}
+
+From: {{request.user}}<br> 
+To: 
+<select name="msg_to_django_user_id">
+{% for django_user in allusers %}
+<option value="{{django_user.id}}">{{django_user.django_user}}</option>
+{% endfor %}
+</select>
+<br>
+Content:<br>
+<textarea name ="content" value=""></textarea><br>
+
+
+
+ <input type="submit" value="Send" />
+</form>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<h3>Message Sent List: </h3><br>
+
+{% for msg in msg_sent_list %}
+<strong>From:</strong> {{msg.msg_from.django_user}} &nbsp;&nbsp; <strong>To:</strong>{{msg.msg_to.django_user}}<br>
+<strong>Content:</strong>{{msg.content}}<br>
+<strong>Date:</strong>{{msg.time}}<br>
+<br>
+
+
+{% endfor %}
+
+
+
+
+<br>
+<h3>Message Received List: </h3><br>
+
+{% for msg in msg_received_list %}
+<strong>From:</strong> {{msg.msg_from.django_user}} &nbsp;&nbsp; <strong>To:</strong>{{msg.msg_to.django_user}}<br>
+<strong>Content:</strong>{{msg.content}}<br>
+<strong>Date:</strong>{{msg.time}}<br>
+<br>
+
+{% endfor %}

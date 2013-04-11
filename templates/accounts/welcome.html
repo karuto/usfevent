@@ -1,14 +1,3 @@
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,9 +8,10 @@
 	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="http://cs.usfca.edu/~yzhang8/profilepage.js"></script>
 
-	
+
 	</head>
 		<body>
+			
 			<div id="header"><h1>Profile Page</h1><h2>&emsp;Search</h2>
 			    <div style="display: inline-block">
 			    <input type="text" name="searchquery">
@@ -59,7 +49,7 @@
     {% for event in eventPreferenced %}
     <p>Event Title: {{event.title}}</p>
     <p>Event Body: {{event.body}}</p>
-    <p>Event Image: <img src="http://127.0.0.1:8080/webhost_media/{{event.image1}}"/></p>
+    <p>Event Image: <img src="{{ request.build_absolute_uri }}webhost_media/{{event.image1}}" width="300" /></p>
 
     <br><br>
 
@@ -81,7 +71,3 @@
 				
 		</body>
 </html>
-
-
-
-

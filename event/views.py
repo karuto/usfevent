@@ -1,12 +1,12 @@
-from event.models import Event
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
-from django.template import Context, loader, RequestContext
-from event.models import Event
+from accounts.models import UserProfile
 from datetime import datetime
-from django.http import HttpResponse, HttpResponseRedirect
+from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render_to_response, redirect
+from django.template import Context, loader, RequestContext
+from event.models import Event, Comment, Message
 from taggit.managers import TaggableManager
 
 def index(request):
@@ -33,8 +33,23 @@ def tagpage(request, tag):
 	events = Event.objects.filter(tags__name = tag)
 	return render_to_response("event/tag_single.html", {"events":events, "tag":tag})
 
+	
+def add_comment(request, pk):
+    print pk;
+    template_var = {}
+    p = request.POST
+    
+    if p.has_key("content") and p["content"]:
+        if request.user.is_authenticated():
+            comment = Comment(event=Event.objects.get(id=pk))
+            comment.user = UserProfile.objects.filter(django_user=request.user)[0]
+            comment.content = p["content"]
+            comment.save()
+    
+    return redirect('index')
+    
 
-def postEvent(request):
+def post(request):
     template_var = {}
     if request.method=="POST":
         title_ = request.POST["title"]
@@ -48,5 +63,32 @@ def postEvent(request):
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 
-    return render_to_response("event/postEvent.html",template_var,context_instance=RequestContext(request))
+    return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
+
+
+def msg_send(request):
+    template_var = {}
+    template_var["allusers"] = UserProfile.objects.all()
+
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+    template_var["msg_sent_list"] = Message.objects.filter(msg_from=current_django_user)
+    template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)
+    
+    if request.method=="POST":
+        if request.user.is_authenticated():
+            message = Message()
+            message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
+            message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
+            message.content = request.POST["content"]
+            message.save()
+
+        
+        
+        return HttpResponseRedirect("/events/msg/")
+
+
+    
+    
+
+    return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
 
