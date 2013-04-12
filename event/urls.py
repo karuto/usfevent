@@ -16,5 +16,7 @@ urlpatterns = patterns('event.views',
     url(r'^post/$', 'post', name="post"),
 
     url(r'^(\d+)/add_comment/$', 'add_comment', name="add_comment"),
+    url(r'^(\d+)/like/$', 'like_event', name="like_event"),
+    
     url(r'^msg/$', 'msg_send', name="msg_send"),
 )

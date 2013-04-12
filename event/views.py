@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
-from event.models import Comment, Event, Message
+from event.models import Comment, Event, Message, Like
 from taggit.managers import TaggableManager
 
 def index(request):
@@ -61,6 +61,17 @@ def add_comment(request, pk):
             comment.content = p["content"]
             comment.save()
     
+    return redirect('index')
+    
+
+	
+def like_event(request, pk):
+    print pk;
+    template_var = {}
+    if request.user.is_authenticated():
+        like = Like(event=Event.objects.get(id=pk))
+        like.user = UserProfile.objects.filter(django_user=request.user)[0]
+        like.save()
     return redirect('index')
     
 

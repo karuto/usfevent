@@ -39,6 +39,7 @@
 {% endif %}
 
 {% if request.user.is_authenticated %}
+    <div class="page-subhero-text"><a href="{% url event.views.like_event event.id %}">Like this event!</a></div>
     <div class="page-subhero-text">Submit your comment</div>
     <form action="{% url event.views.add_comment event.id %}" method="POST">
         {% csrf_token %}
@@ -56,9 +57,11 @@
 </div><!-- .layout-entry-comments -->
 
 
+{% if request.user.is_authenticated %}
 <div class="event-navi">
     <a href="/admin/event/event/{{event.id}}">Edit this event</a>
     <br><br>
 </div>
+{% endif %}
 
 {% endblock %}
