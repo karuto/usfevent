@@ -39,7 +39,28 @@
 {% endif %}
 
 {% if request.user.is_authenticated %}
-    <div class="page-subhero-text"><a href="{% url event.views.like_event event.id %}">Like this event!</a></div>
+
+    <div class="page-subhero-text">
+        <a href="{% url event.views.like_event event.id %}">Like this event!</a>
+    </div>
+
+    <div class="page-subhero-text">
+        <a href="{% url event.views.like_event event.id %}" id="save-this-event">Save this event!</a>
+    </div>
+    <form id="saveform" action="save/" method="post">{% csrf_token %}
+        Share this to:&emsp;
+        <select name="msg_to_django_user_id">
+        {% for django_user in allusers %}
+            <option value="{{django_user.id}}">{{django_user.django_user}}</option>
+        {% endfor %}
+        </select>&emsp;
+        Write your message:&emsp;<input name ="content" value=""/>&emsp;
+        <input type="submit" value="Send" />
+    </form>
+    <br>
+    <br>
+    
+    
     <div class="page-subhero-text">Submit your comment</div>
     <form action="{% url event.views.add_comment event.id %}" method="POST">
         {% csrf_token %}

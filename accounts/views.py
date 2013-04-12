@@ -28,6 +28,11 @@ def index(request):
             eventPreferenced_ = Event.objects.filter(tags__name__in=[preference])
             eventPreferenced.extend(eventPreferenced_)
 
+
+        current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+        template_var["msg_sent_list"] = Message.objects.filter(msg_from=current_django_user)
+        template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)
+        
         
         template_var["likes"] = Like.objects.filter(user=up[0])
         

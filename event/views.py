@@ -37,6 +37,11 @@ def single(request, pk):
     except Comment.DoesNotExist:
         template_var['comments'] = []
         
+    # Save the date related
+    
+    template_var["allusers"] = UserProfile.objects.all()
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+        
     return render_to_response("event/event_single.html", template_var, context_instance=RequestContext(request))
     
 
@@ -79,6 +84,26 @@ def like_event(request, pk):
         like.save()
     return redirect('index')
     
+
+def save_event(request):
+    template_var = {}
+    template_var["allusers"] = UserProfile.objects.all()
+
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+    
+    if request.method=="POST":
+        if request.user.is_authenticated():
+            message = Message()
+            message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
+            message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
+            message.content = request.POST["content"]
+            message.save()
+
+        return HttpResponseRedirect("/events/msg/")
+        
+    return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
+    
+
 
 def post(request):
     template_var = {}
