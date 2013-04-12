@@ -1,3 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+
 <form class="form-search" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
 Title: <input type = "text" name="title"/><br> 
@@ -11,3 +15,4 @@ Date: <input type = "text" name="date" placeholder="yyyy-mm-dd"/><br>
  <input type="submit" value="Upload" />
 </form>
 
+{% endblock %}
