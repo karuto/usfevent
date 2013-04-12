@@ -10,26 +10,30 @@
   <h2 class="page-subhero-text">{{ event.created }}</h2>
 </div>
 <br/>
-<div class="event_body">
+<div class="event-body">
   {{ event.body|safe|linebreaks }}
   <p><img src="/webhost_media/{{event.image1}}" width="500"/></p>
 </div>
 
 
-<div class="event_navi">
+<div class="event-navi">
 <a href="/admin/event/event/{{event.id}}">Edit this event</a>
 </div>
 
 
-<div class="event_comments">
+<div class="event-comments">
+
+
+
 {% if request.user.is_authenticated %}
-<form action="{% url event.views.add_comment event.id %}" method="POST">
-    {% csrf_token %}
-    <input type="text" height="200" width="500" name="content" value="Post your comment here!"><br>
-    <input type="submit" value="Post comment" />
-</form>
+    <form action="{% url event.views.add_comment event.id %}" method="POST">
+        {% csrf_token %}
+        <textarea type="text" height="200" width="500" name="content" value="Post your comment here!"></textarea><br>
+        <input type="submit" value="Post comment" />
+    </form>
 {% else %}
-<h2>Login is required for posting comments.</h2>
+    <h2><a href="{%url accounts.views.login %}">Login</a>
+     is required for posting comments.</h2>
 {% endif %}
 </div>
 

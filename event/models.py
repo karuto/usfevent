@@ -10,6 +10,8 @@ class Event(models.Model):
     body = models.TextField()
     refer = models.URLField()
     created = models.DateTimeField()
+    #event_time = models.DateTimeField()
+    #location = models.CharField(max_length = 100)
     tags = TaggableManager()
     flagged = models.BooleanField(default = False)
     image1 = models.ImageField('picture',upload_to='uploadImages')

@@ -9,10 +9,7 @@ urlpatterns = patterns('event.views',
 	queryset = Event.objects.all().order_by("-created"),
 	template_name = "event/event_homepage.html")),
 
-    url(r'^(?P<pk>\d+)$', DetailView.as_view(
-	model = Event,
-	template_name = "event/event_single.html"),
-	name = 'single'),
+    url(r'^(?P<pk>\d+)$', "single",	name = 'single'),
 
     url(r'^archives/$', 'archives', name='archives'),
     url(r'^tag/(?P<tag>\w+)$', 'tagpage', name='tag'),

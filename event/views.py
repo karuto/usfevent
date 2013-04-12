@@ -20,6 +20,21 @@ def index(request):
     return render_to_response("event/index.html", template_var)
 
 
+def single(request, pk):
+    template_var = {}
+    try:
+        e = Event.objects.get(pk=int(pk))
+        template_var['event'] = e
+    except Event.DoesNotExist:
+        raise Http404
+    try:
+        template_var['comments'] = Comment.objects.get(event=e)
+    except Comment.DoesNotExist:
+        template_var['comments'] = []
+        
+    return render_to_response("event/event_single.html", template_var)
+    
+
 def archives(request):
     template_var = {}
     try:
