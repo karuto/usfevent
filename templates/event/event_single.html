@@ -15,7 +15,8 @@
     </div>
     <div class="entry-content">
         <div class="event-meta">
-        <div class="page-subhero-text">{{ event.created }}</div>
+        <div class="page-subhero-text">{{ event.event_time }}</div>
+        <div class="page-subhero-text">{{ event.location }}</div>
         </div>
         {{ event.body|safe|linebreaks }}
     </div>

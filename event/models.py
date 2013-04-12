@@ -1,3 +1,4 @@
+from datetime import datetime  
 from django.db import models
 from django.contrib import admin
 from django.forms import ModelForm
@@ -9,9 +10,9 @@ class Event(models.Model):
     title = models.CharField(max_length = 100)
     body = models.TextField()
     refer = models.URLField()
-    created = models.DateTimeField()
-    #event_time = models.DateTimeField()
-    #location = models.CharField(max_length = 100)
+    created = models.DateTimeField(auto_now=True)
+    event_time = models.DateTimeField(default=datetime.now)
+    location = models.CharField(max_length = 100, default="USF Graphics Center")
     tags = TaggableManager()
     flagged = models.BooleanField(default = False)
     image1 = models.ImageField('picture',upload_to='uploadImages')

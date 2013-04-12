@@ -38,7 +38,7 @@ def single(request, pk):
 def archives(request):
     template_var = {}
     try:
-        template_var["events"] = Event.objects.all().order_by("-created")
+        template_var["events"] = Event.objects.all().order_by("-event_time")
     except Event.DoesNotExist:
         raise Http404
     return render_to_response("event/event_listview.html", template_var, context_instance=RequestContext(request))
@@ -70,11 +70,13 @@ def post(request):
         title_ = request.POST["title"]
         body_ =  request.POST["body"]
         refer_ = request.POST["refer"]
+        date_ = request.POST["date"]
+        loc_ = request.POST["loc"]
         tags_ = TaggableManager()
         image1_ = request.FILES["picture"]
 
     
-        event = Event(title = title_, body= body_, refer = refer_, created = "1999-11-12", image1 = image1_)
+        event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 

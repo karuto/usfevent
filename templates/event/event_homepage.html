@@ -35,7 +35,7 @@ $(function(){
             <a href="{%url single event.id %}">{{ event.title }}</a>
         </h1>
         <h3 class="entry-meta roboto-font">
-            {{ event.created|date:"Y-m-d" }}
+            {{ event.event_time|date:"Y-m-d" }}
         </h3>
     </header>
 
