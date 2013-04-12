@@ -14,6 +14,17 @@
     <header class="layout-header-wrap">
     <div class="layout-main-wrap">
     
+        <nav class="external-nav">
+        {% if request.user.is_authenticated %}
+        <li class="external-item"><a href="/">Profile</a></li>
+        <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
+        {% else %}
+        <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
+        <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
+        {% endif %}
+        </nav>
+    
+    
         <!-- Currently search does not work -->
         <form role="search" method="get" id="searchform" action="/">
           <input id="searchform-text" type="text" value="" name="s" id="s" />
@@ -33,20 +44,20 @@
     
     <aside class="layout-sidebar-wrap">
         <a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>
-        <h4><a href="/admin">Superuser Login</a></h4>
-        <br>
-        {% if request.user.is_authenticated %}
-        <h4><a href="/">Normal user profile</a></h4>
-        <h4><a href="{%url accounts.views.logout %}">Normal user logout</a></h4>
-        {% else %}
-        <h4><a href="{%url accounts.views.login %}">Normal user login</a></h4>
-        <h4><a href="{%url accounts.views.register %}">New user register</a></h4>
-        {% endif %}
-        <br>
-        <h4><a href="{%url event.views.archives %}">Event archives</a></h4>
-        <h4><a href="{%url event.views.post %}">Post event</a></h4>
-        <br>
+        <div class="sidebar-divider">GATEWAYS</div>
+        <h4><a href="/admin">Admin</a></h4>
         <h4><a href="{%url event.views.msg_send %}">Send message</a></h4>
+        <h4><a href="{%url event.views.archives %}">Event archives</a></h4>
+        <h4><a href="{%url event.views.post %}">Submit poster</a></h4>
+        
+        <div class="sidebar-divider">CATEGORIES</div>
+        
+        <h4><a href="">Music</a></h4>
+        <h4><a href="">Theater</a></h4>
+        <h4><a href="">Lectures</a></h4>
+        <h4><a href="">Art</a></h4>
+        <h4><a href="">Misc</a></h4>
+        
     </aside><!-- .layout-sidebar-wrap -->
 
 
@@ -56,7 +67,7 @@
     </div><!-- .layout-primary-wrap -->
     
 
-    <aside class="layout-sidebar-wrap">
+    <aside class="layout-sidebar-wrap" id="fixed-sidebar">
     
         {% if request.user.is_authenticated %}
         <a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>
