@@ -7,4 +7,5 @@ class UserProfile(models.Model):
     interest = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     preferences = models.CharField(max_length=200)
+    avatar = models.ImageField('picture',upload_to='uploadImages')
     

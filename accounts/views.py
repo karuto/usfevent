@@ -54,6 +54,7 @@ def register(request):
             locaiton_ = request.POST['location']
             interest_ = request.POST['interest']
             preferencelist = request.POST.getlist('preferences')
+            avatar_ = request.FILES["picture"]
 
             preferences_ = ""
             for preference in preferencelist:
@@ -62,7 +63,7 @@ def register(request):
             preferences_ = preferences_[:len(preferences_)-1]
 
 
-            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_)
+            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
             profile.save()
 
             
