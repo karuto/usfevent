@@ -17,7 +17,7 @@ def index(request):
         raise Http404
     output = ', '.join([e.title for e in event_list])    
     template_var["events"] = output	
-    return render_to_response("event/index.html", template_var)
+    return render_to_response("event/index.html", template_var, context_instance=RequestContext(request))
 
 
 def single(request, pk):
@@ -32,7 +32,7 @@ def single(request, pk):
     except Comment.DoesNotExist:
         template_var['comments'] = []
         
-    return render_to_response("event/event_single.html", template_var)
+    return render_to_response("event/event_single.html", template_var, context_instance=RequestContext(request))
     
 
 def archives(request):
@@ -41,12 +41,12 @@ def archives(request):
         template_var["events"] = Event.objects.all().order_by("-created")
     except Event.DoesNotExist:
         raise Http404
-    return render_to_response("event/event_listview.html", template_var)
+    return render_to_response("event/event_listview.html", template_var, context_instance=RequestContext(request))
 
 
 def tagpage(request, tag):
 	events = Event.objects.filter(tags__name = tag)
-	return render_to_response("event/tag_single.html", {"events":events, "tag":tag})
+	return render_to_response("event/tag_single.html", {"events":events, "tag":tag}, context_instance=RequestContext(request))
 
 	
 def add_comment(request, pk):
@@ -79,6 +79,7 @@ def post(request):
         return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
+
 
 def msg_send(request):
     template_var = {}
