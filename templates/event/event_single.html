@@ -6,26 +6,30 @@
     <h1 class="page-hero-text">{{ event.title }}</h1>
 </div>
 
-<div class="event-meta">
-  <h2 class="page-subhero-text">{{ event.created }}</h2>
-</div>
-<br/>
-<div class="event-body">
-  {{ event.body|safe|linebreaks }}
-  <p><img src="/webhost_media/{{event.image1}}" width="500"/></p>
-</div>
 
 
+<div class="layout-entry-content clearfix-modern">
+
+    <div class="entry-image">
+        <img src="/webhost_media/{{event.image1}}" width="500"/>
+    </div>
+    <div class="entry-content">
+        <div class="event-meta">
+        <span class="page-subhero-text">{{ event.created }}</span>
+        </div>
+        {{ event.body|safe|linebreaks }}
+    </div>
+</div>
 <div class="event-navi">
 <a href="/admin/event/event/{{event.id}}">Edit this event</a>
 </div>
 
 
-<div class="event-comments">
+<div class="layout-entry-comments">
 
 {% if comments %}    
     {% for c in comments %}
-        <a>{{ c.content }}</a>
+        <div class="entry-comment">{{ c.content }}</div>
     {% endfor %}
 {% else %}
     No comments yet.<br>
@@ -41,6 +45,6 @@
     <h2><a href="{%url accounts.views.login %}">Login</a>
      is required for posting comments.</h2>
 {% endif %}
-</div>
+</div><!-- .layout-entry-comments -->
 
 {% endblock %}
