@@ -266,6 +266,9 @@ a:hover {
 
 /* Primary content */
 .layout-primary-wrap {
+  float: left;
+  width: 870px;
+  position: relative;
 }
 .layout-content-wrap {
 }
@@ -285,24 +288,13 @@ a:hover {
 .layout-page-navigation .layout-posts-row {
   margin: 0;
 }
-/* TODO: This margin-top thing is annoying. Find an elegant solution. */
-.layout-single-post .layout-regular-post {
-  /*margin-top: 20px;*/
-}
-.layout-feature-post {
-  margin: 20px 0;
-}
-.layout-feature-post {
-  margin: 20px 0;
-}
 
 
 /* Secondary content */
 .layout-sidebar-wrap {
-  float: right;
-  margin: 20px 0 0 -400px;
+  float: left;
   position: relative;
-  width: 398px;
+  width: 185px;
 }
 
 /* Footer content */

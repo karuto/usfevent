@@ -8,23 +8,46 @@
 </head>
 
 <body>
-<div class="container_16" style="padding-top: 50px;">
-<div class="grid_4"><h1><a href="/events">USF Event Functional Demo</a></h1>
-<h4><a href="/admin">Superuser Login</a></h4>
-<h4><a href="/">Normal user profile</a></h4>
-{% if request.user.is_authenticated %}
-<h4><a href="{%url accounts.views.logout %}">Normal user logout</a></h4>
-{% else %}
-<h4><a href="{%url accounts.views.login %}">Normal user login</a></h4>
-{% endif %}
-<h4><a href="{%url event.views.archives %}">Event archives</a></h4>
-<h4><a href="{%url event.views.post %}">Post event</a></h4>
-</div>
+<div class="layout-page-wrap">
+    
+    <header class="layout-header-wrap">
+    Header, search here
+    </header><!-- .layout-header-wrap -->
+    
+    <header class="layout-subheader-wrap">
+    Subheader here
+    </header><!-- .layout-subheader-wrap -->
+        
+    <div class="layout-main-wrap">
+    <div class="layout-main-inner-wrap">
+    
+    <aside class="layout-sidebar-wrap">
+        <h1><a href="/events">USF Event Functional Demo</a></h1>
+        <h4><a href="/admin">Superuser Login</a></h4>
+        <h4><a href="/">Normal user profile</a></h4>
+        {% if request.user.is_authenticated %}
+        <h4><a href="{%url accounts.views.logout %}">Normal user logout</a></h4>
+        {% else %}
+        <h4><a href="{%url accounts.views.login %}">Normal user login</a></h4>
+        {% endif %}
+        <h4><a href="{%url event.views.archives %}">Event archives</a></h4>
+        <h4><a href="{%url event.views.post %}">Post event</a></h4>
+    </aside><!-- .layout-sidebar-wrap -->
 
-<div class="grid_12">
-{% block content %}
-{% endblock %}
-</div><!-- .grid_12 -->
-<div class="clear"></div>
-</div><!-- .container_16 -->
+
+    <div class="layout-primary-wrap">
+        {% block content %}
+        {% endblock %}
+    </div><!-- .layout-primary-wrap -->
+    
+
+    <aside class="layout-sidebar-wrap">
+        <h1>Second sidebar here</h1>
+    </aside><!-- .layout-sidebar-wrap -->    
+    
+    
+    </div><!-- .layout-main-inner-wrap -->
+    </div><!-- .layout-main-wrap -->
+
+</div><!-- .layout-page-wrap -->
 <body>
