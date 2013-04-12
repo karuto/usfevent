@@ -215,7 +215,8 @@ a:hover {
 -------------------------------------------------------------- */
 
 /* Whole-site content (defined in header.php / footer.php) */
-.layout-page-wrap { /* #page */
+/* USF EVENT BEGIN */
+.layout-page-wrap {
 }
 
 .layout-header-wrap {
@@ -233,9 +234,7 @@ a:hover {
   border-bottom: 2px solid #ce5333;
   width: 100%; 
 }
-
 .layout-main-wrap { /* #main */
-  /*TODO: Great debugging tool */
   /*background-color: silver;*/
   margin: 0 auto;
   max-width: 1244px;
@@ -249,13 +248,6 @@ a:hover {
   max-width: 1240px;
   padding: 65px 0;
 }
-.layout-subheader-wrap ~ .layout-main-wrap .layout-main-inner-wrap { 
-  /* Badass General sibling combinator works here */
-  /*TODO: Great debugging tool */
-  /*background-color: red;  */
-  padding: 40px 0;
-}
-
 /* Primary content */
 .layout-primary-wrap {
   float: left;
@@ -264,31 +256,12 @@ a:hover {
 }
 .layout-content-wrap {
 }
-.layout-posts-section {
-  /*border-collapse: collapse;*/
-  display: table;
-  float: left;
-  margin: 0 420px 0 0;
-  position: relative;
-}
-.layout-posts-row {
-  display: table;
-  margin: 20px 0;
-  width: 100%;
-}
-
-.layout-page-navigation .layout-posts-row {
-  margin: 0;
-}
-
-
 /* Secondary content */
 .layout-sidebar-wrap {
   float: left;
   position: relative;
   width: 185px;
 }
-
 /* Footer content */
 .layout-footer-wrap {
   margin: 0 auto;
@@ -297,7 +270,7 @@ a:hover {
 -moz-box-shadow:    0px -5px 15px rgba(50, 50, 50, 0.1);
 box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 }
-
+/* USF EVENT END */
 
 
 
@@ -320,6 +293,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 -------------------------------------------------------------- */
 
 /* Header related */
+/* USF EVENT BEGIN */
 .site-logo-img {
   max-width: 80%;
   margin: 0 auto;
@@ -346,7 +320,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   text-indent: -9999px;
   width: 20px;
 }
-
+/* USF EVENT END */
 
 
 
@@ -412,32 +386,47 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 
 
+/* USF EVENT BEGIN */
+
+/* Entry item related */
 /* This defines the block properties of main-item. */
 .main-item-block {
-  display: inline;
   float: left;
   margin: 20px;
   width: 250px;
 }
-
 /* This defines the appearance of main-item; much more universal. */
-.widget-area .widget,
 .main-item-style {
   background-color: #fff;
-  border: 1px solid #d0d0d0;
-  /*border-top: 3px solid #ce5333;*/
   color: #000;
 }
-.empty-item {
-  background-image: url('http://i.imgur.com/N6Yf32F.png');
-  background-size: cover;
+.entry-header {
+  background-color: #F5F5F5;
+  border-bottom: 1px solid #d0d0d0;
+  /*border-top: 2px solid #ce5333;*/
+/*  font-size: 16px;
+  font-style: bold;*/
+  text-align: center;
 }
-.main-item-gap {
-  /*background-color: black;*/
-  display: table-cell;
-  min-width: 20px;
-  width: 20px;
+h1.entry-title {
+  font-weight: bold;
+  padding: 20px 20px 0px;  
+  text-shadow: 0px 1px 1px #FF9999;
 }
+.entry-meta {
+  color: #999;
+  margin: 0 20px 20px;
+}
+.post-item .entry-meta {
+  margin: 5px 20px 20px;
+}
+/* USF EVENT END */
+
+
+
+
+
+
 .layout-page-navigation .nav-item {
   font-size: 14px;
   font-weight: bold;
@@ -457,55 +446,15 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 .post-item {
   position: relative;
 }
-.widget-area .widget:hover,
-.main-item-style:hover,
-.post-item:hover {
-  border: 1px solid #ce5333;
-}
 .entry-masthead { /* This is where the feature image lies */
-/*  -webkit-transition: -webkit-transform 0.3s linear;
-  -moz-transition: -moz-transform 0.3s linear;
-  -o-transition: -o-transform 0.3s linear;
-  transition: transform 0.3s linear;*/
   background-attachment: scroll;
   background-position: center; 
   background-repeat: repeat;
   background-size: cover;
   display: block;
-  height: 250px;
   overflow: hidden;
   position: relative;
   width: 100%;
-}
-.entry-masthead:hover {
-/*  -webkit-transform: scale(1.05);
-  -moz-transform: scale(1.05);
-  -ms-transform: scale(1.05);
-  -o-transform: scale(1.05);
-  transform: scale(1.05);*/
-}
-.layout-regular-post .entry-masthead {
-  height: 400px;
-}
-.layout-feature-post .entry-masthead {
-  height: 700px;
-}
-.entry-topimg img {
-  height: 100%;
-  width: 100%;
-}
-.entry-header {
-  background-color: #F5F5F5;
-  border-bottom: 1px solid #d0d0d0;
-  /*border-top: 2px solid #ce5333;*/
-/*  font-size: 16px;
-  font-style: bold;*/
-  text-align: center;
-}
-h1.entry-title {
-  font-weight: bold;
-  padding: 20px 20px 0px;  
-  text-shadow: 0px 1px 1px #FF9999;
 }
 .layout-single-post .entry-header .entry-title {
   font-family: "Microsoft Yahei","冬青黑体简体中文 w3","黑体", serif;
@@ -536,25 +485,6 @@ h1.entry-title {
   text-align: center;
   text-shadow: 0px 1px 1px #FF9999;
   vertical-align: middle;
-}
-.post-item .entry-readmore {
-  bottom: 0;
-  margin: 20px 0;
-  position: relative;
-  text-align: center;
-}
-.readmore {
-  background-color: #ce5333;
-  color: #FFF;
-  padding: 5px 10px;
-}
-
-.entry-meta {
-  color: #999;
-  margin: 0 20px 20px;
-}
-.post-item .entry-meta {
-  margin: 5px 20px 20px;
 }
 .entry-copyright {
   background-color: #F5F5F5;

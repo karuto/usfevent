@@ -6,11 +6,8 @@
 {% for event in events %}
 
 <article class="main-item-block main-item-style post-item">
-
-    <div class="entry-masthead" 
-    style="background-image: url('/webhost_media/{{event.image1}}')">
-        <a href="{%url single event.id %}">&emsp;</a>
-    </div>
+   
+    <img src="/webhost_media/{{event.image1}}" width="250px">
     
     <header class="entry-header">
          
