@@ -414,20 +414,11 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 /* This defines the block properties of main-item. */
 .main-item-block {
-  display: table-cell;
-  margin: 20px 0 100px;
-  min-width: 398px;
-  position: relative;
-  vertical-align: top;  
-  width: 50%;
+  display: inline;
+  float: left;
+  margin: 20px;
+  width: 250px;
 }
-.layout-regular-post .main-item-block {
-  width: 100%;
-}
-.layout-page-navigation .main-item-block {
-  margin: 0;
-}
-
 
 /* This defines the appearance of main-item; much more universal. */
 .widget-area .widget,

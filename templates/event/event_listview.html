@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="layout-posts-section">
+<!--<div class="layout-posts-section">-->
 {% for event in events %}
 
 <article class="main-item-block main-item-style post-item">
@@ -13,13 +13,18 @@
     </div>
     
     <header class="entry-header">
-        {{ event.created|date:"Y-m-d" }}: 
-        <a href="{%url single event.id %}">{{ event.title }}</a>
+         
+        <h1 class="entry-title">
+            <a href="{%url single event.id %}">{{ event.title }}</a>
+        </h1>
+        <h3 class="entry-meta roboto-font">
+            {{ event.created|date:"Y-m-d" }}
+        </h3>
     </header>
 
 </article>
 
 {% endfor %}
-</div><!-- .layout-posts-section -->
+<!--</div> .layout-posts-section -->
 
 {% endblock %}
