@@ -31,7 +31,11 @@ class CommentAdmin(admin.ModelAdmin):
     display_fields = []
 admin.site.register(Comment, CommentAdmin)
 
-#class CommentForm(ModelForm):
-#    class Meta:
-#        model = Book
+
+class Message(models.Model):
+    msg_from = models.ForeignKey(UserProfile, related_name = "msg_from")
+    msg_to = models.ForeignKey(UserProfile, related_name = "msg_to")
+    content = models.TextField()
+    time = models.DateTimeField(auto_now=True)
+    is_read = models.BooleanField(default=False)
 

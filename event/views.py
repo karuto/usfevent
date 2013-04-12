@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
-from event.models import Event, Comment
+from event.models import Comment, Event, Message
 from taggit.managers import TaggableManager
 
 def index(request):
@@ -64,3 +64,23 @@ def post(request):
         return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
+
+def msg_send(request):
+    template_var = {}
+    template_var["allusers"] = UserProfile.objects.all()
+
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+    template_var["msg_sent_list"] = Message.objects.filter(msg_from=current_django_user)
+    template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)
+    
+    if request.method=="POST":
+        if request.user.is_authenticated():
+            message = Message()
+            message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
+            message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
+            message.content = request.POST["content"]
+            message.save()
+
+        return HttpResponseRedirect("/events/msg/")
+        
+    return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
