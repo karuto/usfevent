@@ -15,36 +15,49 @@
     </div>
     <div class="entry-content">
         <div class="event-meta">
-        <span class="page-subhero-text">{{ event.created }}</span>
+        <div class="page-subhero-text">{{ event.created }}</div>
         </div>
         {{ event.body|safe|linebreaks }}
     </div>
-</div>
-<div class="event-navi">
-<a href="/admin/event/event/{{event.id}}">Edit this event</a>
 </div>
 
 
 <div class="layout-entry-comments">
 
 {% if comments %}    
+    <div class="page-subhero-text">Comments on this event</div>
     {% for c in comments %}
-        <div class="entry-comment">{{ c.content }}</div>
+        <div class="entry-comment">
+            {{ c.content }}<br>
+            <div class="roboto-font">{{ c.time }}</div>
+        </div>
     {% endfor %}
 {% else %}
-    No comments yet.<br>
+    <div class="page-subhero-text">No comments on this event yet</div>
+    
 {% endif %}
 
 {% if request.user.is_authenticated %}
+    <div class="page-subhero-text">Submit your comment</div>
     <form action="{% url event.views.add_comment event.id %}" method="POST">
         {% csrf_token %}
         <textarea type="text" height="200" width="500" name="content" value="Post your comment here!"></textarea><br>
         <input type="submit" value="Post comment" />
     </form>
 {% else %}
-    <h2><a href="{%url accounts.views.login %}">Login</a>
-     is required for posting comments.</h2>
+    
+    <div class="page-subhero-text">
+        <a href="{%url accounts.views.login %}">Login</a>
+         is required for posting comments.
+    </div>
 {% endif %}
+
 </div><!-- .layout-entry-comments -->
+
+
+<div class="event-navi">
+    <a href="/admin/event/event/{{event.id}}">Edit this event</a>
+    <br><br>
+</div>
 
 {% endblock %}
