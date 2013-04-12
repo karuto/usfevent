@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from forms import RegisterForm, LoginForm
 from models import UserProfile
-from event.models import Event
+from event.models import Event, Message, Comment, Like
 
 
 def index(request):
@@ -28,7 +28,9 @@ def index(request):
             eventPreferenced_ = Event.objects.filter(tags__name__in=[preference])
             eventPreferenced.extend(eventPreferenced_)
 
-
+        
+        template_var["likes"] = Like.objects.filter(user=up[0])
+        
         #eventList = []
         #for e in eventPreferenced:
         #    eventList.append(e.title)

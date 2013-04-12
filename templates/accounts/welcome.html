@@ -22,6 +22,10 @@
             <p>Event Title: {{event.title}}</p>
             <p>Event Body: {{event.body}}</p>
         {% endfor %}
+        
+        {% for like in likes %}
+            <p>This user liked: {{ like.event }}</p>
+        {% endfor %}
     </div>
 </div>
 
