@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+<script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  $('#layout-posts-masonry').masonry({
+    // options
+    itemSelector : '.main-item-block'
+  });
+});
+</script>
 
-<!--<div class="layout-posts-section">-->
+
+<div id="layout-posts-masonry">
 {% for event in events %}
 
 <article class="main-item-block main-item-style post-item">
@@ -22,6 +32,6 @@
 </article>
 
 {% endfor %}
-<!--</div> .layout-posts-section -->
+</div><!-- #layout-posts-masonry -->
 
 {% endblock %}
