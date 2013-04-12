@@ -2,17 +2,36 @@
 
 {% block content %}
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Submit your design</h1>
+</div>
+
 <form class="form-search" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
-Title: <input type = "text" name="title"/><br> 
-Body: <input type = "text" name="body"/><br>
-Refer: <input type = "text" name="refer"/><br>
-Tags(this one doesn't work): <input type = "text" name="tags"/><br>
-Date: <input type = "text" name="date" placeholder="yyyy-mm-dd"/><br>
-
-
+<div class="page-subhero-text">Upload your image</div>
 <input type = "file" name="picture"/>
- <input type="submit" value="Upload" />
+
+<br><br>
+
+<div class="page-subhero-text">Add any additional info</div>
+
+EVENT TITLE <br>
+<input type = "text" name="title"/><br> 
+EVENT DATE <br>
+<input type = "text" name="date" placeholder="yyyy-mm-dd"/><br>
+EVENT URL <br>
+<input type = "text" name="refer"/><br>
+EVENT DETAIL <br>
+<textarea type = "text" name="body"></textarea><br>
+TAGS / CATEGORIES <br>
+<input type = "text" name="tags"/><br>
+
+<br>
+<div class="page-subhero-text">Submit for authorization</div>
+
+<input type="submit" value="Upload" />
 </form>
+<br>
+<br>
 
 {% endblock %}
