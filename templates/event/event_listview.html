@@ -1,43 +1,28 @@
-{% extends "base.html" %}
+{% extends "base.html"%}
+<!-- http://stackoverflow.com/questions/3066391/extend-base-html-problem -->
+
+{% block title %}
+<title>USF Event - Archives</title>
+{% endblock %}
 
 {% block content %}
-<script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
-<script type="text/javascript">
-$(function(){
-  var $container = $('#layout-posts-masonry');
-  $container.imagesLoaded( function(){
-    $container.masonry({
-      // options
-      itemSelector : '.main-item-block'
-      });
-  });
-});
-</script>
 
-<div class="layout-listview-header">
-    <h1 class="page-hero-text">Upcoming Events</h1>
+
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Event archives</h1>
 </div>
 
-<div id="layout-posts-masonry">
 {% for event in events %}
-
-<div class="main-item-block main-item-style post-item">
-   
-    <img src="/webhost_media/{{event.image1}}" width="100%">
-    
-    <header class="entry-header">
-         
-        <h1 class="entry-title">
-            <a href="{%url single event.id %}">{{ event.title }}</a>
-        </h1>
-        <h3 class="entry-meta roboto-font">
-            {{ event.created|date:"Y-m-d" }}
-        </h3>
-    </header>
-
-</div>
+{% if event.flagged %}
+    <h4>This event is not showing because it's flagged.</h4>
+{% else %}
+    <h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>
+    <div class="event-meta">
+        {{ event.created }}
+    </div>
+{% endif %}
 
 {% endfor %}
-</div><!-- #layout-posts-masonry -->
+
 
 {% endblock %}

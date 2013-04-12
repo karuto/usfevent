@@ -1,38 +1,47 @@
-{% extends "base.html"%}
-<!-- http://stackoverflow.com/questions/3066391/extend-base-html-problem -->
+{% extends "base.html" %}
 
 {% block title %}
 <title>USF Event - Homepage</title>
 {% endblock %}
 
 {% block content %}
+<script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  var $container = $('#layout-posts-masonry');
+  $container.imagesLoaded( function(){
+    $container.masonry({
+      // options
+      itemSelector : '.main-item-block'
+      });
+  });
+});
+</script>
+
+<div class="layout-listview-header">
+    <h1 class="page-hero-text">Upcoming Events</h1>
+</div>
+
+<div id="layout-posts-masonry">
 {% for event in object_list %}
-<div class="grid_12 event-block">
 
-{% if event.flagged %}
-<h4>This event is not showing because it's flagged.</h4>
-{% else %}
-<h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>
+<div class="main-item-block main-item-style post-item">
+   
+    <img src="/webhost_media/{{event.image1}}" width="100%">
+    
+    <header class="entry-header">
+         
+        <h1 class="entry-title">
+            <a href="{%url single event.id %}">{{ event.title }}</a>
+        </h1>
+        <h3 class="entry-meta roboto-font">
+            {{ event.created|date:"Y-m-d" }}
+        </h3>
+    </header>
 
-<div class="event_meta">
-  on {{ event.created }}
 </div>
-<!--
-<div class="event_body">
-  {{ event.body|safe|linebreaks }}
-</div>
--->
-
-</div><!-- .grid_12 -->
-<!-- clear the row every 3 blocks -->
-{% if forloop.counter|divisibleby:3 %}
-
-<div class="clear"></div>
-
-{% endif %}
-
-{% endif %}
 
 {% endfor %}
+</div><!-- #layout-posts-masonry -->
 
 {% endblock %}

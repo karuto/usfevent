@@ -6,7 +6,7 @@ from event import views
 urlpatterns = patterns('event.views',
 
     url(r'^$', ListView.as_view(
-	queryset = Event.objects.all().order_by("-created")[:6],
+	queryset = Event.objects.all().order_by("-created"),
 	template_name = "event/event_homepage.html")),
 
     url(r'^(?P<pk>\d+)$', DetailView.as_view(
