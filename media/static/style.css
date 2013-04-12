@@ -190,7 +190,7 @@ body {
 }
 body, input, textarea {
   color: #444;
-  font: 14px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", FreeSans, sans-serif;
+  font: 16px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", FreeSans, sans-serif;
   font-weight: 300;
 }
 a {
@@ -254,8 +254,11 @@ a:hover {
   position: relative;
 }
 
-.layout-content-header {
+.layout-listview-header {
   margin: 0 20px 20px;
+}
+.layout-content-header {
+  margin: 0 0 20px;
 }
 #layout-posts-masonry { /* Masonry support needed */
   clear: both;
@@ -398,6 +401,12 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   font-size: 39px;
   font-weight: 900;
   letter-spacing: 0.1em;
+  line-height: 120%;
+  text-transform: uppercase;
+}
+.page-subhero-text {
+  font-size: 21px;
+  font-weight: 500;
   text-transform: uppercase;
 }
 

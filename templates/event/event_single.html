@@ -2,11 +2,12 @@
 
 {% block content %}
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text">{{ event.title }}</h1>
+</div>
 
-<h2><a href="{%url single event.id %}">{{ event.title }}</a></h2>
-
-<div class="event_meta">
-  Event submitted on {{ event.created }}
+<div class="event-meta">
+  <h2 class="page-subhero-text">{{ event.created }}</h2>
 </div>
 <br/>
 <div class="event_body">
