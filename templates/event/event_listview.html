@@ -4,20 +4,26 @@
 <script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
 <script type="text/javascript">
 $(function(){
-  $('#layout-posts-masonry').masonry({
-    // options
-    itemSelector : '.main-item-block'
+  var $container = $('#layout-posts-masonry');
+  $container.imagesLoaded( function(){
+    $container.masonry({
+      // options
+      itemSelector : '.main-item-block'
+      });
   });
 });
 </script>
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Upcoming Events</h1>
+</div>
 
 <div id="layout-posts-masonry">
 {% for event in events %}
 
 <div class="main-item-block main-item-style post-item">
    
-    <img src="/webhost_media/{{event.image1}}" width="250px">
+    <img src="/webhost_media/{{event.image1}}" width="100%">
     
     <header class="entry-header">
          

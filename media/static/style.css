@@ -218,7 +218,6 @@ a:hover {
 /* USF EVENT BEGIN */
 .layout-page-wrap {
 }
-
 .layout-header-wrap {
   background-color: #fff;
   border-bottom: 2px solid #d0d0d0;
@@ -254,8 +253,16 @@ a:hover {
   width: 870px;
   position: relative;
 }
-.layout-content-wrap {
+
+.layout-content-header {
+  margin: 0 20px 20px;
 }
+#layout-posts-masonry { /* Masonry support needed */
+  clear: both;
+  zoom: 1;
+}
+
+
 /* Secondary content */
 .layout-sidebar-wrap {
   float: left;
@@ -387,13 +394,15 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 
 /* USF EVENT BEGIN */
+.page-hero-text {
+  font-size: 39px;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
 /* Entry item related */
 /* This defines the block properties of main-item. */
-.layout-posts-masonry {
-  clear: both;
-  zoom: 1;
-}
 .main-item-block {
   float: left;
   margin: 20px;
