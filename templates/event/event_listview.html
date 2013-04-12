@@ -2,12 +2,24 @@
 
 {% block content %}
 
+<div class="layout-posts-section">
 {% for event in events %}
 
-<p>{{ event.created|date:"Y-m-d" }}: 
-<a href="{%url single event.id %}">{{ event.title }}</a>
-</p>
+<article class="main-item-block main-item-style post-item">
+
+    <div class="entry-masthead" 
+    style="background-image: url('/webhost_media/{{event.image1}}')">
+        <a href="{%url single event.id %}">&emsp;</a>
+    </div>
+    
+    <header class="entry-header">
+        {{ event.created|date:"Y-m-d" }}: 
+        <a href="{%url single event.id %}">{{ event.title }}</a>
+    </header>
+
+</article>
 
 {% endfor %}
+</div><!-- .layout-posts-section -->
 
 {% endblock %}
