@@ -23,7 +23,13 @@
 
 <div class="event-comments">
 
-
+{% if comments %}    
+    {% for c in comments %}
+        <a>{{ c.content }}</a>
+    {% endfor %}
+{% else %}
+    No comments yet.<br>
+{% endif %}
 
 {% if request.user.is_authenticated %}
     <form action="{% url event.views.add_comment event.id %}" method="POST">

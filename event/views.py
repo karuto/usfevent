@@ -28,7 +28,7 @@ def single(request, pk):
     except Event.DoesNotExist:
         raise Http404
     try:
-        template_var['comments'] = Comment.objects.get(event=e)
+        template_var['comments'] = Comment.objects.filter(event=e)
     except Comment.DoesNotExist:
         template_var['comments'] = []
         
