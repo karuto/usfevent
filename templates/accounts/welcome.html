@@ -2,20 +2,31 @@
 
 {% block content %}
 
-{%if request.user.is_authenticated%}
+{%if request.user.is_authenticated %}
 <div class="layout-content-header">
     <h1 class="page-hero-text">{{ username }}'s Profile</h1>
 </div>
 
-    <h3>My Interest is {{up.interest}}</h3>
-    <h3>My Location is {{up.location}}</h3>
-    <h3>My Preference is {{preferences}}</h3>
-    <h3>My Event Preferenced is{{eventPreferenced}}:</h3>
+<div class="layout-entry-content clearfix-modern">
+
+    <div class="entry-image">
+        <img src="/webhost_media/{{up.avatar}}" width="250"/>
+    </div>
+    <div class="entry-content">
+        <h3>My Interest is {{up.interest}}</h3>
+        <h3>My Location is {{up.location}}</h3>
+        <h3>My Preference is {{preferences}}</h3>
+        <h3>My Event Preferenced is{{eventPreferenced}}:</h3>
+        
+        {% for event in eventPreferenced %}
+            <p>Event Title: {{event.title}}</p>
+            <p>Event Body: {{event.body}}</p>
+        {% endfor %}
+    </div>
+</div>
+
     
-    {% for event in eventPreferenced %}
-        <p>Event Title: {{event.title}}</p>
-        <p>Event Body: {{event.body}}</p>
-    {% endfor %}
+
     
 {%endif%}
     
