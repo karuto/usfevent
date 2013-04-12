@@ -12,20 +12,26 @@
     <div class="entry-image">
         <img src="/webhost_media/{{up.avatar}}" width="250"/>
     </div>
-    <div class="entry-content">
+    <div class="entry-content" width="650">
         <h3>My Interest is {{up.interest}}</h3>
         <h3>My Location is {{up.location}}</h3>
         <h3>My Preference is {{preferences}}</h3>
         <h3>My Event Preferenced is{{eventPreferenced}}:</h3>
         
+        
+        <div class="main-item-block main-item-style post-item">
         {% for event in eventPreferenced %}
             <p>Event Title: {{event.title}}</p>
             <p>Event Body: {{event.body}}</p>
         {% endfor %}
+        </div>
         
+        <div class="main-item-block main-item-style post-item">
         {% for like in likes %}
             <p>This user liked: {{ like.event }}</p>
         {% endfor %}
+        </div>
+        
     </div>
 </div>
 

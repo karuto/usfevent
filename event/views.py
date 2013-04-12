@@ -11,6 +11,11 @@ from taggit.managers import TaggableManager
 
 def index(request):
     template_var = {}
+    
+    # Retrieve s
+    up = UserProfile.objects.filter(django_user=request.user)
+    template_var["likes"] = Like.objects.filter(user=up[0])
+    
     try:
         event_list = Event.objects.all().order_by('id')
     except Event.DoesNotExist:
