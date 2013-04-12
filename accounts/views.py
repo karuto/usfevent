@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login as auth_login ,logout as auth_logout
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from forms import RegisterForm,LoginForm
+from forms import RegisterForm, LoginForm
 from models import UserProfile
 from event.models import Event
 

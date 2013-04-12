@@ -42,3 +42,17 @@ class Message(models.Model):
     time = models.DateTimeField(auto_now=True)
     is_read = models.BooleanField(default=False)
 
+class MessageAdmin(admin.ModelAdmin):
+    display_fields = []
+admin.site.register(Message, MessageAdmin)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(UserProfile)
+    event = models.ForeignKey(Event)
+    time = models.DateTimeField(auto_now=True)
+    
+class LikeAdmin(admin.ModelAdmin):
+    display_fields = []
+admin.site.register(Like, LikeAdmin)
+

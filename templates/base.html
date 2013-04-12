@@ -51,16 +51,8 @@
 
 
     <div class="layout-primary-wrap">
-        {% if request.user.is_authenticated %}        
-            {% block content %}
-            {% endblock %}
-        {% else %}
-        <div class="layout-content-header">
-            <h1 class="page-hero-text">
-            You must login to view the content of the site.
-            </h1>
-        </div>
-        {% endif %}
+        {% block content %}
+        {% endblock %}
     </div><!-- .layout-primary-wrap -->
     
 
@@ -70,6 +62,11 @@
         <a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>
         <h1>My events</h1>
         {% else %}
+        <div class="layout-content-header">
+            <h1 class="page-hero-text">
+            You must login to view the content of the site.
+            </h1>
+        </div>
         {% endif %}
     </aside><!-- .layout-sidebar-wrap -->    
     
