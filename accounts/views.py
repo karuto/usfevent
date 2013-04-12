@@ -16,7 +16,7 @@ def index(request):
     '''index'''
     template_var={"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
-        template_var["w"]=_(u"welcome %s!")%request.user.username
+        template_var["username"]= request.user.username
         up = UserProfile.objects.filter(django_user=request.user)
         template_var["up"]=up[0]
 

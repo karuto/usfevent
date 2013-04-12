@@ -3,6 +3,9 @@
 {% block content %}
 
 {%if request.user.is_authenticated%}
+<div class="layout-content-header">
+    <h1 class="page-hero-text">{{ username }}'s Profile</h1>
+</div>
 
     <h3>My Interest is {{up.interest}}</h3>
     <h3>My Location is {{up.location}}</h3>
