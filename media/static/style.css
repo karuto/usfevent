@@ -325,6 +325,33 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   margin: 0 auto;
   padding: 0 0 20px;
 }
+#searchform {
+  display: inline;
+  float: right;
+}
+#searchform input {
+  font-size: 12px;
+}
+#searchform-text {
+  border: 1px solid #d0d0d0;
+  margin: 10px 0;
+  width: 155px;
+}
+#searchform-submit {
+  background: transparent url(searchicon.png) no-repeat;
+  background-position: center; 
+  border: 0;
+  height: 20px;
+  padding: 0px;
+  text-indent: -9999px;
+  width: 20px;
+}
+
+
+
+
+
+
 .site-header { /* #masthead */
   margin: 0 auto;
   max-width: 1240px;
