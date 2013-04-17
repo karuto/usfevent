@@ -4,11 +4,6 @@ import os
 DIRNAME = os.path.dirname(__file__)
 DIR_ABS = os.path.dirname(os.path.abspath(__file__))
 
-# Detect system and change slashes in directory path
-if(DIR_ABS.rfind("\\") != -1):
-    print DIR_ABS[DIR_ABS.rfind("\\") + 1: ]
-elif(DIR_ABS.rfind("/") != -1):
-    print DIR_ABS[DIR_ABS.rfind("/") + 1: ]
 
 
 # This retrieves the directory path of current file
@@ -85,7 +80,6 @@ MEDIA_URL = '/webhost_media/'
 # Example: "/home/media/media.lawrence.com/static/"
 # STATIC_ROOT = os.path.join(DIRNAME, '/static')
 STATIC_ROOT = DIR_ABS + "/static"
-print STATIC_ROOT + "###########"
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -132,8 +126,14 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-# HARDCODED, PLS CHANGE IF YOUR PARENT DIRECTORY NAME IS DIFFERENT
-ROOT_URLCONF = 'usfevent.urls'
+
+# Detect system and change slashes in directory path
+if(DIR_ABS.rfind("\\") != -1): # Windows
+    rooturldir = DIR_ABS[DIR_ABS.rfind("\\") + 1: ]
+elif(DIR_ABS.rfind("/") != -1): # Unix
+    rooturldir = DIR_ABS[DIR_ABS.rfind("/") + 1: ]
+
+ROOT_URLCONF = rooturldir + '.urls'
 
 
 TEMPLATE_DIRS = (
