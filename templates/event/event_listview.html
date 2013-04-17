@@ -20,6 +20,11 @@
     <div class="event-meta">
         {{ event.created }}
     </div>
+    Tags: 
+    {% for tag in event.tags.all %}
+    <a href="{% url tag tag %}">{{tag}}</a>
+    {% if not forloop.last %}, {% endif %}
+    {% endfor %}
 {% endif %}
 
 {% endfor %}

@@ -15,8 +15,15 @@
     </div>
     <div class="entry-content">
         <div class="event-meta">
-        <div class="page-subhero-text">{{ event.event_time }}</div>
-        <div class="page-subhero-text">{{ event.location }}</div>
+            <div class="page-subhero-text">{{ event.event_time }}</div>
+            <div class="page-subhero-text">{{ event.location }}</div>
+            <div class="page-subhero-text">
+                Tags: 
+                {% for tag in event.tags.all %}
+                <a href="{% url tag tag %}">{{tag}}</a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </div>
         </div>
         {{ event.body|safe|linebreaks }}
     </div>
