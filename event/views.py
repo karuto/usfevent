@@ -122,11 +122,13 @@ def post(request):
         refer_ = request.POST["refer"]
         date_ = request.POST["date"]
         loc_ = request.POST["loc"]
-        tags_ = TaggableManager()
+        tags_ = request.POST["tags"]
         image1_ = request.FILES["picture"]
 
     
         event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
+        event.save()
+        event.tags.add(tags_)
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 
@@ -160,7 +162,7 @@ def search(request):
     template_var = {}
     if request.method=="GET":
 
-        query = request.GET.get('query', '').strip(' \t\n\r')
+        query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
             local_events_found = Event.objects.all().order_by("-created")
         else:
@@ -169,11 +171,19 @@ def search(request):
         events_found = []
         for event in local_events_found:
             events_found.append(event)
-        events_found.sort(key=lambda event: event.event_time)  
 
+        sorted_method = request.GET.get('sorted_method', 'desc') #default is desc
+        if sorted_method == 'desc':
+            events_found.sort(key=lambda event: event.event_time, reverse=True)  
+        elif sorted_method == 'asc':
+            events_found.sort(key=lambda event: event.event_time, reverse=False)  
+        elif sorted_method == 'alphabet':
+            events_found.sort(key=lambda event: event.title, reverse=False)  
+           
         template_var["events_found"] = events_found
-        
+
+        request.session["sorted_method"] = sorted_method
+
         return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
 
     return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
-    
