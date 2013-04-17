@@ -143,3 +143,28 @@ def msg_send(request):
         return HttpResponseRedirect("/events/msg/")
         
     return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
+    
+    
+    
+    
+def search(request):
+    template_var = {}
+    if request.method=="GET":
+
+        query = request.GET.get('query', '').strip(' \t\n\r')
+        if query == '' : #first came in/accidentily type space/..
+            local_events_found = Event.objects.all().order_by("-created")
+        else:
+            local_events_found = Event.objects.filter(tags__name__in=[request.GET.get('query', '')])
+
+        events_found = []
+        for event in local_events_found:
+            events_found.append(event)
+        events_found.sort(key=lambda event: event.event_time)  
+
+        template_var["events_found"] = events_found
+        
+        return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
+
+    return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
+    

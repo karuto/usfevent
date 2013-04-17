@@ -20,4 +20,5 @@ urlpatterns = patterns('event.views',
     #url(r'^(\d+)/save/$', 'save_event', name="save_event"),
     
     url(r'^msg/$', 'msg_send', name="msg_send"),
+    url(r'^search/$', 'search', name="search"),
 )
