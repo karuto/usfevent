@@ -55,8 +55,16 @@ def archives(request):
 
 
 def tagpage(request, tag):
-	events = Event.objects.filter(tags__name = tag)
-	return render_to_response("event/tag_single.html", {"events":events, "tag":tag}, context_instance=RequestContext(request))
+    template_var = {}
+    template_var["tag"] = tag;
+    try:
+        template_var["events"] = Event.objects.filter(tags__name__in = [tag])
+        # This does return actual event objects
+        # print template_var["events"]
+    except Event.DoesNotExist:
+        print "Tag event does not exist!"
+        raise Http404
+	return render_to_response("event/tag_single.html", template_var, context_instance=RequestContext(request))
 
 	
 def add_comment(request, pk):
