@@ -49,6 +49,7 @@ def archives(request):
     template_var = {}
     try:
         template_var["events"] = Event.objects.all().order_by("-event_time")
+        # print template_var["events"]
     except Event.DoesNotExist:
         raise Http404
     return render_to_response("event/event_listview.html", template_var, context_instance=RequestContext(request))
@@ -56,7 +57,7 @@ def archives(request):
 
 def tagpage(request, tag):
     template_var = {}
-    template_var["tag"] = tag;
+    template_var["tag"] = tag
     try:
         template_var["events"] = Event.objects.filter(tags__name__in = [tag])
         # This does return actual event objects
@@ -64,7 +65,7 @@ def tagpage(request, tag):
     except Event.DoesNotExist:
         print "Tag event does not exist!"
         raise Http404
-	return render_to_response("event/tag_single.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("event/tag_single.html", template_var, context_instance=RequestContext(request))
 
 	
 def add_comment(request, pk):
