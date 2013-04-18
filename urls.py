@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     url(r'^$', 'accounts.views.index', name="index"),
 
     url(r'^events/', include('event.urls')),
-    url(r'^accounts/', include('accounts.urls')),
+    url(r'^user/', include('accounts.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 
