@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{%if request.user.is_authenticated %}
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Public Profile of user id={{user.id}}</h1>
+</div>
+
+<div class="layout-entry-content clearfix-modern">
+
+    <div class="entry-image">
+        <img src="/webhost_media/{{user.avatar}}"/>
+    </div>
+        
+</div>
+
+{%endif%}
+    
+{% endblock %}

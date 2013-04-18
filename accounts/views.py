@@ -12,13 +12,21 @@ from models import UserProfile
 from event.models import Event, Message, Comment, Like
 
 
+def public_profile(request, pk):
+    template_var={}
+    if request.user.is_authenticated():
+        template_var["user"] = UserProfile.objects.get(id=pk)
+    
+    return render_to_response("accounts/public_profile.html", template_var, context_instance=RequestContext(request))
+
+
 def index(request):
     '''index'''
-    template_var={"w":_(u"welcome, visitor!")}
+    template_var = {"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
-        template_var["username"]= request.user.username
+        template_var["username"] = request.user.username
         up = UserProfile.objects.filter(django_user=request.user)
-        template_var["up"]=up[0]
+        template_var["up"] = up[0]
 
         template_var["preferences"] = up[0].preferences
         preferencelist = up[0].preferences.split(",")

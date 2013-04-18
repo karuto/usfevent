@@ -21,6 +21,99 @@
         
 </div>
 
+
+<div id="divInfo"></div>
+<script>
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '	295417230590753', // App ID
+      channelUrl : '//127.0.0.1:8000/events/', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+    
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            // connected
+            testAPI();
+        } else if (response.status === 'not_authorized') {
+            // not_authorized
+            login();
+        } else {
+            // not_logged_in
+            login();
+        }
+    });
+    // Additional init code here
+
+  };
+
+  function login() {
+    FB.login(function(response) {
+        
+//        FB.login(handleLogin);
+        if (response.authResponse) {
+            // connected
+            testAPI();
+        } else {
+            // cancelled
+        }
+    });
+  }
+
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api("/me?fields=name,picture", handleMe);
+    FB.api("/me/friends?fields=name,picture", handleFriends);
+    FB.api('/me', function(response) {
+        console.log('Good to see you, ' + response.name + '.');
+    });
+  }
+
+  function handleMe(response) {
+    var divInfo = document.getElementById("divInfo");
+
+    divInfo.innerHTML = "<h1>Me</h1>";
+    divInfo.innerHTML += "Name: " + response.name + "<br />";
+    divInfo.innerHTML += "Profile: <a href=\"https://www.facebook.com/" + response.id + "\">Profile Link<a/></br>";
+    divInfo.innerHTML += "<img src=" + response.picture.data.url + " /><br /><br />";
+//    alert(response.toSource())
+//    divInfo.innerHTML = "<h1>Test Loop</h1>";
+    
+//    for (var i = 0; i < friends.length; i++) {
+//            divInfo.innerHTML += response[i] + "<br />";
+//    }
+  }
+
+  function handleFriends(response) {
+    var divInfo = document.getElementById("divInfo");
+
+    var friends = response.data;
+
+    divInfo.innerHTML += "<h1>My Friends</h1>";
+
+    for (var i = 0; i < friends.length; i++) {
+      divInfo.innerHTML += "Name: " + friends[i].name + "<br />";
+      divInfo.innerHTML += "Profile: <a href=\"https://www.facebook.com/" + friends[i].id + "\">Profile Link<a/></br>";
+      divInfo.innerHTML += "<img src=" + friends[i].picture.data.url + " /><br /><br />";
+    }
+  }
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
+<script src="//connect.facebook.net/en_US/all.js"></script>
+
+
+
     <div class="main-item-block main-item-style post-item">
     <h3>Message Sent List: </h3>
 
