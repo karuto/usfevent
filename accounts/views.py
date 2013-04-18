@@ -1,4 +1,5 @@
 #coding=utf-8
+from accounts.models import Friendship
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -50,6 +51,25 @@ def index(request):
         #template_var["eventPreferenced"] = str(eventList)
 
         template_var["eventPreferenced"] = eventPreferenced
+
+        friends = Friendship.objects.filter(friend_from=request.user)
+        template_var["friends"] = friends
+        friends = list(friends)#cast queryset to list
+        friends_events = []
+        template_var["friends"] = friends
+        for friend in friends:
+            local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
+            if len(local_likes) > 0:
+                friends_events.append(local_likes[0].event)
+        event_id_list = []
+        friends_events_ = []
+        for friends_event in friends_events:
+                if(friends_event.id not in event_id_list):
+                    event_id_list.append(friends_event.id)
+                    friends_events_.append(friends_event)
+        
+        template_var["friends_events"] = friends_events_
+        
 
         
     return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
