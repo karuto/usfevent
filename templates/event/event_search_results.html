@@ -3,14 +3,22 @@
 {% block content %}
 
 
-
-
-
-
 <form role="search" method="get" id="searchform_test" action="/events/search">
 
           <input id="searchform-text" type="text" value="" name="query" id="query" />
+		<select id = "sorted_method_id" name="sorted_method">
+  			<option value="desc">Descending Order</option>
+  			<option value="asc">Ascending Order</option>
+  			<option value="alphabet">Alphabetical Order</option>
+		</select>
+
           <input id="searchform-submit" type="submit" id="searchsubmit" value="Search" />
+
+<br>
+{% for tag in tags %}
+{{tag}}:<input type="checkbox" id="{{tag}}_Alert" name="query_tag" value="{{tag}}"/><br>
+
+{% endfor %}
 </form>
 
 
@@ -31,7 +39,7 @@
         <h3 class="entry-meta roboto-font">
             {{ event.event_time|date:"Y-m-d" }}
 		 <br>CreateTime: {{ event.create}}
-		 <br>EventTime: {{ event.event_time}}
+		 <br>EventTime: {{ event.event_time|date:'Y-m-d H:i'}}
 
         </h3>
     </header>
@@ -43,6 +51,19 @@
 {% endfor %}
 
 
+
+<script>
+window.onload = function () {
+    var element = document.getElementById('sorted_method_id');
+    element.value = '{{request.session.sorted_method_session}}';
+
+
+    {% for checkbox in request.session.checkbox_session %}
+		document.getElementById('{{checkbox}}_Alert').checked = true;
+    {% endfor %}
+
+}
+</script>
 
 
 

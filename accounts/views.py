@@ -44,7 +44,7 @@ def index(request):
         template_var["eventPreferenced"] = eventPreferenced
 
         
-    return render_to_response("accounts/welcome.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
 
 def register(request):
     '''register'''

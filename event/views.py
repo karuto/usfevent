@@ -8,6 +8,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 from event.models import Comment, Event, Message, Like
 from taggit.managers import TaggableManager
+from taggit.models import Tag
 
 def index(request):
     template_var = {}
@@ -161,28 +162,72 @@ def msg_send(request):
 def search(request):
     template_var = {}
     if request.method=="GET":
+        event_id_list = []
+        events_found = []
+        events_found_advanced = []
+        events_found_basic = []
+        checkbox_session = []
+        #sorted_method_session = []
+        advanced_search = False
+        tags = Tag.objects.all()
+        template_var["tags"] = tags
 
+        
+
+        query_tags = request.GET.getlist('query_tag')
+        if len(query_tags) > 0:  # at least one checkbox selected
+            advanced_search = True
+            query_tag_list = []
+        
+            #strip >>u''<< prefix
+            for query_tag in query_tags:
+                checkbox_session.append(str(query_tag))
+                query_tag_list.append(str(query_tag))
+                
+            events_found_advanced = Event.objects.filter(tags__name__in=query_tag_list)
+            
+
+                
         query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
-            local_events_found = Event.objects.all().order_by("-created")
+            if advanced_search:
+                events_found_advanced = events_found_advanced
+            else:
+                events_found_basic = Event.objects.all().order_by("-created")
+                
         else:
-            local_events_found = Event.objects.filter(tags__name__in=[request.GET.get('query', '')])
+            if advanced_search:
+                events_found_advanced = events_found_advanced.filter(tags__name__in=[query])
+            else:
+                events_found_basic = Event.objects.filter(tags__name__in=[query])
 
-        events_found = []
-        for event in local_events_found:
-            events_found.append(event)
 
+        #finally
+        if advanced_search:
+            #take out duplicated result
+            for event_found_advanced in events_found_advanced:
+                if(event_found_advanced.id not in event_id_list):
+                    event_id_list.append(event_found_advanced.id)
+                    events_found.append(event_found_advanced)
+        else:
+            for event in events_found_basic:
+                events_found.append(event)
+
+        
+
+        #sort result
         sorted_method = request.GET.get('sorted_method', 'desc') #default is desc
         if sorted_method == 'desc':
             events_found.sort(key=lambda event: event.event_time, reverse=True)  
         elif sorted_method == 'asc':
             events_found.sort(key=lambda event: event.event_time, reverse=False)  
         elif sorted_method == 'alphabet':
-            events_found.sort(key=lambda event: event.title, reverse=False)  
+            events_found.sort(key=lambda event: event.title.lower(), reverse=False)  
            
         template_var["events_found"] = events_found
 
-        request.session["sorted_method"] = sorted_method
+        request.session["sorted_method_session"] = sorted_method
+        request.session["checkbox_session"] = checkbox_session
 
         return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
 
