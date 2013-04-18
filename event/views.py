@@ -2,6 +2,7 @@ from accounts.models import UserProfile
 from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
@@ -151,6 +152,13 @@ def msg_send(request):
             message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
             message.content = request.POST["content"]
             message.save()
+
+            subject, from_email, to = 'hello, email sent by server test', 'from@example.com', 'vincentaths@gmail.com'
+            text_content = 'This is an important message.'
+            html_content = '<p>This is an <strong>important</strong> message.</p>'
+            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
         return HttpResponseRedirect("/events/msg/")
         
