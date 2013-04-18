@@ -27,7 +27,7 @@ class Comment(models.Model):
     content = models.TextField()
     time = models.DateTimeField(auto_now=True)
     
-    def __unicode(self):
+    def __unicode__(self):
         return unicode("%s: %s" % (self.event, self.content[:50]))
         
 class CommentAdmin(admin.ModelAdmin):
@@ -51,6 +51,8 @@ class Like(models.Model):
     user = models.ForeignKey(UserProfile)
     event = models.ForeignKey(Event)
     time = models.DateTimeField(auto_now=True)
+    def __unicode__(self):
+        return str(self.user.django_user) + " likes " +(self.event.title)
     
 class LikeAdmin(admin.ModelAdmin):
     display_fields = []
