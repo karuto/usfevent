@@ -130,7 +130,9 @@ def post(request):
     
         event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
         event.save()
-        event.tags.add(tags_)
+        tag_elements = tags_.split(',')
+        for tag_element in tag_elements:
+            event.tags.add(tag_element.strip(' \t\n\r'))
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 
