@@ -438,14 +438,22 @@ h1.entry-title {
   float: left;
 }
 .layout-entry-content .event-meta {
-  margin: 0 0 20px;
+  margin: 0 0 15px;
 }
 .entry-image {
   float: left;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 .entry-comment {
-  margin: 10px 0;
+  margin: 0 0 20px;
+}
+.entry-comment .user-avatar-mini{
+  float:left;
+}
+.entry-comment-body {
+  float:left;
+  margin: 0 20px;
+  max-width: 75%;
 }
 
 /* Profile related */
