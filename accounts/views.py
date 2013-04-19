@@ -18,8 +18,10 @@ def add_friend(request, pk):
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
         to_user = UserProfile.objects.get(id=pk)
-        f = Friendship(friend_from=from_user, friend_to=to_user)
-        f.save()
+        size = len(Friendship.objects.filter(friend_from=from_user, friend_to=to_user))
+        if(size == 0):
+            f = Friendship(friend_from=from_user, friend_to=to_user)
+            f.save()
         
     return HttpResponseRedirect(reverse('index'))
 
@@ -108,7 +110,6 @@ def index(request):
         
     return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
 
-
 def register(request):
     '''register'''
     if request.user.is_authenticated():
@@ -122,32 +123,34 @@ def register(request):
             username=form.cleaned_data["username"]
             email=form.cleaned_data["email"]
             password=form.cleaned_data["password"]
-            user=User.objects.create_user(username, email, password)
+            user=User.objects.create_user(username,email,password)
             user.save()
-            
-            position_ = request.POST['position']
-            locaiton_ = request.POST['location']
-            interest_ = request.POST['interest']
-            bio_ = request.POST['bio']
-            preferencelist = request.POST.getlist('preferences')
-            avatar_ = request.FILES["picture"]
 
-            preferences_ = ""
-            for preference in preferencelist:
-                preferences_ += preference + ","
-            
-            preferences_ = preferences_[:len(preferences_)-1]
+            try:
+                locaiton_ = request.POST['location']
+                interest_ = request.POST['interest']
+                preferencelist = request.POST.getlist('preferences')
+                try:
+                    avatar_ = request.FILES["picture"]
+                except:
+                    avatar_ = None                
+                preferences_ = ""
+                for preference in preferencelist:
+                    preferences_ += preference + ","
+                
+                preferences_ = preferences_[:len(preferences_)-1]
 
-
-            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, position = position_, bio = bio_, avatar = avatar_)
-            profile.save()
+        
+                profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
+                profile.save()
+            except Exception:
+                user.delete()
 
             
             _login(request,username,password)#already register, login
             return HttpResponseRedirect(reverse("index"))    
     template_var["form"]=form        
     return render_to_response("accounts/register.html",template_var,context_instance=RequestContext(request))
-    
     
 def login(request):
     '''login'''
