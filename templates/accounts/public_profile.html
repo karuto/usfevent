@@ -1,20 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="layout-content-wrap">
 
 {%if request.user.is_authenticated %}
 <div class="layout-content-header">
-    <h1 class="page-hero-text">Public Profile of user id={{user.id}}</h1>
+    <h1 class="page-hero-text">{{ request.user }}'s Profile</h1>
 </div>
 
 <div class="layout-entry-content clearfix-modern">
 
     <div class="entry-image">
-        <img src="/webhost_media/{{user.avatar}}"/>
+        <img src="/webhost_media/{{ user.avatar }}"/>
+    </div>
+    <div class="entry-content">
+        <h3>My name is {{ request.user }}</h3>
+        <h3>My email is {{ request.user.email }}</h3>
+        <h3>My Interest is {{ user.interest }}</h3>
+        <h3>My Location is {{ user.location }}</h3>
+        <h3>{{ request.user }} have {{ friends|length }} friends: 
+	        {% for f in friends %}
+	        <a href="/user/{{ f.friend_to.django_user.id }}">
+	        <img class="friend-avatar-mini" src="/webhost_media/{{ f.friend_to.avatar }} "/>
+            </a>
+            {% endfor %}
+        </h3>
+        <!--
+        <h3>My Preference is {{preferences}}</h3>
+        -->
     </div>
         
 </div>
 
 {%endif%}
     
+</div><!-- .layout-content-wrap -->
 {% endblock %}

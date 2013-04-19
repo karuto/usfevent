@@ -14,13 +14,13 @@
     <div class="entry-image">
         <img src="/webhost_media/{{up.avatar}}" width="250"/>
     </div>
-    <div class="entry-content" width="650">
-        <h3>My name is {{request.user}}</h3>
-        <h3>My email is {{request.user.email}}</h3>
-        <h3>My Interest is {{up.interest}}</h3>
-        <h3>My Location is {{up.location}}</h3>
-        <h3>My Preference is {{preferences}}</h3>
-        <h3>{{ username }} have {{friends|length}} friends:&emsp;
+    <div class="entry-content">
+        <h3>My name is {{ request.user }}</h3>
+        <h3>My email is {{ request.user.email }}</h3>
+        <h3>My Interest is {{ user.interest }}</h3>
+        <h3>My Location is {{ user.location }}</h3>
+        <h3>My Preference is {{ preferences }}</h3>
+        <h3>{{ request.user }} have {{friends|length}} friends:&emsp;
 	        {% for f in friends %}
             {{ f.friend_to.django_user }}&emsp;
             {% endfor %}

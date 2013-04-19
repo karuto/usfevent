@@ -373,7 +373,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 
 /* USF EVENT BEGIN */
-
+/* Main page related */
 .sidebar-divider {
   border-top: 1px dotted #508373;
   border-bottom: 1px dotted #508373;
@@ -447,6 +447,12 @@ h1.entry-title {
 }
 .entry-comment {
   margin: 10px 0;
+}
+
+/* Profile related */
+.friend-avatar-mini {
+  height: 48px;
+  width: 48px;
 }
 /* USF EVENT END */
 
