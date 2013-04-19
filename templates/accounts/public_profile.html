@@ -4,33 +4,104 @@
 <div class="layout-content-wrap">
 
 {%if request.user.is_authenticated %}
-<div class="layout-content-header">
-    <h1 class="page-hero-text">{{ request.user }}'s Profile</h1>
-</div>
 
-<div class="layout-entry-content clearfix-modern">
+<style type="text/css">
+.layout-profile-content {
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  margin: 0 0 20px;
+}
+.profile-content-header {
+  background-color: #F6F7F8;
+  border-bottom: 1px solid #d0d0d0;
+}
+.profile-header {
+  font-size: 18px;
+  
+  padding: 20px;
+  text-transform: uppercase;
+}
+.profile-image {
+  float: left;
+}
+.user-avatar-major {
+  height: 200px;
+  width: 200px;
+}
+.profile-hero {
+  background-color: #508373;
+  /* border-bottom: 1px solid #f0f0f0; */
+  height: 200px;
+}
+.profile-content {
+  float: left;
+  width: 838px; /* 1040(wrap)-200(avatar)-1-1(borders) = 838 */
+}
+.profile-name {
+  color: white;
+  padding: 20px 20px 0;
+}
+.profile-metadata {
+  color: white;
+  padding: 0 20px 20px;
+}
+.profile-bio {
+  font-size: 18px;
+  padding: 20px 0 0;
+}
+.profile-friends {
+  margin: 20px;
+}
+.user-friend-link {
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+</style>
 
-    <div class="entry-image">
-        <img src="/webhost_media/{{ user.avatar }}"/>
+<div class="layout-profile-content">
+    <div class="profile-hero clearfix-modern">    
+    <div class="profile-image">
+        <img class="user-avatar-major" src="/webhost_media/{{ user.avatar }}"/>
     </div>
-    <div class="entry-content">
-        <h3>My name is {{ request.user }}</h3>
-        <h3>My email is {{ request.user.email }}</h3>
-        <h3>My Interest is {{ user.interest }}</h3>
-        <h3>My Location is {{ user.location }}</h3>
-        <h3>{{ request.user }} have {{ friends|length }} friends: 
+    
+    <div class="profile-content">
+        <h1 class="profile-name page-hero-text">
+            {{ user.django_user.username }}
+        </h1>
+
+        <div class="profile-metadata">
+            &raquo;{{ user.position }}&emsp;
+            &raquo;{{ user.location }}&emsp;
+            &raquo;{{ user.interest }}&emsp;
+            <p class="profile-bio"><strong>Bio:</strong> {{ user.bio }}</p>
+        
+        </div><!-- .profile-metadata -->
+    </div><!-- .profile-content -->    
+    </div><!-- .profile-hero -->        
+</div><!-- .layout-profile-content -->
+
+
+
+<div class="layout-profile-content clearfix-modern">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        {{ user.django_user.username }} is following {{ friends|length }} users
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-friends">
+        <h3>
 	        {% for f in friends %}
-	        <a href="/user/{{ f.friend_to.django_user.id }}">
-	        <img class="friend-avatar-mini" src="/webhost_media/{{ f.friend_to.avatar }} "/>
+	        <div class="user-friend-link" >
+	        <a href="/user/{{ f.friend_to.django_user.id }}"
+	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
+	        <img class="user-avatar-mini" 
+	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
             </a>
+            </div><!-- .user-friend-link -->
             {% endfor %}
         </h3>
-        <!--
-        <h3>My Preference is {{preferences}}</h3>
-        -->
-    </div>
-        
-</div>
+    </div><!-- .profile-friends -->
+</div><!-- .layout-profile-content -->
 
 {%endif%}
     

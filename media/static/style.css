@@ -450,9 +450,12 @@ h1.entry-title {
 }
 
 /* Profile related */
-.friend-avatar-mini {
-  height: 48px;
-  width: 48px;
+.user-avatar-major {
+
+}
+.user-avatar-mini {
+  height: 68px;
+  width: 68px;
 }
 /* USF EVENT END */
 
