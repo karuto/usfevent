@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="layout-content-wrap">
 
 <div class="layout-content-header">
     <h1 class="page-hero-text">Search events</h1>
@@ -18,6 +17,7 @@
     <input id="searchform-submit" type="submit" id="searchsubmit" value="Search" />
 
 <br>
+
 {% for tag in tags %}
     {{tag}}:
     <input type="checkbox" id="{{tag}}_Alert" name="query_tag" value="{{tag}}"/>&emsp;
@@ -28,29 +28,25 @@
 <p>No results found</p>
 {% endifequal %}
 
+<div id="layout-posts-masonry">
 {% for event in events_found %}
     <div class="main-item-block main-item-style post-item">
-   
-    <img src="/webhost_media/{{event.image1}}" width="100%">
-    
-    <header class="entry-header">
-         
-        <h1 class="entry-title">
-            <a href="{%url single event.id %}">{{ event.title }}</a>
-        </h1>
-        <h3 class="entry-meta roboto-font">
-            {{ event.event_time|date:"Y-m-d" }}
-		 <br>CreateTime: {{ event.create}}
-		 <br>EventTime: {{ event.event_time|date:'Y-m-d H:i'}}
+       
+        <img src="/webhost_media/{{event.image1}}" width="100%">
+        
+        <header class="entry-header">
+             
+            <h1 class="entry-title">
+                <a href="{%url single event.id %}">{{ event.title }}</a>
+            </h1>
+            <h3 class="entry-meta roboto-font">
+                {{ event.event_time|date:"Y-m-d" }}
+            </h3>
+        </header>
 
-        </h3>
-    </header>
-
-</div>
-
-
-
+    </div>
 {% endfor %}
+</div><!-- #layout-posts-masonry -->
 
 
 
@@ -69,5 +65,4 @@ window.onload = function () {
 
 
 
-</div><!-- .layout-content-wrap -->
 {% endblock %}
