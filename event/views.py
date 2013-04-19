@@ -101,11 +101,11 @@ def share_email(request, pk):
     print pk;
     template_var = {}
     
-    subject, from_email, to = 'hello, email sent by server test', 'from@example.com', 'donsaffair@gmail.com'
+    subject, from_email, to = 'Your friend shared an event with you on Dons Affairs!', 'from@example.com', 'donsaffair@gmail.com'
     to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
     link = request.POST["abs_url"]
     text_content = 'This is an important message. Your friend shared an event link with you. ' + link
-    html_content = '<p>This is an <strong>important</strong> message. </p>' + '<a href="'+ link+ '">Check it out</a>'
+    html_content = '<p>Hi Dear,</p><p>Your friend shared an exciting event with you on <a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + '<p><a href="'+ link+ '">Here goes the link to the event.</a><br>Feel free to check it out!</p><p><br>With love,<br>Don\'s Affair Team</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()

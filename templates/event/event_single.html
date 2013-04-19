@@ -39,13 +39,30 @@
         Share this event
     </div>
     
+<script>
+$(document).ready(function(){
+    $('a#copy-button').onClick({ 
+        alert("The link of this page is copied to your clipboard. Happy sharing!");
+    });
+    $('a#copy-button').zclip({
+        path:'https://github.com/jonrohan/ZeroClipboard/blob/master/ZeroClipboard.swf',
+        copy:$('#copy-link').text()
+    });
+});
+</script>    
+    
+    
     <div class="entry-interaction-content" style="text-transform:uppercase;">
-        Share this via URL
+        Share this via URL&emsp;&emsp;
+        <input id="copy-link" value="{{request.build_absolute_uri}}"></input>
+        <a id="copy-button" href="#" class="">Copy</a>
+        <br>
         <br>
         Share on Facebook&emsp;
         <div class="fb-like" data-href="{{request.build_absolute_uri}}" 
         data-send="true" data-layout="button_count" data-width="450" 
         data-show-faces="true" data-action="recommend"></div>
+        <br>
         <br>
         <form action="{{request.build_absolute_uri}}/email/" method="post">
             {% csrf_token %}
