@@ -9,7 +9,15 @@
 .layout-profile-content {
   background-color: white;
   border: 1px solid #d0d0d0;
-  margin: 0 0 20px;
+  margin: 0 0 30px;
+}
+.layout-content-wrap > .layout-profile-list {
+  float:left;
+  width: 506px;
+}
+.layout-content-wrap > .layout-profile-list:last-child {
+  float:right;
+  margin-right: 0px;
 }
 .profile-content-header {
   background-color: #F6F7F8;
@@ -82,13 +90,13 @@
 
 
 
-<div class="layout-profile-content clearfix-modern">
+<div class="layout-profile-content">
     <div class="profile-content-header">
         <div class="profile-header">
         {{ user.django_user.username }} is following {{ friends|length }} users
         </div>
     </div><!-- .profile-content-header -->
-    <div class="profile-friends">
+    <div class="profile-friends clearfix-modern">
         <h3>
 	        {% for f in friends %}
 	        <div class="user-friend-link" >
@@ -102,6 +110,28 @@
         </h3>
     </div><!-- .profile-friends -->
 </div><!-- .layout-profile-content -->
+
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events saved by {{ user.django_user.username }}
+        </div>
+    </div><!-- .profile-content-header -->
+</div><!-- .layout-profile-content layout-profile-list -->
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events of {{ user.django_user.username }}'s friends
+        </div>
+    </div><!-- .profile-content-header -->
+</div><!-- .layout-profile-content layout-profile-list -->
+
+
+
 
 {%endif%}
     
