@@ -3,33 +3,54 @@
 {% block content %}
 <div class="layout-content-wrap">
 
-
 {% if request.user.is_authenticated %}
-<div class="layout-content-header">
-    <h1 class="page-hero-text">{{ request.user }}'s Profile</h1>
-</div><!-- .layout-content-header -->
 
-<div class="layout-entry-content clearfix-modern">
 
-    <div class="entry-image">
-        <img src="/webhost_media/{{up.avatar}}" width="250"/>
+<div class="layout-profile-content">
+    <div class="profile-hero clearfix-modern">    
+    <div class="profile-image">
+        <img class="user-avatar-major" src="/webhost_media/{{ up.avatar }}"/>
     </div>
-    <div class="entry-content">
-        <h3>My name is {{ request.user }}</h3>
-        <h3>My email is {{ request.user.email }}</h3>
-        <h3>My Interest is {{ user.interest }}</h3>
-        <h3>My Location is {{ user.location }}</h3>
-        <h3>My Preference is {{ preferences }}</h3>
-        <h3>{{ request.user }} have {{friends|length}} friends:&emsp;
+    
+    <div class="profile-content">
+        <h1 class="profile-name page-hero-text">
+            {{ request.user }}&nbsp;<span class="roboto-font">( {{ request.user.email }} ) (Note: this is your private profile.)</span>
+        </h1>
+
+        <div class="profile-metadata">
+            <span class="roboto-font">
+            &raquo;&nbsp;Status: {{ up.position }}&emsp;
+            &raquo;&nbsp;Location: {{ up.location }}&emsp;
+            &raquo;&nbsp;Interest: {{ up.interest }}&emsp;
+            </span>
+            <p class="profile-bio"><strong>Bio:</strong> {{ up.bio }}</p>
+        
+        </div><!-- .profile-metadata -->
+    </div><!-- .profile-content -->    
+    </div><!-- .profile-hero -->        
+</div><!-- .layout-profile-content -->
+
+
+<div class="layout-profile-content">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        You are following {{ friends|length }} users
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-friends clearfix-modern">
+        <h3>
 	        {% for f in friends %}
-            {{ f.friend_to.django_user }}&emsp;
+	        <div class="user-friend-link" >
+	        <a href="/user/{{ f.friend_to.id }}"
+	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
+	        <img class="user-avatar-mini" 
+	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
+            </a>
+            </div><!-- .user-friend-link -->
             {% endfor %}
         </h3>
-    </div>
-        
-</div><!-- .layout-entry-content -->
-
-
+    </div><!-- .profile-friends -->
+</div><!-- .layout-profile-content -->
 
 <!--
     <div class="main-item-block main-item-style post-item">
@@ -53,6 +74,69 @@
     {% endfor %}
     </div>
 -->        
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events saved by you
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% if likes %}
+        {% for e in likes %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.event.id %}">{{ e.event.title }}</a>
+            </h3>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.event.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.event.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+        {% else %}
+            {{ request.user }} currently does not have any liked events.
+        {% endif %}
+    </div>
+</div><!-- .layout-profile-content layout-profile-list -->
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events of your friends
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% for e in friend_events %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.id %}">{{ e.title }}</a>
+            </h3>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+    </div>
+</div><!-- .layout-profile-content layout-profile-list -->
+
         
         
     <div class="main-item-block main-item-style post-item">
@@ -66,16 +150,6 @@
     {% endif %}
     </div>
     
-    <div class="main-item-block main-item-style post-item">
-    {% if likes %}
-    {% for like in likes %}
-        <p>{{ username }} liked: {{ like.event }}</p>
-    {% endfor %}
-    {% else %}
-        {{ username }} currently does not have any liked events.
-    {% endif %}
-    </div>
-        
 
     <div class="main-item-block main-item-style post-item">
 

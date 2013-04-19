@@ -43,7 +43,7 @@
         <h3>
 	        {% for f in friends %}
 	        <div class="user-friend-link" >
-	        <a href="/user/{{ f.friend_to.django_user.id }}"
+	        <a href="/user/{{ f.friend_to.id }}"
 	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
 	        <img class="user-avatar-mini" 
 	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
