@@ -73,6 +73,18 @@
     <strong>Date:</strong>{{msg.time}}<br>
     {% endfor %}
     </div>
+    
+    <div class="main-item-block main-item-style post-item">
+    {% if eventPreferenced %}
+        <h3>{{ username }}'s Preferred Event:</h3>
+        {% for event in eventPreferenced %}
+            <p>Event Title: {{event.title}}</p>
+        {% endfor %}
+    {% else %}
+        {{ username }} currently does not have any preferred events.
+    {% endif %}
+    </div>
+    
 -->        
 
 
@@ -116,7 +128,7 @@
         </div>
     </div><!-- .profile-content-header -->
     <div class="profile-list-event">
-        {% for e in friend_events %}
+        {% for e in friends_events %}
         
         <div class="profile-event-unit clearfix-modern">
             <div class="profile-event-metadata">
@@ -137,34 +149,10 @@
     </div>
 </div><!-- .layout-profile-content layout-profile-list -->
 
-        
-        
-    <div class="main-item-block main-item-style post-item">
-    {% if eventPreferenced %}
-        <h3>{{ username }}'s Preferred Event:</h3>
-        {% for event in eventPreferenced %}
-            <p>Event Title: {{event.title}}</p>
-        {% endfor %}
-    {% else %}
-        {{ username }} currently does not have any preferred events.
-    {% endif %}
-    </div>
-    
 
-    <div class="main-item-block main-item-style post-item">
-
-    <h3>Friends Events List: </h3>
-	{% for event in friends_events %}
-        <h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>
-    	   <div class="event-meta">
-           {{ event.created }}<br>
-           </div>
-     {% endfor %}
-    </div>
 
     
 {% endif %}
-    
     
 </div><!-- .layout-content-wrap -->
 {% endblock %}
