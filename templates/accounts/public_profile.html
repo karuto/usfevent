@@ -1,20 +1,122 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="layout-content-wrap">
 
 {%if request.user.is_authenticated %}
-<div class="layout-content-header">
-    <h1 class="page-hero-text">Public Profile of user id={{user.id}}</h1>
-</div>
 
-<div class="layout-entry-content clearfix-modern">
 
-    <div class="entry-image">
-        <img src="/webhost_media/{{user.avatar}}"/>
+
+<div class="layout-profile-content">
+    <div class="profile-hero clearfix-modern">    
+    <div class="profile-image">
+        <img class="user-avatar-major" src="/webhost_media/{{ user.avatar }}"/>
     </div>
-        
-</div>
-
-{%endif%}
     
+    <div class="profile-content">
+        <h1 class="profile-name page-hero-text">
+            {{ user.django_user.username }}&nbsp;<span class="roboto-font"><a href="{% url friend user.id %}" style="color: white;">Follow</a></span>
+        </h1>
+
+        <div class="profile-metadata">
+            <span class="roboto-font">
+            &raquo;&nbsp;Status: {{ user.position }}&emsp;
+            &raquo;&nbsp;Location: {{ user.location }}&emsp;
+            &raquo;&nbsp;Interest: {{ user.interest }}&emsp;
+            </span>
+            <p class="profile-bio"><strong>Bio:</strong> {{ user.bio }}</p>
+        
+        </div><!-- .profile-metadata -->
+    </div><!-- .profile-content -->    
+    </div><!-- .profile-hero -->        
+</div><!-- .layout-profile-content -->
+
+
+
+<div class="layout-profile-content">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        {{ user.django_user.username }} is following {{ friends|length }} users
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-friends clearfix-modern">
+        <h3>
+	        {% for f in friends %}
+	        <div class="user-friend-link" >
+	        <a href="/user/{{ f.friend_to.id }}"
+	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
+	        <img class="user-avatar-mini" 
+	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
+            </a>
+            </div><!-- .user-friend-link -->
+            {% endfor %}
+        </h3>
+    </div><!-- .profile-friends -->
+</div><!-- .layout-profile-content -->
+
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events saved by {{ user.django_user.username }}
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% for e in saved_events %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.event.id %}">{{ e.event.title }}</a>
+            </h3>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.event.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.event.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+    </div>
+</div><!-- .layout-profile-content layout-profile-list -->
+
+
+<div class="layout-profile-content layout-profile-list">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        Events of {{ user.django_user.username }}'s friends
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% for e in friend_events %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.id %}">{{ e.title }}</a>
+            </h3>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+    </div>
+</div><!-- .layout-profile-content layout-profile-list -->
+
+
+
+
+{% endif %}
+    
+</div><!-- .layout-content-wrap -->
 {% endblock %}

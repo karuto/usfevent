@@ -13,10 +13,42 @@ from models import UserProfile
 from event.models import Event, Message, Comment, Like
 
 
+def add_friend(request, pk):    
+    template_var={}
+    if request.user.is_authenticated():
+        from_user = UserProfile.objects.get(django_user=request.user)
+        to_user = UserProfile.objects.get(id=pk)
+        f = Friendship(friend_from=from_user, friend_to=to_user)
+        f.save()
+        
+    return HttpResponseRedirect(reverse('index'))
+
+
 def public_profile(request, pk):
     template_var={}
     if request.user.is_authenticated():
         template_var["user"] = UserProfile.objects.get(id=pk)
+        
+        friends = Friendship.objects.filter(friend_from=template_var["user"])
+        friends = list(friends) # Cast queryset to list to avoid u("")
+        template_var["friends"] = friends
+        
+        template_var["saved_events"] = Like.objects.filter(user=template_var["user"])
+        
+        friends_events = []
+        for friend in friends:
+            local_likes = Like.objects.filter(user=friend.friend_to)
+            if len(local_likes) > 0:
+                friends_events.append(local_likes[0].event)
+        event_id_list = []
+        friends_events_ = []
+        for friends_event in friends_events:
+                if(friends_event.id not in event_id_list):
+                    event_id_list.append(friends_event.id)
+                    friends_events_.append(friends_event)
+        
+        template_var["friend_events"] = friends_events_
+        
     
     return render_to_response("accounts/public_profile.html", template_var, context_instance=RequestContext(request))
 
@@ -25,7 +57,6 @@ def index(request):
     '''index'''
     template_var = {"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
-        template_var["username"] = request.user.username
         up = UserProfile.objects.filter(django_user=request.user)
         if len(up) == 0:# no userprofile, e.g. a root user
             return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
@@ -77,6 +108,7 @@ def index(request):
         
     return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
 
+
 def register(request):
     '''register'''
     if request.user.is_authenticated():
@@ -90,10 +122,13 @@ def register(request):
             username=form.cleaned_data["username"]
             email=form.cleaned_data["email"]
             password=form.cleaned_data["password"]
-            user=User.objects.create_user(username,email,password)
+            user=User.objects.create_user(username, email, password)
             user.save()
+            
+            position_ = request.POST['position']
             locaiton_ = request.POST['location']
             interest_ = request.POST['interest']
+            bio_ = request.POST['bio']
             preferencelist = request.POST.getlist('preferences')
             avatar_ = request.FILES["picture"]
 
@@ -104,7 +139,7 @@ def register(request):
             preferences_ = preferences_[:len(preferences_)-1]
 
 
-            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
+            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, position = position_, bio = bio_, avatar = avatar_)
             profile.save()
 
             
@@ -112,6 +147,7 @@ def register(request):
             return HttpResponseRedirect(reverse("index"))    
     template_var["form"]=form        
     return render_to_response("accounts/register.html",template_var,context_instance=RequestContext(request))
+    
     
 def login(request):
     '''login'''
@@ -127,6 +163,7 @@ def login(request):
     template_var["form"]=form        
     return render_to_response("accounts/login.html",template_var,context_instance=RequestContext(request))
     
+    
 def _login(request,username,password):
     '''login core'''
     ret=False
@@ -141,7 +178,10 @@ def _login(request,username,password):
         messages.add_message(request, messages.INFO, _(u'user does not exist'))
     return ret
     
+    
 def logout(request):
     '''logout'''
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
+    
+    

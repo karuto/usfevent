@@ -6,6 +6,7 @@
 {% endblock %}
 <link rel="stylesheet" href="/webhost_media/static/style.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://www.steamdev.com/zclip/js/jquery.zclip.min.js"></script>
 </head>
 
 <body>
@@ -15,6 +16,7 @@
     <div class="layout-main-wrap">
     
         <nav class="external-nav">
+        <li class="external-item"><a href="/events">Don's Affairs</a></li>
         {% if request.user.is_authenticated %}
         <li class="external-item"><a href="/">Profile</a></li>
         <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
@@ -48,25 +50,41 @@
     <div class="layout-main-inner-wrap">
     
     <aside class="layout-sidebar-wrap">
-        <a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>
+        <!--<a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>!-->
         <div class="sidebar-divider">GATEWAYS</div>
-        <h4><a href="/admin">Admin</a></h4>
-        <h4><a href="{%url event.views.msg_send %}">Send message</a></h4>
+        <!--<h4><a href="/admin">Admin</a></h4>-->
+        <h4><a href="{%url event.views.post %}">Submit event</a></h4>
+        <h4><a href="{%url event.views.search %}">Search event</a></h4>
         <h4><a href="{%url event.views.archives %}">Event archives</a></h4>
-        <h4><a href="{%url event.views.post %}">Submit poster</a></h4>
+        <h4><a href="{%url event.views.msg_send %}">Send messages</a></h4>
         
-        <div class="sidebar-divider">CATEGORIES</div>
+        <div class="sidebar-divider">POPULAR CATEGORIES</div>
         
-        <h4><a href="">Music</a></h4>
-        <h4><a href="">Theater</a></h4>
-        <h4><a href="">Lectures</a></h4>
-        <h4><a href="">Art</a></h4>
-        <h4><a href="">Misc</a></h4>
+        <h4><a href="/events/tag/lecture">Lecture</a></h4>
+        <h4><a href="/events/tag/academic">Academic</a></h4>
+        <h4><a href="/events/tag/sports">Sports</a></h4>
+        <h4><a href="/events/tag/art">Art</a></h4>
+        <h4><a href="/events/tag/music">Music</a></h4>
         
     </aside><!-- .layout-sidebar-wrap -->
 
 
     <div class="layout-primary-wrap">
+    
+    <script src="http://masonry.desandro.com/jquery.masonry.min.js"></script>
+    <script type="text/javascript">
+    $(function(){
+      var $container = $('#layout-posts-masonry');
+      $container.imagesLoaded( function(){
+        $container.masonry({
+          // options
+          itemSelector : '.main-item-block'
+          });
+      });
+    });
+    </script>
+    
+    
         {% block content %}
         {% endblock %}
     </div><!-- .layout-primary-wrap -->

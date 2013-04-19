@@ -7,7 +7,7 @@ urlpatterns = patterns('event.views',
 
     url(r'^$', ListView.as_view(
 	queryset=Event.objects.all().order_by("-created"),
-	template_name="event/event_homepage.html")),
+	template_name="event/event_homepage.html"), name="home"),
 
     url(r'^(?P<pk>\d+)$', "single",	name='single'),
 

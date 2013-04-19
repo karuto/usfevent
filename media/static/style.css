@@ -214,7 +214,7 @@ a:hover {
 
 -------------------------------------------------------------- */
 
-/* Whole-site content (defined in header.php / footer.php) */
+/* Whole-site content */
 /* USF EVENT BEGIN */
 .layout-page-wrap {
 }
@@ -253,7 +253,9 @@ a:hover {
   width: 1080px;
   position: relative;
 }
-
+.layout-content-wrap {
+  margin: 0 20px;
+}
 .layout-listview-header {
   margin: 0 20px 20px;
 }
@@ -371,16 +373,15 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 
 /* USF EVENT BEGIN */
-
+/* Main page related */
 .sidebar-divider {
-  border-top: 1px dotted #508373;
-  border-bottom: 1px dotted #508373;
+  border-top: 1px dashed #508373;
+  border-bottom: 1px dashed #508373;
   margin: 10px;
-  text-align: center;
 }
 .layout-sidebar-wrap h4 {
   font-weight: bold;
-  margin: 10px;
+  margin: 5px;
   text-transform: uppercase;
 }
 .page-hero-text {
@@ -437,14 +438,127 @@ h1.entry-title {
   float: left;
 }
 .layout-entry-content .event-meta {
-  margin: 0 0 20px;
+  margin: 0 0 15px;
+}
+
+.layout-entry-interactions-inner {
+}
+.entry-interaction-header {
+  border-top: 1px solid #d0d0d0;
+  margin-bottom: 0;
+  padding: 20px;
+}
+.entry-interaction-content {
+  padding: 20px;
 }
 .entry-image {
   float: left;
-  margin-right: 20px;
+  margin-right: 40px;
 }
 .entry-comment {
-  margin: 10px 0;
+  margin: 0 0 20px;
+}
+.entry-comment .user-avatar-mini{
+  float:left;
+}
+.entry-comment-body {
+  float:left;
+  margin: 0 20px;
+  max-width: 75%;
+}
+
+/* Profile related */
+.layout-entry-interactions,
+.layout-profile-content {
+  background-color: white;
+  border: 1px solid #d0d0d0;
+  margin: 0 0 30px;
+}
+.layout-content-wrap > .layout-profile-list {
+  float:left;
+  width: 506px;
+}
+.layout-content-wrap > .layout-profile-list:last-child {
+  float:right;
+  margin-right: 0px;
+}
+
+.entry-interaction-header,
+.profile-content-header {
+  background-color: #F6F7F8;
+  border-bottom: 1px solid #d0d0d0;
+}
+.profile-header {
+  font-size: 18px;
+  
+  padding: 20px;
+  text-transform: uppercase;
+}
+.profile-image {
+  float: left;
+}
+.user-avatar-major {
+  height: 200px;
+  width: 200px;
+}
+.profile-hero {
+  background-color: #508373;
+  /* border-bottom: 1px solid #f0f0f0; */
+  height: 200px;
+}
+.profile-content {
+  float: left;
+  width: 838px; /* 1040(wrap)-200(avatar)-1-1(borders) = 838 */
+}
+.profile-name {
+  color: white;
+  padding: 20px 20px 0;
+}
+.profile-metadata {
+  color: white;
+  padding: 0 20px 20px;
+}
+.profile-bio {
+  border-top: 1px dashed #d0d0d0;
+  font-size: 18px;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+}
+.profile-list-event,
+.profile-friends {
+  margin: 20px;
+}
+.user-friend-link {
+  display: inline-block;
+  margin: 0 10px 0 0;
+}
+.profile-event-unit {
+  border-bottom: 1px dashed #d0d0d0;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.profile-event-unit:last-child {
+  border-bottom: none;
+}
+.profile-event-metadata {
+  float: left;
+  width: 75%;
+}
+.profile-event-metadata h4 {
+  font-size: 14px;
+}
+.profile-event-image {
+  float: right;
+}
+.event-avatar-mini {
+  width: 68px;
+}
+.user-avatar-major {
+
+}
+.user-avatar-mini {
+  height: 68px;
+  width: 68px;
 }
 /* USF EVENT END */
 

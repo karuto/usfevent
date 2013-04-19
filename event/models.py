@@ -30,6 +30,7 @@ class Comment(models.Model):
     def __unicode__(self):
         return unicode("%s: %s" % (self.event, self.content[:50]))
         
+        
 class CommentAdmin(admin.ModelAdmin):
     display_fields = []
 admin.site.register(Comment, CommentAdmin)
