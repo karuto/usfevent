@@ -26,7 +26,7 @@ def public_profile(request, pk):
         
         friends_events = []
         for friend in friends:
-            local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
+            local_likes = Like.objects.filter(user=friend.friend_to)
             if len(local_likes) > 0:
                 friends_events.append(local_likes[0].event)
         event_id_list = []
