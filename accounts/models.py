@@ -19,7 +19,7 @@ class Friendship(models.Model):
     friend_to = models.ForeignKey(UserProfile, related_name="friend_to")
 
     def __unicode__(self):
-        return str(self.friend_from) + " to " + str(self.friend_to)
+        return str(self.friend_from) + " <--from | to--> " + str(self.friend_to)
 
 class FriendshipAdmin(admin.ModelAdmin):
     display_fields = []

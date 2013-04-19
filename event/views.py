@@ -94,6 +94,12 @@ def like_event(request, pk):
         like.user = UserProfile.objects.filter(django_user=request.user)[0]
         like.save()
     return redirect('index')
+
+	
+def share_email(request, pk):
+    print pk;
+    template_var = {}
+    return redirect('index')
     
 
 def save_event(request):
