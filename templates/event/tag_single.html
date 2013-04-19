@@ -1,15 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="layout-listview-header">
+    <h1 class="page-hero-text">Events tagged with {{ tag }}</h1>
+</div>
 
-<h2>Events tagged with {{ tag }}</h2>
-
+<div id="layout-posts-masonry">
 {% for event in events %}
 
-<p>{{ event.created|date:"Y-m-d" }}: 
-<a href="{% url single event.id %}">{{ event.title }}</a>
-</p>
+<div class="main-item-block main-item-style post-item">
+   
+    <img src="/webhost_media/{{event.image1}}" width="100%">
+    
+    <header class="entry-header">
+         
+        <h1 class="entry-title">
+            <a href="{%url single event.id %}">{{ event.title }}</a>
+        </h1>
+        <h3 class="entry-meta roboto-font">
+            {{ event.event_time|date:"Y-m-d" }}
+        </h3>
+    </header>
+
+</div>
 
 {% endfor %}
+</div><!-- #layout-posts-masonry -->
 
 {% endblock %}
