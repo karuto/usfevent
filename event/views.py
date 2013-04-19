@@ -79,11 +79,11 @@ def add_comment(request, pk):
     if p.has_key("content") and p["content"]:
         if request.user.is_authenticated():
             comment = Comment(event=Event.objects.get(id=pk))
-            comment.user = UserProfile.objects.filter(django_user=request.user)[0]
+            comment.user = UserProfile.objects.get(django_user=request.user)
             comment.content = p["content"]
             comment.save()
     
-    return redirect('index')
+    return single(request, pk)
     
 
 	

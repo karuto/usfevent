@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="layout-content-wrap">
 
 {{request.get_absolute_uri}}
 <div class="layout-content-header">
@@ -11,100 +12,110 @@
 
 <div class="layout-entry-content clearfix-modern">
 
-    <div class="entry-image">
-        <img src="/webhost_media/{{event.image1}}" width="500"/>
-    </div>
-    <div class="entry-content">
-        <div class="event-meta">
-            <div class="page-subhero-text">{{ event.event_time }}</div>
-            <div class="page-subhero-text">{{ event.location }}</div>
-            <div class="page-subhero-text">
-                Tags: 
-                {% for tag in event.tags.all %}
-                <a href="{% url tag tag %}">{{tag}}</a>
-                {% if not forloop.last %}, {% endif %}
-                {% endfor %}
+<div class="entry-image">
+    <img src="/webhost_media/{{event.image1}}" style="width:500px; margin-bottom:30px;"/>
+    
+    <div class="layout-entry-interactions">
+
+
+
+    {% if comments %}    
+        <div class="page-subhero-text">Comments on this event</div>
+        {% for c in comments %}
+            <div class="entry-comment">
+                {{ c.content }}<br>
+                <div class="roboto-font">{{ c.time }}</div>
             </div>
+        {% endfor %}
+    {% else %}
+        <div class="page-subhero-text">No comments on this event yet.</div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+
+        <div class="page-subhero-text">
+            <a href="{% url event.views.like_event event.id %}">Save this event!</a>
         </div>
-        {{ event.body|safe|linebreaks }}
+
+    <!--
+        <div class="page-subhero-text">
+            <a href="{% url event.views.like_event event.id %}" id="save-this-event">Save this event!</a>
+        </div>
+        <form id="saveform" action="save/" method="post">{% csrf_token %}
+            Share this to:&emsp;
+            <select name="msg_to_django_user_id">
+            {% for django_user in allusers %}
+                <option value="{{django_user.id}}">{{django_user.django_user}}</option>
+            {% endfor %}
+            </select>&emsp;
+            Write your message:&emsp;<input name ="content" value=""/>&emsp;
+            <input type="submit" value="Send" />
+        </form>
+    -->
+
+	    <form action="{{request.build_absolute_uri}}/email/" method="post">{% csrf_token %}
+            Share this via email:&emsp; 
+            <select name="email_to">
+	       
+            {% for user in auth_users %}
+		     
+                <option value="{{user.email}}">{{user}}</option>
+            {% endfor %}
+            </select>&emsp;
+            <input type="hidden" value={{request.build_absolute_uri}} name="abs_url">
+            <input type="submit" value="Send" />
+        </form>
+        <br>
+        <br>
+        
+        
+        <div class="page-subhero-text">Submit your comment</div>
+        <form action="{% url event.views.add_comment event.id %}" method="POST">
+            {% csrf_token %}
+            <textarea type="text" rows="5" cols="50" name="content" value="Post your comment here!"></textarea><br>
+            <input type="submit" value="Post comment" />
+        </form>
+    {% else %}
+        
+        <div class="page-subhero-text">
+            <a href="{%url accounts.views.login %}">Login</a>
+             is required for posting comments.
+        </div>
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <div class="event-navi">
+        <a href="/admin/event/event/{{event.id}}">Edit this event</a>
     </div>
+    {% endif %}
+
+    </div><!-- .layout-entry-interactions -->
+    
+    
+    
+    
 </div>
 
 
-<div class="layout-entry-comments">
 
-{% if comments %}    
-    <div class="page-subhero-text">Comments on this event</div>
-    {% for c in comments %}
-        <div class="entry-comment">
-            {{ c.content }}<br>
-            <div class="roboto-font">{{ c.time }}</div>
+
+<div class="entry-content" style="width:520px">
+    <div class="event-meta">
+        <div class="page-subhero-text">{{ event.event_time }}</div>
+        <div class="page-subhero-text">{{ event.location }}</div>
+        <div class="page-subhero-text">
+            Tags: 
+            {% for tag in event.tags.all %}
+            <a href="{% url tag tag %}">{{tag}}</a>
+            {% if not forloop.last %}, {% endif %}
+            {% endfor %}
         </div>
-    {% endfor %}
-{% else %}
-    <div class="page-subhero-text">No comments on this event yet</div>
-    
-{% endif %}
-
-{% if request.user.is_authenticated %}
-
-    <div class="page-subhero-text">
-        <a href="{% url event.views.like_event event.id %}">Like this event!</a>
     </div>
-
-    <div class="page-subhero-text">
-        <a href="{% url event.views.like_event event.id %}" id="save-this-event">Save this event!</a>
-    </div>
-    <form id="saveform" action="save/" method="post">{% csrf_token %}
-        Share this to:&emsp;
-        <select name="msg_to_django_user_id">
-        {% for django_user in allusers %}
-            <option value="{{django_user.id}}">{{django_user.django_user}}</option>
-        {% endfor %}
-        </select>&emsp;
-        Write your message:&emsp;<input name ="content" value=""/>&emsp;
-        <input type="submit" value="Send" />
-    </form>
-
-
-	<form action="{{request.build_absolute_uri}}/email/" method="post">{% csrf_token %}
-        Share this via email:&emsp; 
-        <select name="email_to">
-	   
-        {% for user in auth_users %}
-		 
-            <option value="{{user.email}}">{{user}}</option>
-        {% endfor %}
-        </select>&emsp;
-        <input type="hidden" value={{request.build_absolute_uri}} name="abs_url">
-        <input type="submit" value="Send" />
-    </form>
-    <br>
-    <br>
+    {{ event.body|safe|linebreaks }}
+</div><!-- .entry-content -->
     
-    
-    <div class="page-subhero-text">Submit your comment</div>
-    <form action="{% url event.views.add_comment event.id %}" method="POST">
-        {% csrf_token %}
-        <textarea type="text" height="200" width="500" name="content" value="Post your comment here!"></textarea><br>
-        <input type="submit" value="Post comment" />
-    </form>
-{% else %}
-    
-    <div class="page-subhero-text">
-        <a href="{%url accounts.views.login %}">Login</a>
-         is required for posting comments.
-    </div>
-{% endif %}
-
-</div><!-- .layout-entry-comments -->
+</div><!-- .layout-entry-content -->
 
 
-{% if request.user.is_authenticated %}
-<div class="event-navi">
-    <a href="/admin/event/event/{{event.id}}">Edit this event</a>
-    <br><br>
-</div>
-{% endif %}
-
+</div><!-- .layout-content-wrap -->
 {% endblock %}
