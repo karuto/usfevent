@@ -54,7 +54,6 @@
     <br>
     {% for event in eventPreferenced %}
         <p>Event Title: {{event.title}}</p>
-        <p>Event Body: {{event.body}}</p>
     {% endfor %}
     </div>
     
@@ -66,15 +65,14 @@
         
 
     <div class="main-item-block main-item-style post-item">
-    <h3>Friends List: </h3>
-	{% for friend in friends %}
-        <p>{{ friend.friend_to.django_user }}</p>
-     {% endfor %}
+    <h3>You have {{friends|length}} friends.</h3>
+	{% for f in friends %}
+        <p>{{ f.friend_to.django_user }}</p>
+    {% endfor %}
     </div>
 
     <div class="main-item-block main-item-style post-item">
 
-    {{friends_events|length}}
     <h3>Friends Events List: </h3>
 	{% for event in friends_events %}
         <h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>

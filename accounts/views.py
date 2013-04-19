@@ -54,12 +54,12 @@ def index(request):
         #template_var["eventPreferenced"] = str(eventList)
 
         template_var["eventPreferenced"] = eventPreferenced
-
-        friends = Friendship.objects.filter(friend_from=request.user)
+        my_user = UserProfile.objects.get(django_user=request.user)
+        friends = Friendship.objects.filter(friend_from=my_user)
+        friends = list(friends) # Cast queryset to list to avoid u("")
         template_var["friends"] = friends
-        friends = list(friends)#cast queryset to list
+        
         friends_events = []
-        template_var["friends"] = friends
         for friend in friends:
             local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
             if len(local_likes) > 0:
