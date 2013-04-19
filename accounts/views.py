@@ -13,6 +13,17 @@ from models import UserProfile
 from event.models import Event, Message, Comment, Like
 
 
+def add_friend(request, pk):    
+    template_var={}
+    if request.user.is_authenticated():
+        from_user = UserProfile.objects.get(django_user=request.user)
+        to_user = UserProfile.objects.get(id=pk)
+        f = Friendship(friend_from=from_user, friend_to=to_user)
+        f.save()
+        
+    return HttpResponseRedirect(reverse('index'))
+
+
 def public_profile(request, pk):
     template_var={}
     if request.user.is_authenticated():
@@ -172,3 +183,5 @@ def logout(request):
     '''logout'''
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
+    
+    

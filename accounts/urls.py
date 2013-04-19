@@ -6,6 +6,7 @@ from accounts import views
 urlpatterns = patterns('accounts.views',
 
     url(r'^(?P<pk>\d+)$', "public_profile", name='profile'),
+    url(r'^(?P<pk>\d+)/add/$', "add_friend", name='friend'),
 
     url(r'^index/$', 'index', name="accounts_index"),
     url(r'^register/$', 'register', name="register"),

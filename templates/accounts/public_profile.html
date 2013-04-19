@@ -98,7 +98,7 @@
     
     <div class="profile-content">
         <h1 class="profile-name page-hero-text">
-            {{ user.django_user.username }}
+            {{ user.django_user.username }}&nbsp;<span class="roboto-font"><a href="{% url friend user.id %}" style="color: white;">Follow</a></span>
         </h1>
 
         <div class="profile-metadata">
