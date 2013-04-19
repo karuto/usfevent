@@ -29,6 +29,9 @@ def index(request):
     template_var = {"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
         up = UserProfile.objects.filter(django_user=request.user)
+        if len(up) == 0:# no userprofile, e.g. a root user
+            return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
+
         template_var["up"] = up[0]
 
         template_var["preferences"] = up[0].preferences
@@ -79,6 +82,9 @@ def index(request):
 
 def register(request):
     '''register'''
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse("index"))  
+        
     template_var={}
     form = RegisterForm()    
     if request.method=="POST":
@@ -113,6 +119,8 @@ def register(request):
     
 def login(request):
     '''login'''
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse("index")) 
     template_var={}
     form = LoginForm()    
     if request.method == 'POST':

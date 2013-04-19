@@ -42,6 +42,7 @@ def single(request, pk):
     # Save the date related
     
     template_var["allusers"] = UserProfile.objects.all()
+    template_var["auth_users"] = User.objects.all()
     current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
         
     return render_to_response("event/event_single.html", template_var, context_instance=RequestContext(request))
@@ -95,10 +96,19 @@ def like_event(request, pk):
         like.save()
     return redirect('index')
 
-	
+
 def share_email(request, pk):
     print pk;
     template_var = {}
+    
+    subject, from_email, to = 'hello, email sent by server test', 'from@example.com', 'donsaffair@gmail.com'
+    to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
+    link = request.POST["abs_url"]
+    text_content = 'This is an important message. Your friend shared an event link with you. ' + link
+    html_content = '<p>This is an <strong>important</strong> message. </p>' + '<a href="'+ link+ '">Check it out</a>'
+    msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
     return redirect('index')
     
 
@@ -161,12 +171,7 @@ def msg_send(request):
             message.content = request.POST["content"]
             message.save()
 
-            subject, from_email, to = 'hello, email sent by server test', 'from@example.com', 'vincentaths@gmail.com'
-            text_content = 'This is an important message.'
-            html_content = '<p>This is an <strong>important</strong> message.</p>'
-            msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-            msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            
 
         return HttpResponseRedirect("/events/msg/")
         
