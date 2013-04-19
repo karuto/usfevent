@@ -16,12 +16,14 @@
     <img src="/webhost_media/{{event.image1}}" style="width:500px; margin-bottom:30px;"/>
     
     <div class="layout-entry-interactions" style="width:500px;">
+    <div class="layout-entry-interactions-inner">
 
-    <div class="page-subhero-text">
+    <div class="entry-interaction-header page-subhero-text">
         <a href="{% url event.views.like_event event.id %}">Save this event!</a>
     </div>
 
     {% if request.user.is_authenticated %}
+    <div class="entry-interaction-content">
         <form action="{{request.build_absolute_uri}}/email/" method="post">
             {% csrf_token %}
             Share this via email:&emsp; 
@@ -33,11 +35,13 @@
             <input type="hidden" value={{request.build_absolute_uri}} name="abs_url">
             <input type="submit" value="Send" />
         </form>
-        <br>
+    </div><!-- .entry-interaction-content -->
     {% endif %}
 
     {% if comments %}    
-        <div class="page-subhero-text">Comments on this event</div>
+        <div class="entry-interaction-header page-subhero-text">Comments on this event</div>
+        
+        <div class="entry-interaction-content">
         {% for c in comments %}
             <div class="entry-comment clearfix-modern">
                 <a href="/user/{{ c.user.id }}"
@@ -51,20 +55,23 @@
                 </div>
             </div>
         {% endfor %}
+        </div><!-- .entry-interaction-content -->
     {% else %}
-        <div class="page-subhero-text">No comments on this event yet.</div>
+        <div class="entry-interaction-header page-subhero-text">No comments on this event yet.</div>
     {% endif %}
 
     {% if request.user.is_authenticated %}
     
-        <div class="page-subhero-text">Submit your comment</div>
+        <div class="entry-interaction-header page-subhero-text">Submit your comment</div>
+        <div class="entry-interaction-content">
         <form action="{% url event.views.add_comment event.id %}" method="POST">
             {% csrf_token %}
-            <textarea type="text" rows="5" cols="67" name="content" value="Post your comment here!"></textarea><br>
+            <textarea type="text" rows="5" cols="60" name="content" value="Post your comment here!"></textarea><br>
             <input type="submit" value="Post comment" />
         </form>
+        </div><!-- .entry-interaction-content -->
 
-        <div class="event-navi"><br><br>
+        <div class="entry-interaction-header page-subhero-text">
             <a href="/admin/event/event/{{event.id}}">Edit this event</a>
         </div>
         
@@ -76,6 +83,7 @@
     {% endif %}
 
 
+    </div><!-- .layout-entry-interactions-inner -->
     </div><!-- .layout-entry-interactions -->
     
     

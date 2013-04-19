@@ -440,6 +440,17 @@ h1.entry-title {
 .layout-entry-content .event-meta {
   margin: 0 0 15px;
 }
+
+.layout-entry-interactions-inner {
+}
+.entry-interaction-header {
+  border-top: 1px solid #d0d0d0;
+  margin-bottom: 0;
+  padding: 20px;
+}
+.entry-interaction-content {
+  padding: 20px;
+}
 .entry-image {
   float: left;
   margin-right: 40px;
@@ -457,6 +468,7 @@ h1.entry-title {
 }
 
 /* Profile related */
+.layout-entry-interactions,
 .layout-profile-content {
   background-color: white;
   border: 1px solid #d0d0d0;
@@ -470,6 +482,8 @@ h1.entry-title {
   float:right;
   margin-right: 0px;
 }
+
+.entry-interaction-header,
 .profile-content-header {
   background-color: #F6F7F8;
   border-bottom: 1px solid #d0d0d0;
