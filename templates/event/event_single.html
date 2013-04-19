@@ -1,6 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!-- Necessary for FB share button -->
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
 <div class="layout-content-wrap">
 
 {{request.get_absolute_uri}}
@@ -18,28 +29,43 @@
     <div class="layout-entry-interactions" style="width:500px;">
     <div class="layout-entry-interactions-inner">
 
-    <div class="entry-interaction-header page-subhero-text">
-        <a href="{% url event.views.like_event event.id %}">Save this event!</a>
-    </div>
-
     {% if request.user.is_authenticated %}
-    <div class="entry-interaction-content">
+    <div class="entry-interaction-header page-subhero-text">
+        <a href="{% url event.views.like_event event.id %}">Save this event</a>
+    </div>
+    
+    
+    <div class="entry-interaction-header page-subhero-text">
+        Share this event
+    </div>
+    
+    <div class="entry-interaction-content" style="text-transform:uppercase;">
+        Share this via URL
+        <br>
+        Share on Facebook&emsp;
+        <div class="fb-like" data-href="{{request.build_absolute_uri}}" 
+        data-send="true" data-layout="button_count" data-width="450" 
+        data-show-faces="true" data-action="recommend"></div>
+        <br>
         <form action="{{request.build_absolute_uri}}/email/" method="post">
             {% csrf_token %}
-            Share this via email:&emsp; 
+            Share this via email&emsp; 
             <select name="email_to">
             {% for user in auth_users %}
                 <option value="{{user.email}}">{{user}}</option>
             {% endfor %}
-            </select>&emsp;
+            </select>&nbsp;
             <input type="hidden" value={{request.build_absolute_uri}} name="abs_url">
             <input type="submit" value="Send" />
         </form>
     </div><!-- .entry-interaction-content -->
+    
     {% endif %}
 
     {% if comments %}    
-        <div class="entry-interaction-header page-subhero-text">Comments on this event</div>
+        <div class="entry-interaction-header page-subhero-text">
+        Comments on this event
+        </div>
         
         <div class="entry-interaction-content">
         {% for c in comments %}
@@ -57,7 +83,7 @@
         {% endfor %}
         </div><!-- .entry-interaction-content -->
     {% else %}
-        <div class="entry-interaction-header page-subhero-text">No comments on this event yet.</div>
+        <div class="entry-interaction-header page-subhero-text">No comments on this event yet</div>
     {% endif %}
 
     {% if request.user.is_authenticated %}
