@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{{request.get_absolute_uri}}
 <div class="layout-content-header">
     <h1 class="page-hero-text">{{ event.title }}</h1>
 </div>
@@ -62,6 +63,20 @@
         {% endfor %}
         </select>&emsp;
         Write your message:&emsp;<input name ="content" value=""/>&emsp;
+        <input type="submit" value="Send" />
+    </form>
+
+
+	<form action="{{request.build_absolute_uri}}/email/" method="post">{% csrf_token %}
+        Share this via email:&emsp; 
+        <select name="email_to">
+	   
+        {% for user in auth_users %}
+		 
+            <option value="{{user.email}}">{{user}}</option>
+        {% endfor %}
+        </select>&emsp;
+        <input type="hidden" value={{request.build_absolute_uri}} name="abs_url">
         <input type="submit" value="Send" />
     </form>
     <br>
