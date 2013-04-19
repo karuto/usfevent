@@ -238,6 +238,8 @@ def search(request):
 
         request.session["sorted_method_session"] = sorted_method
         request.session["checkbox_session"] = checkbox_session
+        request.session["query_session"] = query
+        
 
         return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
 
