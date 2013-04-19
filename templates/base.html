@@ -26,8 +26,13 @@
     
     
         <!-- Currently search does not work -->
-        <form role="search" method="get" id="searchform" action="/">
-          <input id="searchform-text" type="text" value="" name="s" id="s" />
+        <form role="search" method="get" id="searchform" action="/events/search">
+          <input id="searchform-text" type="text" value="{{request.session.query_session}}" name="query" id="query" />
+		<select id = "sorted_method_id" name="sorted_method">
+  			<option value="desc">Descending Order</option>
+  			<option value="asc">Ascending Order</option>
+  			<option value="alphabet">Alphabetical Order</option>
+		</select>
           <input id="searchform-submit" type="submit" id="searchsubmit" value="Search" />
         </form>
         
