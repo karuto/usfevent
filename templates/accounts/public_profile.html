@@ -102,9 +102,11 @@
         </h1>
 
         <div class="profile-metadata">
-            &raquo;&nbsp;{{ user.position }}&emsp;
-            &raquo;&nbsp;{{ user.location }}&emsp;
-            &raquo;&nbsp;{{ user.interest }}&emsp;
+            <span class="roboto-font">
+            &raquo;&nbsp;Status: {{ user.position }}&emsp;
+            &raquo;&nbsp;Location: {{ user.location }}&emsp;
+            &raquo;&nbsp;Interest: {{ user.interest }}&emsp;
+            </span>
             <p class="profile-bio"><strong>Bio:</strong> {{ user.bio }}</p>
         
         </div><!-- .profile-metadata -->
@@ -151,8 +153,8 @@
             <h3 class="event-unit-title">
                 <a href="{%url event.views.single e.event.id %}">{{ e.event.title }}</a>
             </h3>
-            <h4 class="event-unit-time"><strong>When:</strong> {{ e.event.event_time }}</h4>
-            <h4 class="event-unit-loc"><strong>Where:</strong> {{ e.event.location }}</h4>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
             </div><!-- .profile-event-metadata -->
             <div class="profile-event-image">
             <a href="{%url event.views.single e.event.id %}">
@@ -180,8 +182,8 @@
             <h3 class="event-unit-title">
                 <a href="{%url event.views.single e.id %}">{{ e.title }}</a>
             </h3>
-            <h4 class="event-unit-time"><strong>When:</strong> {{ e.event_time }}</h4>
-            <h4 class="event-unit-loc"><strong>Where:</strong> {{ e.location }}</h4>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.location }}</h4>
             </div><!-- .profile-event-metadata -->
             <div class="profile-event-image">
             <a href="{%url event.views.single e.id %}">

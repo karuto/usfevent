@@ -111,10 +111,13 @@ def register(request):
             username=form.cleaned_data["username"]
             email=form.cleaned_data["email"]
             password=form.cleaned_data["password"]
-            user=User.objects.create_user(username,email,password)
+            user=User.objects.create_user(username, email, password)
             user.save()
+            
+            position_ = request.POST['position']
             locaiton_ = request.POST['location']
             interest_ = request.POST['interest']
+            bio_ = request.POST['bio']
             preferencelist = request.POST.getlist('preferences')
             avatar_ = request.FILES["picture"]
 
@@ -125,7 +128,7 @@ def register(request):
             preferences_ = preferences_[:len(preferences_)-1]
 
 
-            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
+            profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, position = position_, bio = bio_, avatar = avatar_)
             profile.save()
 
             
