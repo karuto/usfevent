@@ -25,7 +25,6 @@ def index(request):
     '''index'''
     template_var = {"w":_(u"welcome, visitor!")}
     if request.user.is_authenticated():
-        template_var["username"] = request.user.username
         up = UserProfile.objects.filter(django_user=request.user)
         template_var["up"] = up[0]
 
@@ -74,6 +73,7 @@ def index(request):
         
     return render_to_response("accounts/profile.html", template_var, context_instance=RequestContext(request))
 
+
 def register(request):
     '''register'''
     template_var={}
@@ -107,6 +107,7 @@ def register(request):
     template_var["form"]=form        
     return render_to_response("accounts/register.html",template_var,context_instance=RequestContext(request))
     
+    
 def login(request):
     '''login'''
     template_var={}
@@ -118,6 +119,7 @@ def login(request):
             return HttpResponseRedirect(reverse("index"))
     template_var["form"]=form        
     return render_to_response("accounts/login.html",template_var,context_instance=RequestContext(request))
+    
     
 def _login(request,username,password):
     '''login core'''
@@ -132,6 +134,7 @@ def _login(request,username,password):
     else:
         messages.add_message(request, messages.INFO, _(u'user does not exist'))
     return ret
+    
     
 def logout(request):
     '''logout'''

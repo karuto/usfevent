@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="layout-content-wrap">
 
-{%if request.user.is_authenticated %}
+
+{% if request.user.is_authenticated %}
 <div class="layout-content-header">
     <h1 class="page-hero-text">{{ username }}'s Profile</h1>
-</div>
+</div><!-- .layout-content-header -->
 
 <div class="layout-entry-content clearfix-modern">
 
@@ -13,20 +15,25 @@
         <img src="/webhost_media/{{up.avatar}}" width="250"/>
     </div>
     <div class="entry-content" width="650">
+        <h3>My name is {{request.user}}</h3>
+        <h3>My email is {{request.user.email}}</h3>
         <h3>My Interest is {{up.interest}}</h3>
         <h3>My Location is {{up.location}}</h3>
         <h3>My Preference is {{preferences}}</h3>
-
+        <h3>{{ username }} have {{friends|length}} friends:&emsp;
+	        {% for f in friends %}
+            {{ f.friend_to.django_user }}&emsp;
+            {% endfor %}
+        </h3>
     </div>
         
-</div>
+</div><!-- .layout-entry-content -->
 
 
 
-
+<!--
     <div class="main-item-block main-item-style post-item">
     <h3>Message Sent List: </h3>
-
     {% for msg in msg_sent_list %}
     <strong>From:</strong> {{msg.msg_from.django_user}}<br>
     <strong>To:</strong>{{msg.msg_to.django_user}}<br>
@@ -38,7 +45,6 @@
 
     <div class="main-item-block main-item-style post-item">
     <h3>Message Received List: </h3>
-
     {% for msg in msg_received_list %}
     <strong>From:</strong> {{msg.msg_from.django_user}}<br>
     <strong>To:</strong>{{msg.msg_to.django_user}}<br>
@@ -46,30 +52,30 @@
     <strong>Date:</strong>{{msg.time}}<br>
     {% endfor %}
     </div>
-        
+-->        
         
         
     <div class="main-item-block main-item-style post-item">
-    <h3>My Event Preferenced is{{eventPreferenced}}:</h3>
-    <br>
-    {% for event in eventPreferenced %}
-        <p>Event Title: {{event.title}}</p>
-    {% endfor %}
+    {% if eventPreferenced %}
+        <h3>{{ username }}'s Preferred Event:</h3>
+        {% for event in eventPreferenced %}
+            <p>Event Title: {{event.title}}</p>
+        {% endfor %}
+    {% else %}
+        {{ username }} currently does not have any preferred events.
+    {% endif %}
     </div>
     
     <div class="main-item-block main-item-style post-item">
+    {% if likes %}
     {% for like in likes %}
-        <p>This user liked: {{ like.event }}</p>
+        <p>{{ username }} liked: {{ like.event }}</p>
     {% endfor %}
+    {% else %}
+        {{ username }} currently does not have any liked events.
+    {% endif %}
     </div>
         
-
-    <div class="main-item-block main-item-style post-item">
-    <h3>You have {{friends|length}} friends.</h3>
-	{% for f in friends %}
-        <p>{{ f.friend_to.django_user }}</p>
-    {% endfor %}
-    </div>
 
     <div class="main-item-block main-item-style post-item">
 
@@ -77,14 +83,14 @@
 	{% for event in friends_events %}
         <h2><a href="{% url single event.id %}">{{ event.title }}</a></h2>
     	   <div class="event-meta">
-        {{ event.created }}
-	   <br>
-         </div>
+           {{ event.created }}<br>
+           </div>
      {% endfor %}
     </div>
 
-
     
-{%endif%}
+{% endif %}
     
+    
+</div><!-- .layout-content-wrap -->
 {% endblock %}
