@@ -6,7 +6,7 @@
 
 {% if request.user.is_authenticated %}
 <div class="layout-content-header">
-    <h1 class="page-hero-text">{{ username }}'s Profile</h1>
+    <h1 class="page-hero-text">{{ request.user }}'s Profile</h1>
 </div><!-- .layout-content-header -->
 
 <div class="layout-entry-content clearfix-modern">
