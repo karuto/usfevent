@@ -54,15 +54,39 @@
   padding: 0 20px 20px;
 }
 .profile-bio {
+  border-top: 1px dashed #d0d0d0;
   font-size: 18px;
-  padding: 20px 0 0;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
 }
+.profile-list-event,
 .profile-friends {
   margin: 20px;
 }
 .user-friend-link {
   display: inline-block;
   margin: 0 10px 0 0;
+}
+.profile-event-unit {
+  border-bottom: 1px dashed #d0d0d0;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+.profile-event-unit:last-child {
+  border-bottom: none;
+}
+.profile-event-metadata {
+  float: left;
+  width: 75%;
+}
+.profile-event-metadata h4 {
+  font-size: 14px;
+}
+.profile-event-image {
+  float: right;
+}
+.event-avatar-mini {
+  width: 68px;
 }
 </style>
 
@@ -119,6 +143,26 @@
         Events saved by {{ user.django_user.username }}
         </div>
     </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% for e in saved_events %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.event.id %}">{{ e.event.title }}</a>
+            </h3>
+            <h4 class="event-unit-time"><strong>When:</strong> {{ e.event.event_time }}</h4>
+            <h4 class="event-unit-loc"><strong>Where:</strong> {{ e.event.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.event.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.event.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+    </div>
 </div><!-- .layout-profile-content layout-profile-list -->
 
 
@@ -128,6 +172,26 @@
         Events of {{ user.django_user.username }}'s friends
         </div>
     </div><!-- .profile-content-header -->
+    <div class="profile-list-event">
+        {% for e in friend_events %}
+        
+        <div class="profile-event-unit clearfix-modern">
+            <div class="profile-event-metadata">
+            <h3 class="event-unit-title">
+                <a href="{%url event.views.single e.id %}">{{ e.title }}</a>
+            </h3>
+            <h4 class="event-unit-time"><strong>When:</strong> {{ e.event_time }}</h4>
+            <h4 class="event-unit-loc"><strong>Where:</strong> {{ e.location }}</h4>
+            </div><!-- .profile-event-metadata -->
+            <div class="profile-event-image">
+            <a href="{%url event.views.single e.id %}">
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.image1 }}"/>
+            </a>
+            </div><!-- .profile-event-image -->
+        </div><!-- .profile-event-unit -->
+        
+        {% endfor %}
+    </div>
 </div><!-- .layout-profile-content layout-profile-list -->
 
 

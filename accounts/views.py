@@ -17,9 +17,27 @@ def public_profile(request, pk):
     template_var={}
     if request.user.is_authenticated():
         template_var["user"] = UserProfile.objects.get(id=pk)
+        
         friends = Friendship.objects.filter(friend_from=template_var["user"])
         friends = list(friends) # Cast queryset to list to avoid u("")
         template_var["friends"] = friends
+        
+        template_var["saved_events"] = Like.objects.filter(user=template_var["user"])
+        
+        friends_events = []
+        for friend in friends:
+            local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
+            if len(local_likes) > 0:
+                friends_events.append(local_likes[0].event)
+        event_id_list = []
+        friends_events_ = []
+        for friends_event in friends_events:
+                if(friends_event.id not in event_id_list):
+                    event_id_list.append(friends_event.id)
+                    friends_events_.append(friends_event)
+        
+        template_var["friend_events"] = friends_events_
+        
     
     return render_to_response("accounts/public_profile.html", template_var, context_instance=RequestContext(request))
 
