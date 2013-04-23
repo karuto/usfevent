@@ -130,24 +130,26 @@ def register(request):
                 locaiton_ = request.POST['location']
                 interest_ = request.POST['interest']
                 preferencelist = request.POST.getlist('preferences')
-                try:
-                    avatar_ = request.FILES["picture"]
-                except:
-                    avatar_ = None                
+                             
                 preferences_ = ""
                 for preference in preferencelist:
                     preferences_ += preference + ","
                 
                 preferences_ = preferences_[:len(preferences_)-1]
 
-        
-                profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
+                try:
+                    avatar_ = request.FILES["picture"]
+                    profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
+                except:
+                    profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_)
+                      
+                #profile = UserProfile(django_user = user, location = locaiton_, interest = interest_, preferences = preferences_, avatar = avatar_)
                 profile.save()
             except Exception:
                 user.delete()
 
             
-            _login(request,username,password)#already register, login
+            _login(request,email,password)#already register, login
             return HttpResponseRedirect(reverse("index"))    
     template_var["form"]=form        
     return render_to_response("accounts/register.html",template_var,context_instance=RequestContext(request))

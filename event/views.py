@@ -10,6 +10,7 @@ from django.template import Context, loader, RequestContext
 from event.models import Comment, Event, Message, Like
 from taggit.managers import TaggableManager
 from taggit.models import Tag
+import time
 
 def index(request):
     template_var = {}
@@ -139,22 +140,52 @@ def post(request):
         body_ =  request.POST["body"]
         refer_ = request.POST["refer"]
         date_ = request.POST["date"]
+        try:
+            time.strptime(date_, '%m/%d/%Y')
+        except ValueError:
+            current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
+            date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+            print date_
+            
         loc_ = request.POST["loc"]
         tags_ = request.POST["tags"]
         if(len(tags_) == 0):
             tags_ = "untagged"
-        image1_ = request.FILES["picture"]
-
+        try:
+            image1_ = request.FILES["picture"]
+            event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
+        except:
+            event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_)
     
-        event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
+        #event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
         event.save()
-        tag_elements = tags_.split(',')
-        for tag_element in tag_elements:
-            event.tags.add(tag_element.strip(' \t\n\r'))
+        tags = splitTags(tags_)
+        for tag in tags:
+            event.tags.add(tag)
         event.save()
         return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
+
+def splitTags(user_input):
+        elements = []
+        if ',' in user_input:
+                elements = user_input.split(',');
+        elif ' ' in user_input:
+                elements = user_input.split(' ');
+        else:
+                elements.append(user_input)
+
+        tags = []
+        for element in elements:
+                element = element.strip(' \t\n\r')
+                if(len(element) == 0): continue
+                tags.append(element)
+       
+        
+        for tag in tags:
+                print "(" + tag+ ")"
+        return tags
 
 
 def msg_send(request):

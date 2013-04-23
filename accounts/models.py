@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=200)
     preferences = models.CharField(max_length=200)
     bio = models.CharField(max_length=200)
-    avatar = models.ImageField('picture',upload_to='uploadImages')
+    avatar = models.ImageField('picture',upload_to='uploadImages', default='static/avatar_blank.jpg')
 
     def __unicode__(self):
         return "Linked to: " + str(self.django_user)
