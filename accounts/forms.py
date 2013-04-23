@@ -23,6 +23,7 @@ class RegisterForm(forms.Form):
         raise forms.ValidationError(_(u"this email has already been taken"))
         
 class LoginForm(forms.Form):
-    username=forms.CharField(label=_(u"nickname"),max_length=30,widget=forms.TextInput(attrs={'size': 20,}))
+    #username=forms.CharField(label=_(u"nickname"),max_length=30,widget=forms.TextInput(attrs={'size': 20,}))
+    email=forms.CharField(label=_(u"email"),max_length=30,widget=forms.TextInput(attrs={'size': 20,}))
     password=forms.CharField(label=_(u"password"),max_length=30,widget=forms.PasswordInput(attrs={'size': 20,}))
     

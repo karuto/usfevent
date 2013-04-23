@@ -161,19 +161,21 @@ def login(request):
     if request.method == 'POST':
         form=LoginForm(request.POST.copy())
         if form.is_valid():
-            _login(request,form.cleaned_data["username"],form.cleaned_data["password"])
+            _login(request,form.cleaned_data["email"],form.cleaned_data["password"])
             return HttpResponseRedirect(reverse("index"))
     template_var["form"]=form        
     return render_to_response("accounts/login.html",template_var,context_instance=RequestContext(request))
     
     
-def _login(request,username,password):
+def _login(request,email,password):
     '''login core'''
     ret=False
-    user=authenticate(username=username,password=password)
+    user=authenticate(email=email,password=password)
     if user:
         if user.is_active:
             auth_login(request,user)
+            print "Email:" + user.email
+            print "Email2:" + email
             ret=True
         else:
             messages.add_message(request, messages.INFO, _(u'user has not activted'))

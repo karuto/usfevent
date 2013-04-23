@@ -164,6 +164,11 @@ INSTALLED_APPS = (
     'accounts',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'usfevent.backends.EmailAuthBackEnd',
+    'django.contrib.auth.backends.ModelBackend',
+	)
+
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
