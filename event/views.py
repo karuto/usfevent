@@ -141,6 +141,8 @@ def post(request):
         date_ = request.POST["date"]
         loc_ = request.POST["loc"]
         tags_ = request.POST["tags"]
+        if(len(tags_) == 0):
+            tags_ = "untagged"
         image1_ = request.FILES["picture"]
 
     
