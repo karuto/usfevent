@@ -15,7 +15,7 @@ class Event(models.Model):
     location = models.CharField(max_length = 100, default="USF Graphics Center")
     tags = TaggableManager()
     flagged = models.BooleanField(default = False)
-    image1 = models.ImageField('picture',upload_to='uploadImages')
+    image1 = models.ImageField('picture',upload_to='uploadImages', default='static/event_blank.jpg')
 
     def __unicode__(self):
         return self.title
