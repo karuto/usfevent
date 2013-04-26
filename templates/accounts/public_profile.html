@@ -98,9 +98,16 @@
             <div class="profile-event-metadata">
             <h3 class="event-unit-title">
                 <a href="{%url event.views.single e.id %}">{{ e.event.title }}</a>
-            </h3>
+            </h3>            
             <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
             <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
+	        <div class="user-friend-link" >
+	        <a href="/user/{{ e.user.id }}"
+	        title="Go to {{ e.user.django_user.username }}'s Profile">
+	        <img class="user-avatar-mini" 
+	        src="/webhost_media/{{ e.user.avatar }} "/>
+            </a>
+            </div><!-- .user-friend-link -->
             </div><!-- .profile-event-metadata -->
             <div class="profile-event-image">
             <a href="{%url event.views.single e.id %}">
