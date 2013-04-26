@@ -92,19 +92,19 @@
         </div>
     </div><!-- .profile-content-header -->
     <div class="profile-list-event">
-        {% for e in friend_events %}
+        {% for e in friends_saved_entries %}
         
         <div class="profile-event-unit clearfix-modern">
             <div class="profile-event-metadata">
             <h3 class="event-unit-title">
-                <a href="{%url event.views.single e.id %}">{{ e.title }}</a>
+                <a href="{%url event.views.single e.id %}">{{ e.event.title }}</a>
             </h3>
-            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event_time }}</h4>
-            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.location }}</h4>
+            <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
+            <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
             </div><!-- .profile-event-metadata -->
             <div class="profile-event-image">
             <a href="{%url event.views.single e.id %}">
-            <img class="event-avatar-mini" src="/webhost_media/{{ e.image1 }}"/>
+            <img class="event-avatar-mini" src="/webhost_media/{{ e.event.image1 }}"/>
             </a>
             </div><!-- .profile-event-image -->
         </div><!-- .profile-event-unit -->

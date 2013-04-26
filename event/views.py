@@ -167,6 +167,7 @@ def post(request):
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
 
+
 def splitTags(user_input):
         elements = []
         if ',' in user_input:
@@ -178,9 +179,10 @@ def splitTags(user_input):
 
         tags = []
         for element in elements:
-                element = element.strip(' \t\n\r')
+                element = element.strip(' \t\n\r').lower()
                 if(len(element) == 0): continue
-                tags.append(element)
+                if element not in tags:
+                    tags.append(element)
        
         
         for tag in tags:
