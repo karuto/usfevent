@@ -364,6 +364,6 @@ def logout(request):
     return HttpResponseRedirect(reverse('index'))
 
 
-    
+#def sanitize()    
     
     

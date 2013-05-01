@@ -44,6 +44,7 @@ def msg_open(request, pk):
     return HttpResponse(msg.content)
     #return render_to_response("accounts/msg_new_unread.html", template_var, context_instance=RequestContext(request))
 
+
 def msg_box(request):
     template_var={}
     #template_var["user"] = UserProfile.objects.get(id=pk)
