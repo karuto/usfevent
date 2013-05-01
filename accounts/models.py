@@ -14,8 +14,9 @@ class UserProfile(models.Model):
     affiliation_msg = models.CharField(max_length=200, blank=True)  
     preferences = models.CharField(max_length=200, blank=True)  
     is_connected = models.BooleanField(default=False)
-    #is_moderator = models.BooleanField(default=False)
-    #is_superuser = models.BooleanField(default=False)
+    is_moderator = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "Linked to: " + str(self.django_user)
