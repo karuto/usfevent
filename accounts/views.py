@@ -358,8 +358,6 @@ def login_helper(request, email, password):
     if user:
         if user.is_active:
             auth_login(request, user)
-            print "Email:" + user.email
-            print "Email2:" + email
             ret=True
     return ret
     

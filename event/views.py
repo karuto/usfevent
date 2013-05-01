@@ -1,21 +1,50 @@
-from accounts.models import UserProfile
+"""Coding Style:
+    http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
+"""
+
+# Python imports
 from datetime import datetime
+import time
+
+# django-level imports
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render_to_response, redirect
-from django.template import Context, loader, RequestContext
-from event.models import Comment, Event, Message, Like
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.shortcuts import render_to_response
+from django.template import Context
+from django.template import loader
+from django.template import RequestContext
+
+# app-level imports
+from accounts.models import UserProfile
+from event.models import Comment
+from event.models import Event
+from event.models import Like
+from event.models import Message
 from notification.views import sys_notification
 from taggit.managers import TaggableManager
 from taggit.models import Tag
-import time
-
 
 def index(request):
-    """
+    """Creates standard index page view for Don's Affairs.
+    
+    Gets user profile object and its list of "Like" objects,
+    list of "Event" objects inorder of creation and formats
+    each event object to its title.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        event/index.html with template_vars.
+        
+    Raises:
+        Http404 error.
     """
     template_var = {}
     up = UserProfile.objects.filter(django_user=request.user)
@@ -32,7 +61,22 @@ def index(request):
 
 
 def single(request, pk):
-    """
+    """Gathers data for single event object.
+    
+    Attempts to find event object based on pk argument and then gathers
+    any comments if they exist. Then collects all the "User" and
+    "UserProfile" objects necessary for save the date info.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: The specific event's numerical id.
+        
+    Returns:
+        event/event_single.html with template_vars.
+        
+    Raises:
+        Http404 error.
     """
     template_var = {}
     try:
@@ -49,39 +93,78 @@ def single(request, pk):
     
     template_var["allusers"] = UserProfile.objects.all()
     template_var["auth_users"] = User.objects.all()
-    current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
+    current_django_user = UserProfile.objects.filter(
+                          django_user=request.user)[0]
         
     return render_to_response("event/event_single.html", template_var,
                               context_instance=RequestContext(request))
     
 
 def archives(request):
+    """Gathers archive list of all events for list_view of events.
+        
+    Gets list of "Event" objects inorder of when the event occurred.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        event/event_listview.html with template_vars.
+        
+    Raises:
+        Http404 error.
+    """
     template_var = {}
     try:
         template_var["events"] = Event.objects.all().order_by("-event_time")
-        # print template_var["events"]
     except Event.DoesNotExist:
         raise Http404
-    return render_to_response("event/event_listview.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("event/event_listview.html", template_var,
+                              context_instance=RequestContext(request))
 
 
 def tagpage(request, tag):
+    """Gathers list of events based on a specific tag.
+    
+    Gets list of "Event" obejcts based on tag passed in as argument.
+
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        tag: Tag to show results for.
+        
+    Returns:
+        event/tag_single.html with template_vars.
+        
+    Raises:
+        Http404 error.
+    """
     template_var = {}
     template_var["tag"] = tag
     try:
         template_var["events"] = Event.objects.filter(tags__name__in = [tag])
-        # This does return actual event objects
-        # print template_var["events"]
     except Event.DoesNotExist:
-        print "Tag event does not exist!"
         raise Http404
-    return render_to_response("event/tag_single.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("event/tag_single.html", template_var,
+                              context_instance=RequestContext(request))
 
 	
 def add_comment(request, pk, pk2):
-    #pk is event.id
-    #pk2 is user.id
-    print pk;
+    """Posts comment to specific event
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID for event that's recieving comment
+        pk2: ID for user posting the comment
+    
+    Returns: 
+        Calls "single"" function passing in "request"  from input args
+        
+    Raises:
+        None.
+    """
     template_var = {}
     p = request.POST
     
@@ -99,11 +182,11 @@ def add_comment(request, pk, pk2):
             sys_notification(to_user, "add_comment", from_user, event_id)
     
     return single(request, pk)
-    
 
 	
 def like_event(request, pk):
-    print pk;
+    """
+    """
     template_var = {}
     if request.user.is_authenticated():
         like = Like(event=Event.objects.get(id=pk))
@@ -113,14 +196,24 @@ def like_event(request, pk):
 
 
 def share_email(request, pk):
-    print pk;
+    """
+    """
     template_var = {}
     
-    subject, from_email, to = 'Your friend shared an event with you on Dons Affairs!', 'from@example.com', 'donsaffair@gmail.com'
+    subject = 'Your friend shared an event with you on Dons Affairs!'
+    from_email = 'from@example.com'
+    to = 'donsaffair@gmail.com'
     to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
     link = request.POST["abs_url"]
-    text_content = 'This is an important message. Your friend shared an event link with you. ' + link
-    html_content = '<p>Hi Dear,</p><p>Your friend shared an exciting event with you on <a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + '<p><a href="'+ link+ '">Here goes the link to the event.</a><br>Feel free to check it out!</p><p><br>With love,<br>Don\'s Affair Team</p>'
+    text_content = 'This is an important message.' + 
+                   ' Your friend shared an event link with you. ' + link
+    html_content = '<p>Hi Dear,</p>' + 
+                   '<p>Your friend shared an exciting event with you on ' + 
+                   '<a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + 
+                   '<p><a href="' + link + '"> ' + 
+                   'Here is the link to the event.</a>' + 
+                   '<br>Feel free to check it out!</p>' + 
+                   '<p><br>With love,<br>Don\'s Affairs Team</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
@@ -128,26 +221,33 @@ def share_email(request, pk):
     
 
 def save_event(request):
+    """
+    """
     template_var = {}
     template_var["allusers"] = UserProfile.objects.all()
 
-    current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
+    current_django_user = UserProfile.objects.filter(
+                          django_user=request.user)[0]
     
     if request.method=="POST":
         if request.user.is_authenticated():
             message = Message()
-            message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
-            message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
+            message.msg_from = UserProfile.objects.filter(
+                               django_user=request.user)[0]
+            message.msg_to = UserProfile.objects.filter(
+                             id__exact=request.POST["msg_to_django_user_id"])[0]
             message.content = request.POST["content"]
             message.save()
 
         return HttpResponseRedirect("/events/msg/")
         
-    return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
-    
+    return render_to_response("event/message_send.html", template_var, 
+                              context_instance=RequestContext(request))
 
 
 def post(request):
+    """
+    """
     template_var = {}
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
@@ -161,7 +261,6 @@ def post(request):
             except ValueError:
                 current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
                 date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
-                print date_
                 
             loc_ = request.POST["loc"]
             tags_ = request.POST["tags"]
@@ -169,11 +268,13 @@ def post(request):
                 tags_ = "untagged"
             try:
                 image1_ = request.FILES["picture"]
-                event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_, author = from_user)
+                event = Event(title=title_, body=body_, location=loc_,
+                              refer=refer_, event_time=date_, image1=image1_,
+                              author=from_user)
             except:
-                event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, author = from_user)
+                event = Event(title=title_, body=body_, location=loc_,
+                              refer=refer_, event_time=date_, author=from_user)
         
-            #event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
             event.save()
             tags = splitTags(tags_)
             for tag in tags:
@@ -181,15 +282,18 @@ def post(request):
             event.save()
             return HttpResponseRedirect(reverse("index"))    
 
-    return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
+    return render_to_response("event/event_post.html", template_var,
+                              context_instance=RequestContext(request))
 
 
 def splitTags(user_input):
+        """
+        """
         elements = []
         if ',' in user_input:
-                elements = user_input.split(',');
+                elements = user_input.split(',')
         elif ' ' in user_input:
-                elements = user_input.split(' ');
+                elements = user_input.split(' ')
         else:
                 elements.append(user_input)
 
@@ -199,34 +303,40 @@ def splitTags(user_input):
                 if(len(element) == 0): continue
                 if element not in tags:
                     tags.append(element)
-        
-        for tag in tags:
-                print "(" + tag+ ")"
         return tags
 
 
 def msg_send(request):
+    """
+    """
     template_var = {}
     template_var["allusers"] = UserProfile.objects.all()
-
-    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
-    template_var["msg_sent_list"] = Message.objects.filter(msg_from=current_django_user)
-    template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)
+    current_django_user = UserProfile.objects.filter(
+                          django_user=request.user)[0]
+    template_var["msg_sent_list"] = Message.objects.filter(
+                                    msg_from=current_django_user)
+    template_var["msg_received_list"] = Message.objects.filter(
+                                        msg_to=current_django_user)
     
     if request.method=="POST":
         if request.user.is_authenticated():
             message = Message()
-            message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
-            message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
+            message.msg_from = UserProfile.objects.filter(
+                               django_user=request.user)[0]
+            message.msg_to = UserProfile.objects.filter(
+                             id__exact=request.POST["msg_to_django_user_id"])[0]
             message.content = request.POST["content"]
             message.save()    
 
         return HttpResponseRedirect("/events/msg/")
         
-    return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
+    return render_to_response("event/message_send.html", template_var,
+                              context_instance=RequestContext(request))
     
     
 def search(request):
+    """
+    """
     template_var = {}
     if request.method=="GET":
         event_id_list = []
@@ -234,7 +344,6 @@ def search(request):
         events_found_advanced = []
         events_found_basic = []
         checkbox_session = []
-        #sorted_method_session = []
         advanced_search = False
         tags = Tag.objects.all()
         template_var["tags"] = tags
@@ -249,7 +358,8 @@ def search(request):
                 checkbox_session.append(str(query_tag))
                 query_tag_list.append(str(query_tag))
                 
-            events_found_advanced = Event.objects.filter(tags__name__in=query_tag_list)
+            events_found_advanced = Event.objects.filter(
+                                    tags__name__in=query_tag_list)
                
         query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
@@ -260,9 +370,11 @@ def search(request):
                 
         else:
             if advanced_search:
-                events_found_advanced = events_found_advanced.filter(tags__name__in=[query])
+                events_found_advanced = events_found_advanced.filter(
+                                        tags__name__in=[query])
             else:
-                events_found_basic = Event.objects.filter(tags__name__in=[query])
+                events_found_basic = Event.objects.filter(
+                                     tags__name__in=[query])
 
         #finally
         if advanced_search:
@@ -280,17 +392,22 @@ def search(request):
         if sorted_method == 'desc':
             events_found.sort(key=lambda event: event.event_time, reverse=True)  
         elif sorted_method == 'asc':
-            events_found.sort(key=lambda event: event.event_time, reverse=False)  
+            events_found.sort(key=lambda event: event.event_time,
+                              reverse=False)  
         elif sorted_method == 'alphabet':
-            events_found.sort(key=lambda event: event.title.lower(), reverse=False)  
+            events_found.sort(key=lambda event: event.title.lower(),
+                              reverse=False)  
            
         template_var["events_found"] = events_found
 
         request.session["sorted_method_session"] = sorted_method
         request.session["checkbox_session"] = checkbox_session
         request.session["query_session"] = query
-        return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
+        return render_to_response("event/event_search_results.html",
+                                  template_var,
+                                  context_instance=RequestContext(request))
 
-    return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
+    return render_to_response("event/event_search_results.html", template_var,
+                              context_instance=RequestContext(request))
     
     
