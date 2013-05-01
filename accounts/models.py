@@ -13,6 +13,8 @@ class UserProfile(models.Model):
     preferences = models.CharField(max_length=200)
     bio = models.CharField(max_length=200)
     avatar = models.ImageField('picture',upload_to='uploadImages', default='static/avatar_blank.jpg')
+    #is_moderator = models.BooleanField(default = False)
+    #is_superuser = models.BooleanField(default = False)
 
     def __unicode__(self):
         return "Linked to: " + str(self.django_user)
