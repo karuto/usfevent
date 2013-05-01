@@ -235,7 +235,6 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         username = firstname + "_" + lastname
-        print "###username = " + username
         
         # Does this username already exist in user database? Prepare to check
         i = 0
@@ -352,8 +351,6 @@ def login_helper(request, email, password):
     if user:
         if user.is_active:
             auth_login(request, user)
-            print "Email:" + user.email
-            print "Email2:" + email
             ret=True
     return ret
     
