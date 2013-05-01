@@ -205,15 +205,8 @@ def share_email(request, pk):
     to = 'donsaffair@gmail.com'
     to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
     link = request.POST["abs_url"]
-    text_content = 'This is an important message.' + 
-                   ' Your friend shared an event link with you. ' + link
-    html_content = '<p>Hi Dear,</p>' + 
-                   '<p>Your friend shared an exciting event with you on ' + 
-                   '<a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + 
-                   '<p><a href="' + link + '"> ' + 
-                   'Here is the link to the event.</a>' + 
-                   '<br>Feel free to check it out!</p>' + 
-                   '<p><br>With love,<br>Don\'s Affairs Team</p>'
+    text_content = 'This is an important message. Your friend shared an event link with you. ' + link
+    html_content = '<p>Hi Dear,</p>' + '<p>Your friend shared an exciting event with you on ' + '<a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + '<p><a href="' + link + '"> ' + 'Here is the link to the event.</a>' + '<br>Feel free to check it out!</p>' + '<p><br>With love,<br>Don\'s Affairs Team</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
