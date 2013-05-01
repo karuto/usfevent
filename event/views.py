@@ -213,8 +213,6 @@ def msg_send(request):
     return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
     
     
-    
-    
 def search(request):
     template_var = {}
     if request.method=="GET":
