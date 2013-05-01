@@ -15,6 +15,7 @@ urlpatterns = patterns('',
 
     url(r'^events/', include('event.urls')),
     url(r'^user/', include('accounts.urls')),
+    url(r'^notification/', include('notification.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
 

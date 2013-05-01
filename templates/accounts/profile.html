@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>>{{test}}<<~~~~~~~~~~~~~~~~
 <div class="layout-content-wrap">
 
 {% if request.user.is_authenticated %}
@@ -54,7 +55,17 @@
 
 <!--
     <div class="main-item-block main-item-style post-item">
-    <h3>Message Sent List: </h3>
+    <h3>Message Sent List:<b style="backgroud-color:red;" id = "msg_new_number">{{msg|length}}</b> </h3>
+    <script>
+	function myFunction()
+	{
+	setInterval(function(){
+		document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
+
+
+	},3000);
+	}
+	</script>
     {% for msg in msg_sent_list %}
     <strong>From:</strong> {{msg.msg_from.django_user}}<br>
     <strong>To:</strong>{{msg.msg_to.django_user}}<br>

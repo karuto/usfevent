@@ -24,8 +24,25 @@
         <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
         <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
         {% endif %}
+
+	   <li class="external-item"><a href="/notification/msg_box">Message Unread:<b style="backgroud-color:red;" id = "msg_new_number">{{msg_received_list|length}}</b> </a></li>
+	   <script>
+		function myFunction()
+		{
+		setInterval(function(){
+			document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
+
+
+		},3000);
+		}
+		</script>
+
+
         </nav>
     
+	   
+    
+
     
         <!-- Currently search does not work -->
         <form role="search" method="get" id="searchform" action="/events/search">

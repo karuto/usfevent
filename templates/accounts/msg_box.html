@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="layout-content-wrap">
+
+{% if request.user.is_authenticated %}
+
+{% for msg in msg_received_list %}
+    <strong>From:</strong> {{msg.msg_from.django_user}}<br>
+    <strong>Content:</strong>
+    {% if msg.is_read %}
+    <a href="/user/{{msg.id}}/msg_open" style="display: inline;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
+    
+    {% else %}
+     <a href="/user/{{msg.id}}/msg_open" style="display: inline;font-weight: bold;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
+
+    {% endif %}
+    <script>
+	function myFunction(message, id)
+	{
+		alert(message);
+		document.getElementById("msg_{{msg.id}}").style.font-weight= '';
+
+	}
+    </script>
+    <strong>Date:</strong>{{msg.time}}<br>
+{% endfor %}
+
+
+
+
+{% endif %}
+    
+</div><!-- .layout-content-wrap -->
+{% endblock %}

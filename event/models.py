@@ -1,8 +1,9 @@
+from accounts.models import UserProfile
 from datetime import datetime  
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth.models import User
 from django.forms import ModelForm
-from accounts.models import UserProfile
 from taggit.managers import TaggableManager
 
 # Create your models here.
@@ -16,6 +17,7 @@ class Event(models.Model):
     tags = TaggableManager()
     flagged = models.BooleanField(default = False)
     image1 = models.ImageField('picture',upload_to='uploadImages', default='static/event_blank.jpg')
+    author = models.ForeignKey(UserProfile)
 
     def __unicode__(self):
         return self.title

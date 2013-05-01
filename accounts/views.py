@@ -24,6 +24,7 @@ from event.models import Message
 from forms import LoginForm
 from forms import RegisterForm
 from models import UserProfile
+from notification.views import sys_notification
 
 
 def add_friend(request, pk): 
@@ -54,8 +55,15 @@ def add_friend(request, pk):
                     friend_from=from_user, friend_to=to_user))
         if(size == 0):
             f = Friendship(friend_from=from_user, friend_to=to_user)
-            f.save()        
+            f.save()
+
+            # System notification
+            event_id = 0  # Should be nothing in this case
+            sys_notification(to_user, "followed", from_user, event_id)
+        
     return HttpResponseRedirect(reverse('index'))
+
+
 
 
 def public_profile(request, pk):
@@ -108,6 +116,7 @@ def public_profile(request, pk):
         
         template_var["friend_events"] = friends_events_
         template_var["friends_saved_entries"] = friends_saved_entries
+
         
     return render_to_response("accounts/public_profile.html", template_var,
          context_instance=RequestContext(request))
@@ -232,6 +241,7 @@ def register(request):
         try:
             locaiton_ = request.POST['location']
             interest_ = request.POST['interest']
+            
             preferencelist = request.POST.getlist('preferences')
             preferences_ = ""
             for preference in preferencelist:
@@ -299,5 +309,8 @@ def logout(request):
     '''logout'''
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+
+    
     
     

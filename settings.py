@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'south', # 3rd-party #
     'event',
     'accounts',
+    'notification',
 )
 
 AUTHENTICATION_BACKENDS = (
