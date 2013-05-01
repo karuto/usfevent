@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from forms import RegisterForm, LoginForm
 from models import UserProfile
 from event.models import Event, Message, Comment, Like
+from notification.views import sys_notification
 
 
 def add_friend(request, pk):    
@@ -22,8 +23,14 @@ def add_friend(request, pk):
         if(size == 0):
             f = Friendship(friend_from=from_user, friend_to=to_user)
             f.save()
+
+            #system notification
+            event_id = 0  # should be nothing in this case
+            sys_notification(to_user, "followed", from_user, event_id)
         
     return HttpResponseRedirect(reverse('index'))
+
+
 
 
 def public_profile(request, pk):
@@ -50,6 +57,9 @@ def public_profile(request, pk):
                     friends_events_.append(friends_event)
         
         template_var["friend_events"] = friends_events_
+
+        current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+        template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)
         
     
     return render_to_response("accounts/public_profile.html", template_var, context_instance=RequestContext(request))
@@ -190,5 +200,8 @@ def logout(request):
     '''logout'''
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+
+    
     
     

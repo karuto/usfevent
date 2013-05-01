@@ -8,9 +8,11 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 from event.models import Comment, Event, Message, Like
+from notification.views import sys_notification
 from taggit.managers import TaggableManager
 from taggit.models import Tag
 import time
+
 
 def index(request):
     template_var = {}
@@ -72,10 +74,14 @@ def tagpage(request, tag):
     return render_to_response("event/tag_single.html", template_var, context_instance=RequestContext(request))
 
 	
-def add_comment(request, pk):
+def add_comment(request, pk, pk2):
+    #pk is event.id
+    #pk2 is user.id
     print pk;
     template_var = {}
     p = request.POST
+
+    
     
     if p.has_key("content") and p["content"]:
         if request.user.is_authenticated():
@@ -83,6 +89,12 @@ def add_comment(request, pk):
             comment.user = UserProfile.objects.get(django_user=request.user)
             comment.content = p["content"]
             comment.save()
+            
+            #sys notification
+            from_user = UserProfile.objects.get(django_user=pk2) #who's event that is commented on
+            to_user = comment.user
+            event_id = pk
+            sys_notification(to_user, "add_comment", from_user, event_id)
     
     return single(request, pk)
     
@@ -135,35 +147,37 @@ def save_event(request):
 
 def post(request):
     template_var = {}
-    if request.method=="POST":
-        title_ = request.POST["title"]
-        body_ =  request.POST["body"]
-        refer_ = request.POST["refer"]
-        date_ = request.POST["date"]
-        try:
-            time.strptime(date_, '%m/%d/%Y')
-        except ValueError:
-            current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
-            date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
-            print date_
-            
-        loc_ = request.POST["loc"]
-        tags_ = request.POST["tags"]
-        if(len(tags_) == 0):
-            tags_ = "untagged"
-        try:
-            image1_ = request.FILES["picture"]
-            event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
-        except:
-            event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_)
-    
-        #event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
-        event.save()
-        tags = splitTags(tags_)
-        for tag in tags:
-            event.tags.add(tag)
-        event.save()
-        return HttpResponseRedirect(reverse("index"))    
+    if request.user.is_authenticated():
+        from_user = UserProfile.objects.get(django_user=request.user)
+        if request.method=="POST":
+            title_ = request.POST["title"]
+            body_ =  request.POST["body"]
+            refer_ = request.POST["refer"]
+            date_ = request.POST["date"]
+            try:
+                time.strptime(date_, '%m/%d/%Y')
+            except ValueError:
+                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
+                date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+                print date_
+                
+            loc_ = request.POST["loc"]
+            tags_ = request.POST["tags"]
+            if(len(tags_) == 0):
+                tags_ = "untagged"
+            try:
+                image1_ = request.FILES["picture"]
+                event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_, author = from_user)
+            except:
+                event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, author = from_user)
+        
+            #event = Event(title = title_, body= body_, location = loc_, refer = refer_, event_time = date_, image1 = image1_)
+            event.save()
+            tags = splitTags(tags_)
+            for tag in tags:
+                event.tags.add(tag)
+            event.save()
+            return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
 

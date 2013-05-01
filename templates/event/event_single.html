@@ -109,7 +109,7 @@ $(function(){
     
         <div class="entry-interaction-header page-subhero-text">Submit your comment</div>
         <div class="entry-interaction-content">
-        <form action="{% url event.views.add_comment event.id %}" method="POST">
+        <form action="{% url event.views.add_comment event.id request.user.id %}" method="POST">
             {% csrf_token %}
             <textarea type="text" rows="5" cols="60" name="content" value="Post your comment here!"></textarea><br>
             <input type="submit" value="Post comment" />
