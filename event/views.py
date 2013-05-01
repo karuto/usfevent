@@ -15,9 +15,9 @@ import time
 
 
 def index(request):
+    """
+    """
     template_var = {}
-    
-    # Retrieve s
     up = UserProfile.objects.filter(django_user=request.user)
     template_var["likes"] = Like.objects.filter(user=up[0])
     
@@ -27,10 +27,13 @@ def index(request):
         raise Http404
     output = ', '.join([e.title for e in event_list])    
     template_var["events"] = output	
-    return render_to_response("event/index.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("event/index.html", template_var,
+                              context_instance=RequestContext(request))
 
 
 def single(request, pk):
+    """
+    """
     template_var = {}
     try:
         e = Event.objects.get(pk=int(pk))
@@ -46,9 +49,10 @@ def single(request, pk):
     
     template_var["allusers"] = UserProfile.objects.all()
     template_var["auth_users"] = User.objects.all()
-    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
         
-    return render_to_response("event/event_single.html", template_var, context_instance=RequestContext(request))
+    return render_to_response("event/event_single.html", template_var,
+                              context_instance=RequestContext(request))
     
 
 def archives(request):
@@ -127,7 +131,7 @@ def save_event(request):
     template_var = {}
     template_var["allusers"] = UserProfile.objects.all()
 
-    current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
+    current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
     
     if request.method=="POST":
         if request.user.is_authenticated():
@@ -195,7 +199,6 @@ def splitTags(user_input):
                 if(len(element) == 0): continue
                 if element not in tags:
                     tags.append(element)
-       
         
         for tag in tags:
                 print "(" + tag+ ")"
@@ -216,9 +219,7 @@ def msg_send(request):
             message.msg_from = UserProfile.objects.filter(django_user=request.user)[0]
             message.msg_to = UserProfile.objects.filter(id__exact=request.POST["msg_to_django_user_id"])[0]
             message.content = request.POST["content"]
-            message.save()
-
-            
+            message.save()    
 
         return HttpResponseRedirect("/events/msg/")
         
@@ -238,8 +239,6 @@ def search(request):
         tags = Tag.objects.all()
         template_var["tags"] = tags
 
-        
-
         query_tags = request.GET.getlist('query_tag')
         if len(query_tags) > 0:  # at least one checkbox selected
             advanced_search = True
@@ -251,9 +250,7 @@ def search(request):
                 query_tag_list.append(str(query_tag))
                 
             events_found_advanced = Event.objects.filter(tags__name__in=query_tag_list)
-            
-
-                
+               
         query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
             if advanced_search:
@@ -267,7 +264,6 @@ def search(request):
             else:
                 events_found_basic = Event.objects.filter(tags__name__in=[query])
 
-
         #finally
         if advanced_search:
             #take out duplicated result
@@ -278,8 +274,6 @@ def search(request):
         else:
             for event in events_found_basic:
                 events_found.append(event)
-
-        
 
         #sort result
         sorted_method = request.GET.get('sorted_method', 'desc') #default is desc
@@ -295,8 +289,8 @@ def search(request):
         request.session["sorted_method_session"] = sorted_method
         request.session["checkbox_session"] = checkbox_session
         request.session["query_session"] = query
-        
-
         return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
 
     return render_to_response("event/event_search_results.html",template_var,context_instance=RequestContext(request))
+    
+    
