@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>>{{test}}<<~~~~~~~~~~~~~~~~
 <div class="layout-content-wrap">
 
 {% if request.user.is_authenticated %}
@@ -84,17 +83,7 @@
     <strong>Date:</strong>{{msg.time}}<br>
     {% endfor %}
     </div>
-    
-    <div class="main-item-block main-item-style post-item">
-    {% if eventPreferenced %}
-        <h3>{{ username }}'s Preferred Event:</h3>
-        {% for event in eventPreferenced %}
-            <p>Event Title: {{event.title}}</p>
-        {% endfor %}
-    {% else %}
-        {{ username }} currently does not have any preferred events.
-    {% endif %}
-    </div>
+
     
 -->        
 

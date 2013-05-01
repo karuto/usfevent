@@ -5,12 +5,17 @@ from django.contrib.auth.models import User
 # Create your models here.
 class UserProfile(models.Model):
     django_user = models.ForeignKey(User)
-    position = models.CharField(max_length=200)
-    interest = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
-    preferences = models.CharField(max_length=200)
-    bio = models.CharField(max_length=200)
+    firstname = models.CharField(max_length=200, default="Default Firstname")
+    lastname = models.CharField(max_length=200, default="Default Lastname")
+    bio = models.CharField(max_length=500, blank=True)
     avatar = models.ImageField('picture',upload_to='uploadImages', default='static/avatar_blank.jpg')
+    graduation_year = models.IntegerField(default=2013)
+    affiliation_type = models.IntegerField(default=0) # 0 stu, 1 staff, 2 faculty
+    affiliation_msg = models.CharField(max_length=200, blank=True)  
+    preferences = models.CharField(max_length=200, blank=True)  
+    is_connected = models.BooleanField(default=False)
+    #is_moderator = models.BooleanField(default=False)
+    #is_superuser = models.BooleanField(default=False)
 
     def __unicode__(self):
         return "Linked to: " + str(self.django_user)

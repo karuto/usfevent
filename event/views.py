@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 from event.models import Comment, Event, Message, Like
+from global_func import base_template_vals
 from notification.views import sys_notification
 from taggit.managers import TaggableManager
 from taggit.models import Tag
@@ -15,7 +16,8 @@ import time
 
 
 def index(request):
-    template_var = {}
+    #global template_var
+    template_var = base_template_vals(request)
     
     # Retrieve s
     up = UserProfile.objects.filter(django_user=request.user)
@@ -31,7 +33,9 @@ def index(request):
 
 
 def single(request, pk):
-    template_var = {}
+    #global template_var
+    template_var = base_template_vals(request)
+    
     try:
         e = Event.objects.get(pk=int(pk))
         template_var['event'] = e
@@ -52,7 +56,10 @@ def single(request, pk):
     
 
 def archives(request):
-    template_var = {}
+    
+    #global template_var
+    template_var = base_template_vals(request)
+    
     try:
         template_var["events"] = Event.objects.all().order_by("-event_time")
         # print template_var["events"]
@@ -62,7 +69,10 @@ def archives(request):
 
 
 def tagpage(request, tag):
-    template_var = {}
+    
+    #global template_var
+    template_var = base_template_vals(request)
+    
     template_var["tag"] = tag
     try:
         template_var["events"] = Event.objects.filter(tags__name__in = [tag])
@@ -78,10 +88,11 @@ def add_comment(request, pk, pk2):
     #pk is event.id
     #pk2 is user.id
     print pk;
-    template_var = {}
-    p = request.POST
-
     
+    #global template_var
+    template_var = base_template_vals(request)
+    
+    p = request.POST
     
     if p.has_key("content") and p["content"]:
         if request.user.is_authenticated():
@@ -92,7 +103,7 @@ def add_comment(request, pk, pk2):
             
             #sys notification
             from_user = UserProfile.objects.get(django_user=pk2) #who's event that is commented on
-            to_user = comment.user
+            to_user = Event.objects.get(id=pk).author
             event_id = pk
             sys_notification(to_user, "add_comment", from_user, event_id)
     
@@ -102,7 +113,10 @@ def add_comment(request, pk, pk2):
 	
 def like_event(request, pk):
     print pk;
-    template_var = {}
+    
+    #global template_var
+    template_var = base_template_vals(request)
+    
     if request.user.is_authenticated():
         like = Like(event=Event.objects.get(id=pk))
         like.user = UserProfile.objects.filter(django_user=request.user)[0]
@@ -112,7 +126,9 @@ def like_event(request, pk):
 
 def share_email(request, pk):
     print pk;
-    template_var = {}
+
+    #global template_var
+    template_var = base_template_vals(request)
     
     subject, from_email, to = 'Your friend shared an event with you on Dons Affairs!', 'from@example.com', 'donsaffair@gmail.com'
     to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
@@ -126,7 +142,10 @@ def share_email(request, pk):
     
 
 def save_event(request):
-    template_var = {}
+    
+    #global template_var
+    template_var = base_template_vals(request)
+    
     template_var["allusers"] = UserProfile.objects.all()
 
     current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
@@ -146,7 +165,10 @@ def save_event(request):
 
 
 def post(request):
-    template_var = {}
+
+    #global template_var
+    template_var = base_template_vals(request)
+    
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
         if request.method=="POST":
@@ -181,6 +203,7 @@ def post(request):
 
     return render_to_response("event/event_post.html",template_var,context_instance=RequestContext(request))
 
+
 def splitTags(user_input):
         elements = []
         if ',' in user_input:
@@ -192,9 +215,10 @@ def splitTags(user_input):
 
         tags = []
         for element in elements:
-                element = element.strip(' \t\n\r')
+                element = element.strip(' \t\n\r').lower()
                 if(len(element) == 0): continue
-                tags.append(element)
+                if element not in tags:
+                    tags.append(element)
        
         
         for tag in tags:
@@ -203,7 +227,10 @@ def splitTags(user_input):
 
 
 def msg_send(request):
-    template_var = {}
+
+    #global template_var
+    template_var = base_template_vals(request)
+    
     template_var["allusers"] = UserProfile.objects.all()
 
     current_django_user = UserProfile.objects.filter(django_user=request.user)[0];
@@ -225,10 +252,11 @@ def msg_send(request):
     return render_to_response("event/message_send.html",template_var,context_instance=RequestContext(request))
     
     
-    
-    
 def search(request):
-    template_var = {}
+
+    #global template_var
+    template_var = base_template_vals(request)
+    
     if request.method=="GET":
         event_id_list = []
         events_found = []
