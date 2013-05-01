@@ -235,7 +235,6 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         username = firstname + "_" + lastname
-        print "###username = " + username
         
         # Does this username already exist in user database? Prepare to check
         i = 0
@@ -247,15 +246,19 @@ def register(request):
             i = i + 1
             # Check "first_last_i++"
             queryname = str(username) + "_" + str(i)
+        
+        print "###queryname = " + queryname   
         user = User.objects.create_user(queryname, email, password)
         user.save()
     
         try:
-            locaiton_ = request.POST['location']
-            interest_ = request.POST['interest']
+            grad_ = request.POST['grad_year']
+            bio_ = request.POST['bio']
+            print "### Encountered grad_year, bio"
             aff_ = request.POST['aff']
+            print "### Encountered aff"
             affmsg_ = request.POST['affmsg']
-            
+            print "### Encountered all fields"
             
             preferencelist = request.POST.getlist('preferences')
             preferences_ = ""
@@ -265,24 +268,27 @@ def register(request):
 
             try:
                 avatar_ = request.FILES["picture"]
-                profile = UserProfile(django_user=user, location=locaiton_, 
-                                      interest=interest_,
+                profile = UserProfile(django_user=user, 
                                       preferences=preferences_, 
+                                      graduation_year=grad_,
+                                      affiliation_type=aff_,
                                       affiliation_msg=affmsg_,
+                                      bio=bio_,
                                       avatar=avatar_)
             except:
-                profile = UserProfile(django_user=user, location=locaiton_,
-                                      interest=interest_,
-                                      preferences=preferences_)
-                  
+                profile = UserProfile(django_user=user,
+                                      preferences=preferences_, 
+                                      graduation_year=grad_,
+                                      affiliation_type=aff_,
+                                      affiliation_msg=affmsg_,
+                                      bio=bio_)
             profile.save()
             
         except Exception:
             # If we can not finish saving userprofile, delete the user object
             # Because we don't want users without userprofiles attached
+            print "### Encountered exception"
             user.delete()
-
-        
         login_helper(request, email, password)
         return HttpResponseRedirect(reverse("index"))    
         

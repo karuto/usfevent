@@ -38,7 +38,7 @@
 <br>
 <label for="id_aff_stu">YOUR GRADUATION YEAR</label>
 <br>
-<select>
+<select name="grad_year" id="grad_year" size="1">
     {% for y in grad_years %}
     <option value="{{ y }}">&emsp;{{ y }}&emsp;</option>
     {% endfor %}
