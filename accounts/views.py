@@ -218,14 +218,14 @@ def register(request):
         
         # Does this username already exist in user database? Prepare to check
         i = 0
-        queryname = username + "_" + i
+        queryname = str(username) + "_" + str(i)
         is_username_valid = False
         
         # If username "first_last_i" already exists...
         while (len(User.objects.filter(username = queryname)) > 0):
             i = i + 1
             # check "first_last_i++"
-            queryname = username + "_" + i  
+            queryname = str(username) + "_" + str(i)
         user = User.objects.create_user(queryname, email, password)
         user.save()
     
