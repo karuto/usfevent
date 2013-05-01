@@ -2,6 +2,9 @@
     http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 """
 
+# Python imports
+from datetime import date
+
 # django-level imports
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -217,6 +220,12 @@ def register(request):
     """
     
     template_var = {}
+    
+    grad_years = []
+    for y in range(1970, date.today().year+4): 
+        grad_years.append(y)
+    template_var["grad_years"] = grad_years
+    
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))  
         
@@ -236,7 +245,7 @@ def register(request):
         # If username "first_last_i" already exists...
         while (len(User.objects.filter(username = queryname)) > 0):
             i = i + 1
-            # check "first_last_i++"
+            # Check "first_last_i++"
             queryname = str(username) + "_" + str(i)
         user = User.objects.create_user(queryname, email, password)
         user.save()
@@ -244,6 +253,9 @@ def register(request):
         try:
             locaiton_ = request.POST['location']
             interest_ = request.POST['interest']
+            aff_ = request.POST['aff']
+            affmsg_ = request.POST['affmsg']
+            
             
             preferencelist = request.POST.getlist('preferences')
             preferences_ = ""
@@ -255,7 +267,9 @@ def register(request):
                 avatar_ = request.FILES["picture"]
                 profile = UserProfile(django_user=user, location=locaiton_, 
                                       interest=interest_,
-                                      preferences=preferences_, avatar=avatar_)
+                                      preferences=preferences_, 
+                                      affiliation_msg=affmsg_,
+                                      avatar=avatar_)
             except:
                 profile = UserProfile(django_user=user, location=locaiton_,
                                       interest=interest_,

@@ -29,11 +29,20 @@
 
 <div class="page-subhero-text">Tell us a bit more about yourself</div>
 
-<label for="id_location">YOUR AFFILIATION</label>
+<label for="id_aff_stu">YOUR AFFILIATION</label>
 <br>
-<input type="radio" name="aff" value="0">STUDENT &emsp;
-<input type="radio" name="aff" value="1">STAFF &emsp;
-<input type="radio" name="aff" value="2">FACULTY
+<input type="radio" id="id_aff_stu" name="aff" value="0">STUDENT &emsp;
+<input type="radio" id="id_aff_sta" name="aff" value="1">STAFF &emsp;
+<input type="radio" id="id_aff_fac" name="aff" value="2">FACULTY
+<br>
+<br>
+<label for="id_aff_stu">YOUR GRADUATION YEAR</label>
+<br>
+<select>
+    {% for y in grad_years %}
+    <option value="{{ y }}">&emsp;{{ y }}&emsp;</option>
+    {% endfor %}
+</select>
 <br>
 <br>
 <input type="text" id="id_affmsg" name="affmsg" placeholder=" AFFILIATION MESSAGE (IF YOU HAVE ONE) " maxlength="200" size="40" />
