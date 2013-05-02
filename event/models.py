@@ -44,10 +44,13 @@ class Message(models.Model):
     content = models.TextField()
     time = models.DateTimeField(auto_now=True)
     is_read = models.BooleanField(default=False)
+    def __unicode__(self):
+        return str(self.msg_from) + " <== From | To ==> " +str(self.msg_to)
 
 class MessageAdmin(admin.ModelAdmin):
     display_fields = []
 admin.site.register(Message, MessageAdmin)
+    
 
 
 class Like(models.Model):

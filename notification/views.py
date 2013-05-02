@@ -27,11 +27,12 @@ def sys_notification(target, types, from_user, event_id):
     if(types == "followed"):
         message.content = str(from_user.django_user) + " followed you."
     elif(types == "add_comment"):
-        message.content = str(from_user.django_user) + " comments on your event." + "<a href='/events/1'>link</a>"
+        message.content = str(from_user.django_user) + " comments on your event." + "<a href='/events/"+ event_id+"'>link</a>"
+    elif(types == "save_event"):
+        message.content = "The event saved successfully. " + "<a href='/events/"+ event_id+"'>link</a>"
     else:
         message.content = "Unknown System Notification."    
     message.save()
-
 
 def msg_open(request, pk):
     template_var = base_template_vals(request)
