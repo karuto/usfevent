@@ -321,20 +321,20 @@ def login(request):
         None.
     
     """ 
-    print "#####===== " + str(request)
+    print "#####===== " + str(len(request.GET))
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))
     form = LoginForm()    
-    print str(request.GET["next"]) + " ################"
     if request.method == 'POST':
         form = LoginForm(request.POST.copy())
         if form.is_valid():
             login_helper(request, form.cleaned_data["email"],
                          form.cleaned_data["password"])
-            next_url = request.GET["next"]
-            if next_url:
-                return HttpResponseRedirect(next_url)
+            if len(request.GET) > 0:
+                next_url = request.GET["next"]
+                if next_url:
+                    return HttpResponseRedirect(next_url)
             return HttpResponseRedirect(reverse("index"))
     template_var["form"] = form        
     return render_to_response("accounts/login.html", template_var,
