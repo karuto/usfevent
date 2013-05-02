@@ -46,6 +46,7 @@ def index(request):
     Raises:
         Http404 error.
     """
+    
     template_var = {}
     up = UserProfile.objects.filter(django_user=request.user)
     template_var["likes"] = Like.objects.filter(user=up[0])
@@ -65,12 +66,12 @@ def single(request, pk):
     
     Attempts to find event object based on pk argument and then gathers
     any comments if they exist. Then collects all the "User" and
-    "UserProfile" objects necessary for save the date info.
+    "UserProfile" objects necessary for "save the date" info.
     
     Args:
         request: Django's HttpRequest object that contains metadata.
             https://docs.djangoproject.com/en/dev/ref/request-response/
-        pk: The specific event's numerical id.
+        pk: The specific event's numerical ID.
         
     Returns:
         event/event_single.html with template_vars.
@@ -78,6 +79,7 @@ def single(request, pk):
     Raises:
         Http404 error.
     """
+    
     template_var = {}
     try:
         e = Event.objects.get(pk=int(pk))
@@ -94,7 +96,7 @@ def single(request, pk):
     template_var["allusers"] = UserProfile.objects.all()
     template_var["auth_users"] = User.objects.all()
     current_django_user = UserProfile.objects.filter(
-                          django_user=request.user)[0]
+                          django_user=request.user)[0] #TODO: Bin unused variable.
         
     return render_to_response("event/event_single.html", template_var,
                               context_instance=RequestContext(request))
@@ -103,7 +105,7 @@ def single(request, pk):
 def archives(request):
     """Gathers archive list of all events for list_view of events.
         
-    Gets list of "Event" objects inorder of when the event occurred.
+    Gets list of "Event" objects in order of event occurance.
     
     Args:
         request: Django's HttpRequest object that contains metadata.
@@ -115,6 +117,7 @@ def archives(request):
     Raises:
         Http404 error.
     """
+    
     template_var = {}
     try:
         template_var["events"] = Event.objects.all().order_by("-event_time")
@@ -127,7 +130,7 @@ def archives(request):
 def tagpage(request, tag):
     """Gathers list of events based on a specific tag.
     
-    Gets list of "Event" obejcts based on tag passed in as argument.
+    Gets a list of "Event" obejcts based on tag passed in as argument.
 
     Args:
         request: Django's HttpRequest object that contains metadata.
@@ -140,6 +143,7 @@ def tagpage(request, tag):
     Raises:
         Http404 error.
     """
+    
     template_var = {}
     template_var["tag"] = tag
     try:
@@ -151,13 +155,17 @@ def tagpage(request, tag):
 
 	
 def add_comment(request, pk, pk2):
-    """Posts comment to specific event
+    """Posts comment to specific event.
+    
+    Checks if the request has "content" and the user is authenticated.
+    If they both are "True", creates and saves comment object.
+    Then sends a notification to the event poster with the sys_notification function.
     
     Args:
         request: Django's HttpRequest object that contains metadata.
             https://docs.djangoproject.com/en/dev/ref/request-response/
-        pk: ID for event that's recieving comment
-        pk2: ID for user posting the comment
+        pk: ID for event that's recieving comment.
+        pk2: ID for user posting the comment.
     
     Returns: 
         Calls "single"" function passing in "request"  from input args
@@ -165,6 +173,7 @@ def add_comment(request, pk, pk2):
     Raises:
         None.
     """
+    
     template_var = {}
     p = request.POST
     
@@ -174,19 +183,32 @@ def add_comment(request, pk, pk2):
             comment.user = UserProfile.objects.get(django_user=request.user)
             comment.content = p["content"]
             comment.save()
-            
             #sys notification
             from_user = UserProfile.objects.get(django_user=pk2) #who's event that is commented on
             to_user = Event.objects.get(id=pk).author
             event_id = pk
             sys_notification(to_user, "add_comment", from_user, event_id)
-    
     return single(request, pk)
 
 	
 def like_event(request, pk):
+    """Adds a like to an event.
+    
+    Creates and saves a Like object which contains the User who liked the event.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID of event receiving the "Like".
+        
+    Returns:
+        redirect to index.
+    
+    Raises:
+        None.
+        
     """
-    """
+    
     template_var = {}
     if request.user.is_authenticated():
         like = Like(event=Event.objects.get(id=pk))
@@ -196,7 +218,21 @@ def like_event(request, pk):
 
 
 def share_email(request, pk):
-    """
+    """Shares an Event via email with another user.
+    
+    Collects address to send email to and link for event from request.
+    Then builds message content and sends email.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ? ? ? #TODO: Bin unused variable.
+        
+    Returns:
+        redirect to index.
+    
+    Raises:
+        None.
     """
     template_var = {}
     
@@ -205,8 +241,15 @@ def share_email(request, pk):
     to = 'donsaffair@gmail.com'
     to = request.POST["email_to"] #default is sending to self 'donsaffair@gmail.com'
     link = request.POST["abs_url"]
-    text_content = 'This is an important message. Your friend shared an event link with you. ' + link
-    html_content = '<p>Hi Dear,</p>' + '<p>Your friend shared an exciting event with you on ' + '<a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>' + '<p><a href="' + link + '"> ' + 'Here is the link to the event.</a>' + '<br>Feel free to check it out!</p>' + '<p><br>With love,<br>Don\'s Affairs Team</p>'
+    text_content = 'This is an important message.'
+    text_content += 'Your friend shared an event link with you. ' + link
+    html_content = '<p>Hi Dear,</p>' 
+    html_content += '<p>Your friend shared an exciting event with you on ' 
+    html_content += '<a href="http://mtk.im/usf">Don\'s Affairs</a>!</p>'
+    html_content += '<p><a href="' + link + '"> '
+    html_content += 'Here is the link to the event.</a>' 
+    html_content += '<br>Feel free to check it out!</p>' + '<p><br>With love,'
+    html_content += '<br>Don\'s Affairs Team</p>'
     msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
     msg.attach_alternative(html_content, "text/html")
     msg.send()
@@ -214,15 +257,31 @@ def share_email(request, pk):
     
 
 def save_event(request):
+    """Saves event to profile for later access.
+    
+    Creates a message object that is sent to the user about the event.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        IF REQUEST IS POST:
+        HttpResponseRedirect to /events/msg/
+        ELSE:
+        event/message_send.html with template_vars
+    
+    Raises:
+        None.
     """
-    """
+    
     template_var = {}
     template_var["allusers"] = UserProfile.objects.all()
 
     current_django_user = UserProfile.objects.filter(
-                          django_user=request.user)[0]
+                          django_user=request.user)[0]  #TODO: Bin Unusd variable.
     
-    if request.method=="POST":
+    if request.method == "POST":
         if request.user.is_authenticated():
             message = Message()
             message.msg_from = UserProfile.objects.filter(
@@ -239,12 +298,28 @@ def save_event(request):
 
 
 def post(request):
+    """Posts an event.
+    
+    Processes the event form and has exceptions to handle invalid time input
+    and lack of picture.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        IF POST SUCCESSFUL:
+        HttpResponseRedirect to index
+        ELSE:
+        event/event_post.html with template_vars
+    Raises:
+        None.
     """
-    """
+    
     template_var = {}
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
-        if request.method=="POST":
+        if request.method == "POST":
             title_ = request.POST["title"]
             body_ =  request.POST["body"]
             refer_ = request.POST["refer"]
@@ -268,11 +343,11 @@ def post(request):
                 event = Event(title=title_, body=body_, location=loc_,
                               refer=refer_, event_time=date_, author=from_user)
         
-            event.save()
+            event.save() #TODO: Bin saving event twice?
             tags = splitTags(tags_)
             for tag in tags:
                 event.tags.add(tag)
-            event.save()
+            event.save() # ? ? ?
             return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html", template_var,
@@ -280,28 +355,56 @@ def post(request):
 
 
 def splitTags(user_input):
-        """
-        """
-        elements = []
-        if ',' in user_input:
-                elements = user_input.split(',')
-        elif ' ' in user_input:
-                elements = user_input.split(' ')
-        else:
-                elements.append(user_input)
+    """Parses a list of tags.
+    
+    Splits string containing tags seperated either by spaces or commas.
+    
+    Args:
+        user_input: String containing all the tags.
+        
+    Returns:
+        List containing tags.
+    
+    Raises:
+        None.
+    """
+    
+    elements = []
+    if ',' in user_input:
+        elements = user_input.split(',')
+    elif ' ' in user_input:
+        elements = user_input.split(' ')
+    else:
+        elements.append(user_input)
 
-        tags = []
-        for element in elements:
-                element = element.strip(' \t\n\r').lower()
-                if(len(element) == 0): continue
-                if element not in tags:
-                    tags.append(element)
-        return tags
+    tags = []
+    for element in elements:
+        element = element.strip(' \t\n\r').lower()
+        if(len(element) == 0): continue
+        if element not in tags:
+            tags.append(element)
+    return tags
 
 
 def msg_send(request):
+    """Sends message from one user to another.
+    
+    Fills template vars and creates and saves message object. 
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        IF MESSAGE SEND SUCCESSFUL:
+        HttpResponseRedirect to /events/msg/
+        ELSE:
+        event/message_send.html with template_vars
+        
+    Raises:
+        None.
     """
-    """
+    
     template_var = {}
     template_var["allusers"] = UserProfile.objects.all()
     current_django_user = UserProfile.objects.filter(
@@ -311,7 +414,7 @@ def msg_send(request):
     template_var["msg_received_list"] = Message.objects.filter(
                                         msg_to=current_django_user)
     
-    if request.method=="POST":
+    if request.method == "POST":
         if request.user.is_authenticated():
             message = Message()
             message.msg_from = UserProfile.objects.filter(
@@ -328,10 +431,29 @@ def msg_send(request):
     
     
 def search(request):
+    """Creates search results.
+    
+    First checks that the search query isn't empty and if so, sets advanced_search to True.
+    Then creates a list of tags based on the query and gathers the applicable events.
+    Then sorts events by date created by default if they started query with space,
+    otherwise sorts events by tags if advanced_search = True else finds all events with tag.
+    If the advanced_search is True removes duplicates and appends to events_found otherwise
+    appends all events to events_found. Then sorts events by sort method, ie; descending, ascending or alphabetically.
+    Then finally returns events.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        event/event_search_results.html with template_vars.
+        
+    Raises:
+        None.
     """
-    """
+    
     template_var = {}
-    if request.method=="GET":
+    if request.method == "GET":
         event_id_list = []
         events_found = []
         events_found_advanced = []
@@ -357,10 +479,9 @@ def search(request):
         query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
             if advanced_search:
-                events_found_advanced = events_found_advanced
+                events_found_advanced = events_found_advanced #TODO: Bin this line does nothing.
             else:
-                events_found_basic = Event.objects.all().order_by("-created")
-                
+                events_found_basic = Event.objects.all().order_by("-created")  
         else:
             if advanced_search:
                 events_found_advanced = events_found_advanced.filter(

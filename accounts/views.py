@@ -49,7 +49,7 @@ def add_friend(request, pk):
     Raises:
         None.       
     """
-    
+      
     template_var = {}    
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
@@ -65,8 +65,6 @@ def add_friend(request, pk):
             sys_notification(to_user, "followed", from_user, event_id)
         
     return HttpResponseRedirect(reverse('index'))
-
-
 
 
 def public_profile(request, pk):
@@ -247,18 +245,14 @@ def register(request):
             # Check "first_last_i++"
             queryname = str(username) + "_" + str(i)
         
-        print "###queryname = " + queryname   
         user = User.objects.create_user(queryname, email, password)
         user.save()
     
         try:
             grad_ = request.POST['grad_year']
             bio_ = request.POST['bio']
-            print "### Encountered grad_year, bio"
             aff_ = request.POST['aff']
-            print "### Encountered aff"
             affmsg_ = request.POST['affmsg']
-            print "### Encountered all fields"
             
             preferencelist = request.POST.getlist('preferences')
             preferences_ = ""
@@ -287,7 +281,6 @@ def register(request):
         except Exception:
             # If we can not finish saving userprofile, delete the user object
             # Because we don't want users without userprofiles attached
-            print "### Encountered exception"
             user.delete()
         login_helper(request, email, password)
         return HttpResponseRedirect(reverse("index"))    
@@ -317,11 +310,11 @@ def login(request):
         
     Raises:
         None.
-    
     """
+    
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index")) 
-    template_var={}
+    template_var = {}
     form = LoginForm()    
     if request.method == 'POST':
         form = LoginForm(request.POST.copy())
@@ -329,7 +322,7 @@ def login(request):
             login_helper(request, form.cleaned_data["email"],
                          form.cleaned_data["password"])
             return HttpResponseRedirect(reverse("index"))
-    template_var["form"]=form        
+    template_var["form"] = form        
     return render_to_response("accounts/login.html", template_var,
                               context_instance=RequestContext(request))
     
@@ -353,12 +346,13 @@ def login_helper(request, email, password):
     Raises:
         None.
     """
-    ret=False
-    user=authenticate(email=email, password=password)
+    
+    ret = False
+    user = authenticate(email=email, password=password)
     if user:
         if user.is_active:
             auth_login(request, user)
-            ret=True
+            ret = True
     return ret
     
     
@@ -378,6 +372,7 @@ def logout(request):
     Raises:
         None.
     """
+    
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
