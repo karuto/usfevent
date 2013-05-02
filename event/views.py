@@ -25,9 +25,36 @@ from event.models import Comment
 from event.models import Event
 from event.models import Like
 from event.models import Message
+from global_func import base_template_vals
 from notification.views import sys_notification
 from taggit.managers import TaggableManager
 from taggit.models import Tag
+
+
+def homepage(request):
+    """Creates standard index page view for Don's Affairs.
+    
+    Gets user profile object and its list of "Like" objects,
+    list of "Event" objects inorder of creation and formats
+    each event object to its title.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        event/event_homepage.html with template_vars.
+        
+    Raises:
+        None.
+    """
+    template_var = base_template_vals(request)
+    template_var["events"] = Event.objects.all().order_by("-created")
+    
+    return render_to_response("event/event_homepage.html", template_var,
+                              context_instance=RequestContext(request))
+
+
 
 def index(request):
     """Creates standard index page view for Don's Affairs.
@@ -46,7 +73,7 @@ def index(request):
     Raises:
         Http404 error.
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     up = UserProfile.objects.filter(django_user=request.user)
     template_var["likes"] = Like.objects.filter(user=up[0])
     
@@ -78,7 +105,7 @@ def single(request, pk):
     Raises:
         Http404 error.
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     try:
         e = Event.objects.get(pk=int(pk))
         template_var['event'] = e
@@ -115,7 +142,7 @@ def archives(request):
     Raises:
         Http404 error.
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     try:
         template_var["events"] = Event.objects.all().order_by("-event_time")
     except Event.DoesNotExist:
@@ -140,7 +167,7 @@ def tagpage(request, tag):
     Raises:
         Http404 error.
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     template_var["tag"] = tag
     try:
         template_var["events"] = Event.objects.filter(tags__name__in = [tag])
@@ -165,7 +192,7 @@ def add_comment(request, pk, pk2):
     Raises:
         None.
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     p = request.POST
     
     if p.has_key("content") and p["content"]:
@@ -187,7 +214,7 @@ def add_comment(request, pk, pk2):
 def like_event(request, pk):
     """
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         like = Like(event=Event.objects.get(id=pk))
         like.user = UserProfile.objects.filter(django_user=request.user)[0]
@@ -198,7 +225,7 @@ def like_event(request, pk):
 def share_email(request, pk):
     """
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     
     subject = 'Your friend shared an event with you on Dons Affairs!'
     from_email = 'from@example.com'
@@ -241,7 +268,7 @@ def save_event(request):
 def post(request):
     """
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
         if request.method=="POST":
@@ -302,7 +329,7 @@ def splitTags(user_input):
 def msg_send(request):
     """
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     template_var["allusers"] = UserProfile.objects.all()
     current_django_user = UserProfile.objects.filter(
                           django_user=request.user)[0]
@@ -330,7 +357,7 @@ def msg_send(request):
 def search(request):
     """
     """
-    template_var = {}
+    template_var = base_template_vals(request)
     if request.method=="GET":
         event_id_list = []
         events_found = []

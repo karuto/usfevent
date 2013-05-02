@@ -9,10 +9,11 @@ from django.shortcuts import render_to_response, redirect
 from django.template import Context, loader, RequestContext
 from event.models import Comment, Event, Message, Like
 import time
+from global_func import base_template_vals
 
 
 def test(request):
-    template_var = {}
+    template_var = base_template_vals(request)
     
     return HttpResponse("Hello, world. You're at the poll index.")
 
@@ -33,7 +34,7 @@ def sys_notification(target, types, from_user, event_id):
 
 
 def msg_open(request, pk):
-    template_var={}
+    template_var = base_template_vals(request)
     #template_var["user"] = UserProfile.objects.get(id=pk)
     current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
     msg = Message.objects.get(msg_to=current_django_user, id=pk)
@@ -46,7 +47,7 @@ def msg_open(request, pk):
 
 
 def msg_box(request):
-    template_var={}
+    template_var = base_template_vals(request)
     #template_var["user"] = UserProfile.objects.get(id=pk)
     current_django_user = UserProfile.objects.filter(django_user=request.user)[0]
     template_var["msg_received_list"] = Message.objects.filter(msg_to=current_django_user)

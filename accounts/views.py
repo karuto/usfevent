@@ -26,6 +26,7 @@ from event.models import Like
 from event.models import Message
 from forms import LoginForm
 from forms import RegisterForm
+from global_func import base_template_vals
 from models import UserProfile
 from notification.views import sys_notification
 
@@ -50,7 +51,7 @@ def add_friend(request, pk):
         None.       
     """
     
-    template_var = {}    
+    template_var = base_template_vals(request)   
     if request.user.is_authenticated():
         from_user = UserProfile.objects.get(django_user=request.user)
         to_user = UserProfile.objects.get(id=pk)
@@ -89,7 +90,7 @@ def public_profile(request, pk):
         None.       
     """
     
-    template_var = {}
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         template_var["user"] = UserProfile.objects.get(id=pk)
         
@@ -143,7 +144,7 @@ def index(request):
         None.       
     """
     
-    template_var = {}
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         # Retrieve data for current user's private profile
         up = UserProfile.objects.filter(django_user=request.user)
@@ -219,8 +220,7 @@ def register(request):
         None.       
     """
     
-    template_var = {}
-    
+    template_var = base_template_vals(request)
     grad_years = []
     for y in range(1970, date.today().year+4): 
         grad_years.append(y)
@@ -318,10 +318,11 @@ def login(request):
     Raises:
         None.
     
-    """
+    """ 
+    
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse("index")) 
-    template_var={}
+        return HttpResponseRedirect(reverse("index"))
     form = LoginForm()    
     if request.method == 'POST':
         form = LoginForm(request.POST.copy())
@@ -353,6 +354,7 @@ def login_helper(request, email, password):
     Raises:
         None.
     """
+    
     ret=False
     user=authenticate(email=email, password=password)
     if user:
@@ -378,6 +380,7 @@ def logout(request):
     Raises:
         None.
     """
+    
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
