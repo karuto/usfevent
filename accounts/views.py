@@ -32,6 +32,7 @@ from models import UserProfile
 from notification.views import sys_notification
 
 
+@login_required 
 def add_friend(request, pk): 
     """Adds targeted user as a friend of the current user.
     
@@ -53,24 +54,22 @@ def add_friend(request, pk):
     """
     
     template_var = base_template_vals(request)   
-    if request.user.is_authenticated():
-        from_user = UserProfile.objects.get(django_user=request.user)
-        to_user = UserProfile.objects.get(id=pk)
-        size = len(Friendship.objects.filter(friend_from=from_user,
-                                             friend_to=to_user))
-        if(size == 0):
-            f = Friendship(friend_from=from_user, friend_to=to_user)
-            f.save()
+    from_user = UserProfile.objects.get(django_user=request.user)
+    to_user = UserProfile.objects.get(id=pk)
+    size = len(Friendship.objects.filter(friend_from=from_user,
+                                         friend_to=to_user))
+    if(size == 0):
+        f = Friendship(friend_from=from_user, friend_to=to_user)
+        f.save()
 
-            # System notification
-            event_id = 0  # Should be nothing in this case
-            sys_notification(to_user, "followed", from_user, event_id)
+        # System notification
+        event_id = 0  # Should be nothing in this case
+        sys_notification(to_user, "followed", from_user, event_id)
         
     return HttpResponseRedirect(reverse('index'))
 
 
-
-
+@login_required 
 def public_profile(request, pk):
     """Processes data needed for an user's public profile.
         
@@ -125,6 +124,7 @@ def public_profile(request, pk):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def index(request):
     """Processes data needed for public index, or an user's private profile.
     
@@ -220,10 +220,9 @@ def register(request):
     Raises:
         None.       
     """
-    
     template_var = base_template_vals(request)
     grad_years = []
-    for y in range(1970, date.today().year+4): 
+    for y in range(date.today().year, date.today().year + 5): 
         grad_years.append(y)
     template_var["grad_years"] = grad_years
     
@@ -303,8 +302,10 @@ def login(request):
     Checks first, if user is already logged in, if so redirects user to index.
     If user isn't logged in, checks for 'POST' method and validates form.
     Upon validation, calls login_helper to login user if the email password
-    pair belongs to a user and if so returns user to index otherwise 
+    pair belongs to a user. If form is valid, check if there's an auto redirect
+    URL and return to that. Otherwise returns user to index. If form is invalid
     returns user to login page.
+    
     
     Args:
         request: Django's HttpRequest object that contains metadata.
@@ -320,18 +321,22 @@ def login(request):
         None.
     
     """ 
-    
+    print "#####===== " + str(request)
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))
     form = LoginForm()    
+    print str(request.GET["next"]) + " ################"
     if request.method == 'POST':
         form = LoginForm(request.POST.copy())
         if form.is_valid():
             login_helper(request, form.cleaned_data["email"],
                          form.cleaned_data["password"])
+            next_url = request.GET["next"]
+            if next_url:
+                return HttpResponseRedirect(next_url)
             return HttpResponseRedirect(reverse("index"))
-    template_var["form"]=form        
+    template_var["form"] = form        
     return render_to_response("accounts/login.html", template_var,
                               context_instance=RequestContext(request))
     
@@ -354,14 +359,13 @@ def login_helper(request, email, password):
     
     Raises:
         None.
-    """
-    
+    """    
     ret=False
     user=authenticate(email=email, password=password)
     if user:
         if user.is_active:
             auth_login(request, user)
-            ret=True
+            ret = True
     return ret
     
     
@@ -381,8 +385,7 @@ def logout(request):
     
     Raises:
         None.
-    """
-    
+    """    
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
