@@ -118,10 +118,18 @@ def like_event(request, pk):
     template_var = base_template_vals(request)
     
     if request.user.is_authenticated():
-        like = Like(event=Event.objects.get(id=pk))
-        like.user = UserProfile.objects.filter(django_user=request.user)[0]
-        like.save()
+        previousLike = Like.objects.filter(event=Event.objects.get(id=pk), user=UserProfile.objects.filter(django_user=request.user)[0])
+        if(len(previousLike) == 0):
+            like = Like(event=Event.objects.get(id=pk))
+            like.user = UserProfile.objects.filter(django_user=request.user)[0]
+            like.save()
+        #sys notification
+        from_user = UserProfile.objects.get(django_user = User.objects.get(username__exact='admin')) 
+        to_user = UserProfile.objects.get(django_user=request.user)
+        event_id = pk
+        sys_notification(to_user, "save_event", from_user, event_id)
     return redirect('index')
+
 
 
 def share_email(request, pk):
