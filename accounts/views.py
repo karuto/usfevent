@@ -51,8 +51,7 @@ def add_friend(request, pk):
     
     Raises:
         None.       
-    """
-    
+    """    
     template_var = base_template_vals(request)   
     from_user = UserProfile.objects.get(django_user=request.user)
     to_user = UserProfile.objects.get(id=pk)
@@ -61,7 +60,6 @@ def add_friend(request, pk):
     if(size == 0):
         f = Friendship(friend_from=from_user, friend_to=to_user)
         f.save()
-
         # System notification
         event_id = 0  # Should be nothing in this case
         sys_notification(to_user, "followed", from_user, event_id)
@@ -247,18 +245,14 @@ def register(request):
             # Check "first_last_i++"
             queryname = str(username) + "_" + str(i)
         
-        print "###queryname = " + queryname   
         user = User.objects.create_user(queryname, email, password)
         user.save()
     
         try:
             grad_ = request.POST['grad_year']
             bio_ = request.POST['bio']
-            print "### Encountered grad_year, bio"
             aff_ = request.POST['aff']
-            print "### Encountered aff"
             affmsg_ = request.POST['affmsg']
-            print "### Encountered all fields"
             
             preferencelist = request.POST.getlist('preferences')
             preferences_ = ""
@@ -287,7 +281,6 @@ def register(request):
         except Exception:
             # If we can not finish saving userprofile, delete the user object
             # Because we don't want users without userprofiles attached
-            print "### Encountered exception"
             user.delete()
         login_helper(request, email, password)
         return HttpResponseRedirect(reverse("index"))    
@@ -318,10 +311,8 @@ def login(request):
         accounts/login.html with template_vars.
         
     Raises:
-        None.
-    
+        None.    
     """ 
-    print "#####===== " + str(len(request.GET))
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))
@@ -360,8 +351,8 @@ def login_helper(request, email, password):
     Raises:
         None.
     """    
-    ret=False
-    user=authenticate(email=email, password=password)
+    ret = False
+    user = authenticate(email=email, password=password)
     if user:
         if user.is_active:
             auth_login(request, user)
@@ -385,7 +376,7 @@ def logout(request):
     
     Raises:
         None.
-    """    
+    """
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
