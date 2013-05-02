@@ -24,9 +24,9 @@
         <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
         <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
         {% endif %}
-
-	   <li class="external-item"><a href="/notification/msg_box">Message Unread:<b style="backgroud-color:red;" id = "msg_new_number">{{msg_unread}}</b> </a></li>
-	   <script>
+        {% if request.user.is_authenticated %}
+	    <li class="external-item"><a href="/notification/msg_box">Message Unread:<b style="backgroud-color:red;" id = "msg_new_number">{{msg_unread}}</b> </a></li>
+	    <script>
 		function myFunction()
 		{
 		setInterval(function(){
@@ -36,6 +36,7 @@
 		},3000);
 		}
 		</script>
+        {% endif %}
 
 
         </nav>

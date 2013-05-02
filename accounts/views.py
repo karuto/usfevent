@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -364,6 +365,7 @@ def login_helper(request, email, password):
     return ret
     
     
+@login_required    
 def logout(request):
     """Logs out user from account.
     
