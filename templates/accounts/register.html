@@ -12,59 +12,43 @@
 <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
 
-<div class="page-subhero-text">Upload your profile image</div>
+<div class="main-item-block">
 <input type="file" name="picture"/>
+</div>
 
-<br><br>
-
-<div class="page-subhero-text">Fill out your basic info</div>
-<label for="id_firstname">FIRSTNAME</label>
+<div class="entry-content-block">
+<input type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" />
+&emsp;
+<input type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" />
 <br>
-<input id="id_firstname" maxlength="30" type="text" name="firstname" size="20" />
+<input type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
 <br>
-<label for="id_lastname">LASTNAME</label>
-<br>
-<input id="id_lastname" maxlength="30" type="text" name="lastname" size="20" />
-<br>
-<label for="id_email">EMAIL</label>
-<br>
-<input id="id_email" maxlength="30" type="text" name="email" size="20" />
-<br>
-<label for="id_password">PASSWORD</label>
-<br>
-<input id="id_password" maxlength="30" type="password" name="password" size="20" />
-<br><br> 
-
-<div class="page-subhero-text">Tell us a bit more about yourself</div>
-
-<label for="id_location">YOUR AFFILIATION</label>
-<br>
-<input type="radio" name="aff" value="student">STUDENT &emsp;
-<input type="radio" name="aff" value="staff">STAFF &emsp;
-<input type="radio" name="aff" value="faculty">FACULTY
-<br>
+<input type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
 
 <br>
-<label for="id_position">YOUR CURRENT POSITION</label>
+<label for="id_aff_stu">YOUR AFFILIATION</label>
 <br>
-<input id="id_position" maxlength="30" type="text" name="position" size="20" />
+<input type="radio" id="id_aff_stu" name="aff" value="0" checked>STUDENT &emsp;
+<input type="radio" id="id_aff_sta" name="aff" value="1">STAFF &emsp;
+<input type="radio" id="id_aff_fac" name="aff" value="2">FACULTY
+<br>
+<label for="id_aff_stu">YOUR GRADUATION YEAR</label>
+<select name="grad_year" id="grad_year" size="1">
+    {% for y in grad_years %}
+    <option value="{{ y }}">&emsp;{{ y }}&emsp;</option>
+    {% endfor %}
+</select>
+<br>
+<br>
+<input type="text" id="id_affmsg" name="affmsg" placeholder=" AFFILIATION MESSAGE (IF YOU HAVE ONE) " maxlength="200" size="40" />
 <br> 
-<label for="id_bio">WRITE A SHORT BIO FOR YOURSELF</label>
-<br> 
-<textarea id="id_bio" type = "text" name="bio" rows="3" cols="40">Just a mundane creature, a half-decent human being, a humble community member, a dedicated USF spirit.</textarea>
-
-<br><br>
-
-<div class="page-subhero-text">Preferences of events</div>
-<input type="checkbox" name="preferences" value="lectures" checked/>Lectures
-<input type="checkbox" name="preferences" value="greek life" />Greek Life
-<input type="checkbox" name="preferences" value="clubs" />Clubs
-
-<br><br>
+<textarea type="text" id="id_bio" name="bio" rows="3" cols="40" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF"></textarea>
+<br>
 
 <input type="submit" value="Register"/>
 <br><br>
 </form>
+</div>
        
 </div><!-- .layout-content-wrap -->
 {% endblock %}

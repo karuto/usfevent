@@ -2,12 +2,18 @@
     http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 """
 
+
+# Python imports
+from datetime import date
+
 # django-level imports
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
@@ -21,14 +27,12 @@ from event.models import Comment
 from event.models import Event
 from event.models import Like
 from event.models import Message
-from forms import LoginForm
-from forms import RegisterForm
 from global_func import base_template_vals
 from models import UserProfile
 from notification.views import sys_notification
 
 
-
+@login_required 
 def add_friend(request, pk): 
     """Adds targeted user as a friend of the current user.
     
@@ -47,8 +51,44 @@ def add_friend(request, pk):
     
     Raises:
         None.       
-    """
+    """    
+    template_var = base_template_vals(request)   
+    from_user = UserProfile.objects.get(django_user=request.user)
+    to_user = UserProfile.objects.get(id=pk)
+    size = len(Friendship.objects.filter(friend_from=from_user,
+                                         friend_to=to_user))
+    if(size == 0):
+        f = Friendship(friend_from=from_user, friend_to=to_user)
+        f.save()
+        # System notification
+        event_id = 0  # Should be nothing in this case
+        print str(to_user)
+        print str(from_user)
+        sys_notification(to_user, "followed", from_user, event_id)
+
+    return HttpResponseRedirect(reverse('index'))
+
+@login_required 
+def remove_friend(request, pk): 
+    """remove targeted user from the friend-list of the current user.
     
+    Only works if current user is authenticated.
+    Retrieves the current user and the targeted user's (user_id = pk)
+    UserProfile objects, check if they are friends already; if so, remove their.
+    Friendship from database.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: Parameter in URL, representing targeted user's UserProfile id.
+    
+    Returns:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+    
+    Raises:
+        None.       
+    """
+
     #global template_var
     template_var = base_template_vals(request)
     
@@ -57,19 +97,14 @@ def add_friend(request, pk):
         to_user = UserProfile.objects.get(id=pk)
         size = len(Friendship.objects.filter(
                     friend_from=from_user, friend_to=to_user))
-        if(size == 0):
-            f = Friendship(friend_from=from_user, friend_to=to_user)
-            f.save()
+        if(size != 0):
+            f = Friendship.objects.filter(
+                    friend_from=from_user, friend_to=to_user)[0]
+            f.delete()
 
-            # System notification
-            event_id = 0  # Should be nothing in this case
-            sys_notification(to_user, "followed", from_user, event_id)
-        
     return HttpResponseRedirect(reverse('index'))
 
-
-
-
+@login_required 
 def public_profile(request, pk):
     """Processes data needed for an user's public profile.
         
@@ -90,9 +125,8 @@ def public_profile(request, pk):
         None.       
     """
     
-    #global template_var
+
     template_var = base_template_vals(request)
-    
     if request.user.is_authenticated():
         template_var["user"] = UserProfile.objects.get(id=pk)
         
@@ -102,8 +136,9 @@ def public_profile(request, pk):
         template_var["friends"] = friends
         
         # Retrieve list of friends' saved events of current user.
-        template_var["saved_events"] = Like.objects.filter(user=
-                                            template_var["user"])
+
+        template_var["saved_events"] = Like.objects.filter(
+                                       user=template_var["user"])
         friends_events = []
         friends_saved_entries = []
         for friend in friends:
@@ -117,17 +152,25 @@ def public_profile(request, pk):
             if(friends_event.id not in event_id_list):
                 event_id_list.append(friends_event.id)
                 friends_events_.append(friends_event)
-        #for f in friends_saved_entries:
-        #    print f.event
+
         
         template_var["friend_events"] = friends_events_
         template_var["friends_saved_entries"] = friends_saved_entries
 
+        #checck if current login user follow selected public profile user or not
+        currentUser = UserProfile.objects.filter(django_user=request.user)
+        isAlreadyFollowed = Friendship.objects.filter(friend_from=currentUser, friend_to=template_var["user"])
+        if(len(isAlreadyFollowed) != 0):
+            template_var["isAlreadyFollowed"] = True;
+        else:
+            template_var["isAlreadyFollowed"] = False;
         
     return render_to_response("accounts/public_profile.html", template_var,
-         context_instance=RequestContext(request))
+                              context_instance=RequestContext(request))
 
 
+
+@login_required
 def index(request):
     """Processes data needed for public index, or an user's private profile.
     
@@ -147,33 +190,24 @@ def index(request):
     Raises:
         None.       
     """
-    #global template_var
-    template_var = base_template_vals(request)
+
     
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         # Retrieve data for current user's private profile
         up = UserProfile.objects.filter(django_user=request.user)
         if len(up) == 0: # no userprofile, say root user created in terminal
             return render_to_response("accounts/profile.html", template_var,
-                 context_instance=RequestContext(request))
+                                      context_instance=RequestContext(request))
         template_var["up"] = up[0]
 
-        # Parse "preferences" string in current user's userprofile
-        template_var["preferences"] = up[0].preferences
-        preferencelist = up[0].preferences.split(",")
-        prefered_events = []
-        for p in preferencelist:
-            prefered_events_ = Event.objects.filter(tags__name__in=[p])
-            prefered_events.extend(prefered_events_) # Concatenates two lists
-        template_var["prefered_events"] = prefered_events
-
-        ## Retrieve message / notification related lists of current user
-        #current_django_user = UserProfile.objects.filter(
-        #                            django_user=request.user)[0];
-        #template_var["msg_sent_list"] = Message.objects.filter(
-        #                                    msg_from=current_django_user)
-        #template_var["msg_received_list"] = Message.objects.filter(
-        #                                    msg_to=current_django_user)
+        # Retrieve message / notification related lists of current user
+        current_user_profile = UserProfile.objects.filter(
+                              django_user=request.user)[0]
+        template_var["msg_sent_list"] = Message.objects.filter(
+                                        msg_from=current_user_profile)
+        template_var["msg_received_list"] = Message.objects.filter(
+                                            msg_to=current_user_profile)
         
         # Retrieve likes (saved events) list of current user
         template_var["likes"] = Like.objects.filter(user=up[0])
@@ -198,7 +232,7 @@ def index(request):
         template_var["friends_events"] = friends_events_
         
     return render_to_response("accounts/profile.html", template_var,
-         context_instance=RequestContext(request))
+                              context_instance=RequestContext(request))
 
 
 def register(request):
@@ -214,14 +248,23 @@ def register(request):
             https://docs.djangoproject.com/en/dev/ref/request-response/
     
     Returns:
+
+        USER LOGGED IN: 
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+        REGISTRATION SUCCESSFUL:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+        NO POST REQUEST:
         accounts/register.html with template_vars.
     
     Raises:
         None.       
     """
-    
-    #global template_var
+
     template_var = base_template_vals(request)
+    grad_years = []
+    for y in range(date.today().year, date.today().year + 5): 
+        grad_years.append(y)
+    template_var["grad_years"] = grad_years
     
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))  
@@ -229,99 +272,198 @@ def register(request):
     if request.method == "POST":
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
+        username = firstname + "_" + lastname
         email = request.POST['email']
         password = request.POST['password']
-        username = firstname + "_" + lastname
-        print "###username = " + username
+        grad_ = request.POST['grad_year']
+        bio_ = request.POST['bio']
+        aff_ = request.POST['aff']
+        affmsg_ = request.POST['affmsg']
         
         # Does this username already exist in user database? Prepare to check
         i = 0
-        queryname = str(username) + "_" + str(i)
-        is_username_valid = False
-        
+        queryname = str(username) + "_" + str(i)        
         # If username "first_last_i" already exists...
         while (len(User.objects.filter(username = queryname)) > 0):
             i = i + 1
-            # check "first_last_i++"
+            # Check "first_last_i++"
             queryname = str(username) + "_" + str(i)
+        
         user = User.objects.create_user(queryname, email, password)
         user.save()
-        print "@@@@@@" + str(user) + " saved"
     
         try:
-            #locaiton_ = request.POST['location']
-            #interest_ = request.POST['interest']
-            
-            preferencelist = request.POST.getlist('preferences')
-            preferences_ = ""
-            for preference in preferencelist:
-                preferences_ += preference + ","
-            preferences_ = preferences_[:len(preferences_)-1]
-
             try:
                 avatar_ = request.FILES["picture"]
-                profile = UserProfile(django_user=user,
-                                      preferences=preferences_, avatar=avatar_)
+                profile = UserProfile(django_user=user, 
+                                      firstname=firstname,
+                                      lastname=lastname,
+                                      graduation_year=grad_,
+                                      affiliation_type=aff_,
+                                      affiliation_msg=affmsg_,
+                                      bio=bio_,
+                                      avatar=avatar_)
             except:
-                profile = UserProfile(django_user=user, preferences=preferences_)
-                  
+                profile = UserProfile(django_user=user,
+                                      firstname=firstname,
+                                      lastname=lastname, 
+                                      graduation_year=grad_,
+                                      affiliation_type=aff_,
+                                      affiliation_msg=affmsg_,
+                                      bio=bio_)
             profile.save()
-            
+            login_helper(request, email, password)
+            return HttpResponseRedirect(reverse("index"))    
         except Exception:
             # If we can not finish saving userprofile, delete the user object
             # Because we don't want users without userprofiles attached
             user.delete()
-
-        
-        _login(request, email, password)
-        return HttpResponseRedirect(reverse("index"))    
         
     return render_to_response("accounts/register.html", template_var, 
-         context_instance=RequestContext(request))
+                              context_instance=RequestContext(request))
 
     
 def login(request):
+    """Completes login procedure to login registered users to their account.
     
+    Checks first, if user is already logged in, if so redirects user to index.
+    If user isn't logged in, checks for 'POST' method and validates form.
+    Upon validation, calls login_helper to login user if the email password
+    pair belongs to a user. If form is valid, check if there's an auto redirect
+    URL and return to that. Otherwise returns user to index. If form is invalid
+    returns user to login page.
+    
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        VALID LOGIN:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+        INVALID LOGIN:
+        accounts/login.html with template_vars.
+        
+    Raises:
+        None.    
+    """ 
+    template_var = base_template_vals(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))
-    
-    #global template_var
-    template_var = base_template_vals(request)
-    
-    form = LoginForm()    
+     
     if request.method == 'POST':
-        form = LoginForm(request.POST.copy())
-        if form.is_valid():
-            _login(request,form.cleaned_data["email"],form.cleaned_data["password"])
+        email = request.POST['email']
+        password = request.POST['password']
+        # TODO Joseph: add sanitize functions here
+        if login_helper(request, email, password):
+            if len(request.GET) > 0:
+                next_url = request.GET["next"]
+                if next_url:
+                    return HttpResponseRedirect(next_url)
             return HttpResponseRedirect(reverse("index"))
-    template_var["form"]=form        
     return render_to_response("accounts/login.html", template_var,
                               context_instance=RequestContext(request))
     
     
-def _login(request,email,password):
-    '''login core'''
-    ret=False
-    user=authenticate(email=email,password=password)
+def login_helper(request, email, password):
+    """Determines whether email password pair exists.
+    
+    Login helper function to check that email password pair exists
+    and is active.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        email: Email adress supplied to login form.
+        pssword: Password supplied to login form.
+    
+    Returns:
+        ret: Boolean that is "False" if user doesn't exist or isn't active,
+             however only "True" if email password is exists and is active.
+    
+    Raises:
+        None.
+    """    
+    ret = False
+    user = authenticate(email=email, password=password)
     if user:
         if user.is_active:
-            auth_login(request,user)
-            print "Email:" + user.email
-            print "Email2:" + email
-            ret=True
-        else:
-            messages.add_message(request, messages.INFO, _(u'user has not activted'))
-    else:
-        messages.add_message(request, messages.INFO, _(u'user does not exist'))
+            auth_login(request, user)
+            ret = True
     return ret
     
     
+@login_required    
 def logout(request):
-    '''logout'''
+    """Logs out user from account.
+    
+    Logs out user by sending a logout request to the server with auth_logout.
+    Then makes an HTTP request to redirect user to index.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+    
+    Raises:
+        None.
+    """
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
-
+@login_required    
+def edit_profile(request):
+    """edit current user's profile.
     
+    Modify user's profile
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+    
+    Raises:
+        None.
+    """
+    template_var = base_template_vals(request)
+    current_user_profile = template_var["u"]
+
+    #username = firstname + "_" + lastname
+    #email = request.POST['email']
+    #password = request.POST['password']
+    #grad_ = request.POST['grad_year']
+    #bio_ = request.POST['bio']
+    #aff_ = request.POST['aff']
+    #affmsg_ = request.POST['affmsg']
+
+    if request.method == 'POST':
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        bio_ = request.POST['bio']
+        affmsg_ = request.POST['affmsg']
+        current_user_profile.firstname = firstname
+        current_user_profile.lastname = lastname
+        current_user_profile.bio = bio_
+        current_user_profile.affmsg = affmsg_
+        current_user_profile.save()
+
+        try:
+            avatar_ = request.FILES["picture"]
+            current_user_profile.avatar = avatar_
+            current_user_profile.save()
+        except:
+            print "no pics"
+        
+        
+        return HttpResponseRedirect(reverse("index"))
+    return render_to_response("accounts/edit_profile.html", template_var,
+                              context_instance=RequestContext(request))
+
+
+#def sanitize()    
     
     

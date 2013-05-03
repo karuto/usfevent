@@ -33,7 +33,12 @@ $('#share-content').hide();
 
     {% if request.user.is_authenticated %}
     <div class="entry-interaction-header page-subhero-text">
-        <a href="{% url event.views.like_event event.id %}">Save this event</a>
+        
+	   {% if isAlreadySaved %}
+		  <a href="{% url event.views.unlike_event event.id %}">Unsave this event</a>
+ 		  {% else %}
+		  <a href="{% url event.views.like_event event.id %}">Save this event</a>
+  		  {% endif %}
     </div>
     
     

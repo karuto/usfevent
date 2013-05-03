@@ -15,7 +15,15 @@
     
     <div class="profile-content">
         <h1 class="profile-name page-hero-text">
-            {{ user.django_user.username }}&nbsp;<span class="roboto-font"><a href="{% url friend user.id %}" style="color: white;">Follow</a></span>
+            {{ user.firstname }}&nbsp;{{ user.lastname }}
+		 <span class="roboto-font">
+		  {% if isAlreadyFollowed %}
+		  <a href="{% url unfriend user.id %}" style="color: white;">Unfollow</a>
+ 		  {% else %}
+		  <a href="{% url friend user.id %}" style="color: white;">Follow</a>
+  		  {% endif %}
+		  </span>
+
         </h1>
 
         <div class="profile-metadata">

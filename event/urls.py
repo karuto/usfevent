@@ -5,9 +5,7 @@ from event import views
 
 urlpatterns = patterns('event.views',
 
-    url(r'^$', ListView.as_view(
-	queryset=Event.objects.all().order_by("-created"),
-	template_name="event/event_homepage.html"), name="home"),
+    url(r'^$', "homepage", name="home"),
 
     url(r'^(?P<pk>\d+)$', "single",	name='single'),
 
@@ -17,6 +15,7 @@ urlpatterns = patterns('event.views',
 
     url(r'^(\d+)/(\d+)/add_comment/$', 'add_comment', name="add_comment"),
     url(r'^(\d+)/like/$', 'like_event', name="like_event"),
+    url(r'^(\d+)/unlike/$', 'unlike_event', name="unlike_event"),
     url(r'^(\d+)/email/$', 'share_email', name="share_email"),
     #url(r'^(\d+)/save/$', 'save_event', name="save_event"), 
     

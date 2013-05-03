@@ -14,7 +14,9 @@
     
     <div class="profile-content">
         <h1 class="profile-name page-hero-text">
-            {{ request.user }}&nbsp;<span class="roboto-font">( {{ request.user.email }} ) (Note: this is your private profile.)</span>
+            Hi, {{ up.firstname }}&nbsp;<span class="roboto-font">( {{ request.user.email }} ) (Note: this is your private profile.)</span>
+
+        <span class="roboto-font"><a style="color:yellow;" href="{% url accounts.views.edit_profile %}">Edit Profile</a></span>
         </h1>
 
         <div class="profile-metadata">
@@ -105,6 +107,7 @@
             </h3>
             <h4 class="event-unit-time roboto-font"><strong>When:</strong> {{ e.event.event_time }}</h4>
             <h4 class="event-unit-loc roboto-font"><strong>Where:</strong> {{ e.event.location }}</h4>
+		 <a href="{% url event.views.unlike_event e.event.id %}">Unsave this event</a>
             </div><!-- .profile-event-metadata -->
             <div class="profile-event-image">
             <a href="{%url event.views.single e.event.id %}">

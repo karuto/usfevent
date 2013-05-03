@@ -437,6 +437,11 @@ h1.entry-title {
 .entry-content {
   float: left;
 }
+.entry-content-block { 
+  float: left;
+  margin: 10px;
+  width: 520px; /* equals 2 main-item-blocks' grid */
+}
 .layout-entry-content .event-meta {
   margin: 0 0 15px;
 }
