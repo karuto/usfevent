@@ -276,6 +276,7 @@ def register(request):
         email = request.POST['email']
         password = request.POST['password']
         grad_ = request.POST['grad_year']
+        major = request.POST['major']
         bio_ = request.POST['bio']
         aff_ = request.POST['aff']
         affmsg_ = request.POST['affmsg']
@@ -298,6 +299,7 @@ def register(request):
                 profile = UserProfile(django_user=user, 
                                       firstname=firstname,
                                       lastname=lastname,
+                                      major=major,
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
                                       affiliation_msg=affmsg_,
@@ -307,6 +309,7 @@ def register(request):
                 profile = UserProfile(django_user=user,
                                       firstname=firstname,
                                       lastname=lastname, 
+                                      major=major,
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
                                       affiliation_msg=affmsg_,

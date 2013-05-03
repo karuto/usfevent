@@ -558,15 +558,39 @@ h1.entry-title {
 
 
 /* Form related */
+.form-textarea-regular,
 .form-field-regular {
   border-color: #74d8db;
   border-style: solid;
   border-width: 1px;
-  margin: 10px;
-  width: 250px;
-  text-transform: uppercase;
+  font-size: 16px;
+  margin: 10px 0;
 }
-
+.form-label-inline {
+  display: inline;
+}
+.form-dropdown-regular,
+.form-field-regular {
+  width: 250px;
+}
+.form-textarea-regular {
+  width: 350px;
+}
+.form-dropdown-regular,
+.form-label-regular {
+  display: block;
+  font-size: 18px;
+  margin: 10px 0;
+}
+.form-button-regular {
+  background-color: #74d8db;
+  border: none;
+  color: white;
+  font-size: 18px;
+  font-weight: 900;
+  padding: 5px 0;
+  width: 250px;
+}
 
 /* USF EVENT END */
 
