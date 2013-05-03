@@ -33,7 +33,8 @@
             
             <a href="">
             <div class="form-button-mini profile-following-button">
-                Following {{ friends_num }} friends
+			<a style="color:white;" href="{%url accounts.views.show_friends up.id %}">Following {{ friends_num }} friends</a>
+
             </div>
             </a>
             <h3 class="profile-bio"><!--<strong>Bio:</strong>--> {{ up.bio }}</h3>
