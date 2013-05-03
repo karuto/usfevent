@@ -7,6 +7,7 @@ def base_template_vals(request):
     template_var["msg_unread"] = ""    
     
     if request.user.is_authenticated():
+        print "####" + str(request.user)
         current_django_user = UserProfile.objects.filter(
                                     django_user=request.user)[0];
         messages = Message.objects.filter(msg_to=current_django_user)
