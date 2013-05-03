@@ -33,7 +33,12 @@ EVENT LOCATION <br>
 EVENT DETAIL <br>
 <textarea type = "text" name="body"></textarea><br>
 TAGS / CATEGORIES <br>
-<input type = "text" name="tags"/><br>
+<select name="tags">
+	{% for tag in tags %}
+		<option value="{{tag}}">{{tag}}</option>
+	{% endfor %}
+  			
+</select>
 
 <br>
 <div class="page-subhero-text">Submit for authorization</div>
