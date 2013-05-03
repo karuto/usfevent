@@ -561,6 +561,12 @@ h1.entry-title {
 
 
 /* Form related */
+.form-prompt {
+  color: #74d8db;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
 .form-textarea-regular,
 .form-field-regular {
   border-color: #74d8db;
