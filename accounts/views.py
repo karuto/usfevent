@@ -273,6 +273,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))  
         
     if request.method == "POST":
+        print request.POST
         # TODO: don't assume all these fields are in the POST! Check if exist.
         firstname = strip_tags(request.POST['firstname'])
         lastname = strip_tags(request.POST['lastname'])
