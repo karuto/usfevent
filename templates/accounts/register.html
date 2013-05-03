@@ -26,6 +26,7 @@
 </div>
 
 <div class="entry-content-block">
+
     <input class="form-field-regular" type="text" 
     id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" />
     <br>
@@ -38,7 +39,6 @@
     <input class="form-field-regular" type="password" 
     id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
     <br>
-
     <label class="form-label-regular" for="id_aff_stu">YOUR AFFILIATION</label>
     <input type="radio" id="id_aff_stu" name="aff" value="0">
     <label class="form-label-inline" for="id_aff_stu"> STUDENT </label>
@@ -46,6 +46,13 @@
     <label class="form-label-inline" for="id_aff_sta"> STAFF </label>
     <input type="radio" id="id_aff_fac" name="aff" value="2">
     <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>
+
+    {% if errors %}
+        {% for e in errors %}
+        <p>{{ e }}</p>   
+        {% endfor %} 
+    {% else %}
+    {% endif %}
     
     <label class="form-label-regular" for="major">YOUR MAJOR</label>
     <select class="form-dropdown-regular" name="major" id="major" size="1">

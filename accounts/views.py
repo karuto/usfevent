@@ -5,9 +5,11 @@
 
 # Python imports
 from datetime import date
+import string
 
 # django-level imports
 from django.core.urlresolvers import reverse
+from django.core.validators import email_re
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
@@ -18,6 +20,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.html import strip_tags
 from django.utils.translation import ugettext_lazy as _
 
 # app-level imports
@@ -264,6 +267,7 @@ def register(request):
     for y in range(date.today().year, date.today().year + 5): 
         grad_years.append(y)
     template_var["grad_years"] = grad_years
+    template_var["errors"] = None
     
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))  
@@ -278,8 +282,54 @@ def register(request):
         grad_ = request.POST['grad_year']
         major = request.POST['major']
         bio_ = request.POST['bio']
-        aff_ = request.POST['aff']
+        aff_test = False
+        if 'aff' in request.POST:
+            aff_ = request.POST['aff']
+            aff_test = True        
         affmsg_ = request.POST['affmsg']
+
+        # Check for clean input
+        results = sanitize(firstname, lastname, email, bio_, password)
+        print "results ", results
+        if all(results) and aff_test is True: #all tests passed
+            print "tests passed"
+            firstname = " ".join(firstname.split())
+            print "firstname ", firstname
+            lastname = " ".join(lastname.split())
+            print "lastname ", lastname
+            bio_ = " ".join(bio_.split())
+            print "bio_ ", bio_
+            affmsg_ = " ".join(affmsg_.split())
+            print "affmsg_ ", affmsg_
+        else: # gotta kick back
+            print "tests failed"
+            results.append(aff_test)
+            errors = results
+            print "errors ", errors
+            old_input = {}
+            template = "accounts/register.html"
+            if len(firstname) > 0: 
+                old_input['firstname'] = firstname
+            if len(lastname) > 0:   
+                old_input['lastname'] = lastname
+            if len(email) > 0:
+                old_input['email'] = email
+            if len(password) > 0:
+                old_input['password'] = password
+            old_input['grad_year'] = grad_
+            if len(bio_) > 0:
+                old_input['bio'] = bio_
+            if aff_test is True:
+                old_input['aff'] = aff_
+            if len(affmsg_) > 0:
+                old_input['affmsg'] = affmsg_
+            old_input['errors'] = errors
+            old_input['grad_years'] = template_var["grad_years"]
+            print old_input
+            return render_to_response(template, old_input,
+                                      context_instance=RequestContext(request))
+            
+
         
         # Does this username already exist in user database? Prepare to check
         i = 0
@@ -467,6 +517,34 @@ def edit_profile(request):
                               context_instance=RequestContext(request))
 
 
-#def sanitize()    
+
+def sanitize(first, last, email, bio, password):
+
+    result = [True, True, True, True, True]
     
+    for c in first:
+        if c not in string.ascii_letters and c.isspace() is False:
+            result[0] = False
+            print "invalid first name"
+            break
+    if len(first) == 0:
+        result[0] = False
+    for c in last:
+        if c not in string.ascii_letters and c.isspace() is False:
+            result[1] = False
+            print "invalid last name"
+            break
+    if len(last) == 0:
+        result[1] = False
+    if len(bio) > 500:
+        result[3] = False
+        print "invalid bio"
+    if len(password) == 0:
+        result[4] == False
+    if email_re.match(email):
+       return result
+    else:
+       result[2] = False
+       print "invalid email"
+       return result
     
