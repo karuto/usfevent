@@ -52,8 +52,4 @@ function previewImage(file)
          	param.left = Math.round((maxWidth - param.width) / 2);
          	param.top = Math.round((maxHeight - param.height) / 2);
          	return param;
-<<<<<<< HEAD
          }
-=======
-         }
->>>>>>> 2d0f91eafddf20bbaf66eefdc261852312951925
