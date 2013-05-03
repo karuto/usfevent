@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Management</h1>
+</div>
+
+<div class="content-item-block">
+	Hi {{ u.firstname }}
+	<br>
+	{% for u in user_list %}		
+	    {{ u }}<br>
+	{% endfor %}
+</div>
+
+{% endblock %}

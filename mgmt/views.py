@@ -20,9 +20,16 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 # app-level imports
+from accounts.models import Friendship
+from accounts.models import UserProfile
+from event.models import Comment
+from event.models import Event
+from event.models import Like
+from event.models import Message
 from event.views import index
 from global_func import base_template_vals
 from notification.views import msg_box
+from notification.views import sys_notification
 
 @login_required
 def db_init(request): 
@@ -43,7 +50,8 @@ def db_init(request):
     template_var = base_template_vals(request) 
     user = template_var["u"]
     if user.is_superuser:
-        return HttpResponseRedirect(reverse('msg_box'))
+        return render_to_response("mgmt/init.html", template_var,
+                                  context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect(reverse('index'))
     
@@ -66,10 +74,15 @@ def overview(request):
         None.       
     """
     template_var = base_template_vals(request)
-    
     user = template_var["u"]
     if user.is_superuser:
-        return HttpResponseRedirect(reverse('msg_box'))
+        template_var["user_list"] = UserProfile.objects.filter(
+                                    affiliation_msg__isnull=False)
+    
+    
+    
+        return render_to_response("mgmt/overview.html", template_var,
+                                  context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect(reverse('index'))
     

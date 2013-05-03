@@ -21,12 +21,12 @@ from django.utils.translation import ugettext_lazy as _
 
 # app-level imports
 from accounts.models import Friendship
+from accounts.models import UserProfile
 from event.models import Comment
 from event.models import Event
 from event.models import Like
 from event.models import Message
 from global_func import base_template_vals
-from models import UserProfile
 from notification.views import sys_notification
 
 
@@ -217,6 +217,7 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))  
         
     if request.method == "POST":
+        # TODO: don't assume all these fields are in the POST! Check if exist.
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
         username = firstname + "_" + lastname
