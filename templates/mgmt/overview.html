@@ -4,6 +4,20 @@
 <div class="layout-content-header">
     <h1 class="page-hero-text">Management</h1>
 </div>
+<div class="layout-hero-blocks clearfix-modern">
+    <div class="main-item-block hero-block">
+        <h2 class="aligncenter hero-block-header">Poster Order form</h2>
+        <h3 class="aligncenter hero-header-num">{{ user_num }}</h3>
+    </div>
+    <div class="main-item-block hero-block">
+        <h2 class="aligncenter hero-block-header">Moderator requests</h2>
+        <h3 class="aligncenter hero-header-num">{{ user_num }}</h3>
+    </div>
+    <div class="main-item-block hero-block">
+        <h2 class="aligncenter hero-block-header">Event Submission</h2>
+        <h3 class="aligncenter hero-header-num">{{ event_num }}</h3>
+    </div>
+</div><!-- .layout-hero-blocks -->
 
 <div class="content-item-block">
 	Hi superuser your name is {{ u.firstname }}
@@ -25,5 +39,38 @@
 	    <br>
 	{% endfor %}
 </div>
+
+
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Admin request</h1>
+</div>
+
+<div class="content-item-block">
+	Hi superuser your name is {{ u.firstname }}
+	<br>
+	<br>
+	<div class="page-subhero-text">{{ user_num }} Users awaiting approval</div>
+	{% for app_user in user_list %}		
+	    <a href="{% url mgmt.views.approve_user app_user.id %}">
+	    Approve {{ app_user.firstname }}</a>: 
+	    {{ app_user.affiliation_msg }}
+	    <br>
+	{% endfor %}
+	<br>
+	<br>
+	<div class="page-subhero-text">{{ event_num }} Events awaiting approval</div>
+	{% for app_event in event_list %}		
+	    <a href="{% url mgmt.views.approve_event app_event.id %}">
+	    Approve {{ app_event }}</a>
+	    <br>
+	{% endfor %}
+</div>
+
+
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Event submission</h1>
+</div>
+
+
 
 {% endblock %}

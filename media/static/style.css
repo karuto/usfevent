@@ -288,6 +288,10 @@ a:hover {
 -moz-box-shadow:    0px -5px 15px rgba(50, 50, 50, 0.1);
 box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 }
+.layout-hero-blocks {
+  display: block;
+  clear: both;
+}
 /* USF EVENT END */
 
 
@@ -404,6 +408,23 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   margin: 0 0 20px;
   text-transform: uppercase;
 }
+
+.hero-header-num,
+.hero-block-header {
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 130%;
+  text-transform: uppercase;
+}
+.hero-block-header {
+  font-size: 27px;
+  padding: 20px 20px 0;
+}
+.hero-header-num {
+  font-size: 48px;
+  padding: 0 10px;
+}
 .page-hero-inline {
   display: inline;
 }
@@ -491,6 +512,10 @@ h1.entry-title {
 }
 
 /* Profile related */
+.hero-block {
+  background-color: #74d8db;
+  height: 200px;
+}
 .profile-metadata {
   font-size: 16px;
 }
