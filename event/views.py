@@ -325,7 +325,7 @@ def save_event(request):
 
 @login_required
 def post(request):
-    """Posts an event.
+    """Posts an event, only moderators can access.
     
     Processes the event form and has exceptions to handle invalid time input
     and lack of picture.
@@ -343,37 +343,41 @@ def post(request):
         None.
     """
     template_var = base_template_vals(request)
+    user = template_var["u"]
     from_user = UserProfile.objects.get(django_user=request.user)
-    if request.method == "POST":
-        title_ = request.POST["title"]
-        body_ =  request.POST["body"]
-        refer_ = request.POST["refer"]
-        date_ = request.POST["date"]
-        try:
-            time.strptime(date_, '%m/%d/%Y')
-        except ValueError:
-            current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
-            date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
-            
-        loc_ = request.POST["loc"]
-        tags_ = request.POST["tags"]
-        if(len(tags_) == 0):
-            tags_ = "untagged"
-        try:
-            image1_ = request.FILES["picture"]
-            event = Event(title=title_, body=body_, location=loc_,
-                          refer=refer_, event_time=date_, image1=image1_,
-                          author=from_user)
-        except:
-            event = Event(title=title_, body=body_, location=loc_,
-                          refer=refer_, event_time=date_, author=from_user)
-    
-        event.save() 
-        tags = splitTags(tags_)
-        for tag in tags:
-            event.tags.add(tag)
-        event.save() 
-        return HttpResponseRedirect(reverse("index"))    
+    if user.is_moderator or user.is_superuser:
+        if request.method == "POST":
+            title_ = request.POST["title"]
+            body_ =  request.POST["body"]
+            refer_ = request.POST["refer"]
+            date_ = request.POST["date"]
+            try:
+                time.strptime(date_, '%m/%d/%Y')
+            except ValueError:
+                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
+                date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+                
+            loc_ = request.POST["loc"]
+            tags_ = request.POST["tags"]
+            if(len(tags_) == 0):
+                tags_ = "untagged"
+            try:
+                image1_ = request.FILES["picture"]
+                event = Event(title=title_, body=body_, location=loc_,
+                              refer=refer_, event_time=date_, image1=image1_,
+                              author=from_user)
+            except:
+                event = Event(title=title_, body=body_, location=loc_,
+                              refer=refer_, event_time=date_, author=from_user)
+        
+            event.save() 
+            tags = splitTags(tags_)
+            for tag in tags:
+                event.tags.add(tag)
+            event.save() 
+            return HttpResponseRedirect(reverse("index")) 
+    else:
+        return HttpResponseRedirect(reverse("index"))   
 
     return render_to_response("event/event_post.html", template_var,
                               context_instance=RequestContext(request))
