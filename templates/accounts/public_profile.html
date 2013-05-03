@@ -8,6 +8,7 @@
 
 <div class="layout-content-header">
     <h1 class="page-hero-text page-hero-inline">{{ user.firstname }} {{ user.lastname }}</h1>
+    &emsp;
     {% if isAlreadyFollowed %}
     <a  class="page-hero-support form-button-mini"
     href="{% url unfriend user.id %}" style="color: white;">Unfollow</a>
