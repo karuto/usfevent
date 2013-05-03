@@ -246,19 +246,20 @@ a:hover {
   clear: both;
   margin: 0 auto;
   max-width: 1240px;
-  padding: 65px 0;
+  padding: 0 0 50px;
 }
 /* Primary content */
 .layout-primary-wrap {
   float: left;
   width: 1080px;
+  padding: 50px 0 0;
   position: relative;
 }
 .layout-content-wrap {
   margin: 0 20px;
 }
 .layout-listview-header {
-  margin: 0 10px 20px;
+  margin: 20px 10px;
 }
 .layout-content-header {
   margin: 0 0 20px;
