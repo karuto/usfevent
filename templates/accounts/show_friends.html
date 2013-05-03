@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+
+
+
+
+<div class="layout-profile-content">
+    <div class="profile-content-header">
+        <div class="profile-header">
+        You are following {{ friends|length }} users
+        </div>
+    </div><!-- .profile-content-header -->
+    <div class="profile-friends clearfix-modern">
+        <h3>
+	        {% for f in friends %}
+	        <div class="user-friend-link" >
+	        <a href="/user/{{ f.friend_to.id }}"
+	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
+	        <img class="user-avatar-mini" 
+	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
+            </a>
+            </div><!-- .user-friend-link -->
+            {% endfor %}
+        </h3>
+    </div><!-- .profile-friends -->
+</div><!-- .layout-profile-content -->
+
+
+
+
+   
+{% endif %}
+    
+{% endblock %}

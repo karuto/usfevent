@@ -239,6 +239,113 @@ def index(request):
                               context_instance=RequestContext(request))
 
 
+
+@login_required 
+def show_friends(request, pk):
+    """show friends for given user
+        
+    Only works if current user is authenticated.
+    Retrieves the the targeted user's (user_id = pk) UserProfile object, 
+    list of friends, list of friends' saved events, 
+    a new friendship object and store it in database.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: Parameter in URL, representing targeted user's UserProfile id.
+    
+    Returns:
+        accounts/public_profile.html with template_vars.
+    
+    Raises:
+        None.       
+    """
+    
+
+    template_var = base_template_vals(request)
+    if request.user.is_authenticated():
+        template_var["user"] = UserProfile.objects.get(id=pk)
+        
+        # Retrieve list of friends of current user.
+        friends = Friendship.objects.filter(friend_from=template_var["user"])
+        friends = list(friends) # Cast queryset to list to avoid u("")
+        template_var["friends"] = friends
+        template_var["friends_num"] = len(friends)
+        
+        
+
+        
+    return render_to_response("accounts/show_friends.html", template_var,
+                              context_instance=RequestContext(request))
+
+
+
+@login_required
+def index(request):
+    """Processes data needed for public index, or an user's private profile.
+    
+    If current user is NOT authenticated, display a general index page.    
+    Private profile only works if current user is authenticated.
+    Retrieves the the current user's UserProfile object, and messages / 
+    notifications, saved events, friends, friends' saved events' list of the
+    current user.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        accounts/profile.html with template_vars.
+    
+    Raises:
+        None.       
+    """
+
+    
+    template_var = base_template_vals(request)
+    if request.user.is_authenticated():
+        # Retrieve data for current user's private profile
+        up = UserProfile.objects.filter(django_user=request.user)
+        if len(up) == 0: # no userprofile, say root user created in terminal
+            return render_to_response("accounts/profile.html", template_var,
+                                      context_instance=RequestContext(request))
+        template_var["up"] = up[0]
+
+        # Retrieve message / notification related lists of current user
+        current_user_profile = UserProfile.objects.filter(
+                              django_user=request.user)[0]
+        template_var["msg_sent_list"] = Message.objects.filter(
+                                        msg_from=current_user_profile)
+        template_var["msg_received_list"] = Message.objects.filter(
+                                            msg_to=current_user_profile)
+        
+        # Retrieve likes (saved events) list of current user
+        template_var["likes"] = Like.objects.filter(user=up[0])
+        
+        # Retrieve friend list of current user
+        friends = Friendship.objects.filter(friend_from=up[0])
+        friends = list(friends) # Cast queryset to list to avoid u("")
+        template_var["friends"] = friends
+        template_var["friends_num"] = len(friends)
+        
+        # Retrieve and parse friends' saved events' list of current user
+        friends_events = []
+        for friend in friends:
+            local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
+            if len(local_likes) > 0:
+                friends_events.append(local_likes[0].event)
+        event_id_list = []
+        friends_events_ = []
+        for friends_event in friends_events:
+                if(friends_event.id not in event_id_list):
+                    event_id_list.append(friends_event.id)
+                    friends_events_.append(friends_event)
+        template_var["friends_events"] = friends_events_
+        
+    return render_to_response("accounts/profile.html", template_var,
+                              context_instance=RequestContext(request))
+
+
 def register(request):
     """Handles user registration.
     
