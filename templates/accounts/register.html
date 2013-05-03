@@ -10,15 +10,13 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
-
-
 <div class="main-item-block">
 	<div id="preview">
          <img id="imghead" src=''>
 	</div>
 	 <div style="position:relative;">
 		<button id="browzer_button" 
-		style="position:absolute; margin-left:30px; width:150px;"/>Browser</button>
+		style="position:absolute; margin-left:30px; width:150px;"/>Upload avatar</button>
 		<input type="file" name="picture" style="opacity:0; z-index:1;"
 		 onchange="document.getElementById('browzer_button').value = 
 		 this.value;previewImage(this);" />
