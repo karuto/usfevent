@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <title>Welcome!</title>
+</head>
+<body>
+    <h2>{{w}}</h2>
+    
+	  <h3>My Interest is {{up.interest}}</h3>
+    <h3>My Location is {{up.location}}</h3>
+
+    <hr/>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    <p>{%if request.user.is_authenticated%}
+
+     <a href="{%url logout%}">logout</a> 
+    {%else%}<a href="{%url login%}">login</a>  |  
+    <a href="{%url register%}">register</a>   
+    {%endif%}
+    </p>
+</body>
+</html>

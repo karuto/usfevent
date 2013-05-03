@@ -66,6 +66,12 @@ def sys_notification(target, types, from_user, event_id):
         message.content = str(from_user.django_user) + " comments on your event." + "<a href='/events/"+ event_id+"'>link</a>"
     elif(types == "save_event"):
         message.content = "The event saved successfully. " + "<a href='/events/"+ event_id+"'>link</a>"
+    elif(types == "approve_event"):
+        message.content = "The event has been approved. " + "<a href='/events/"+ event_id+"'>link</a>"
+    elif(types == "approve_user"):
+        message.content = "You have been promoted. "
+    
+
     else:
         message.content = "Unknown System Notification."    
     message.save()
