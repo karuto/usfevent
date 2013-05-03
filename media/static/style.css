@@ -1,4 +1,4 @@
-/*
+﻿/*
 Theme Name: USF Event Theme
 Theme URI: http://127.0.0.1:8000
 Author: Vincent Zhang
@@ -1022,3 +1022,11 @@ img.avatar {
 .global-dropdown li:hover > ul { 
   visibility: visible; 
 }
+
+
+
+
+
+
+#preview{width:200px;height:200px;border:1px solid #000;overflow:hidden;}
+#imghead {filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=image);}
