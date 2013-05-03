@@ -79,13 +79,27 @@ def overview(request):
         # Retrieve objects if its "affiliation_msg" string length > 1
         # http://stackoverflow.com/questions/15708416/django-lookup-by-length-of-text-field
         template_var["user_list"] = UserProfile.objects.filter(
-                                    affiliation_msg__iregex=r'^.{1,}$')
-    
-    
-    
+                                    affiliation_msg__iregex=r'^.{1,}$').filter(
+                                    is_approved=False)
+        template_var["user_num"] = len(template_var["user_list"])
         return render_to_response("mgmt/overview.html", template_var,
                                   context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect(reverse('index'))
     
+
+
+@login_required
+def approve_user(request, pk): 
+    template_var = base_template_vals(request)
+    user = template_var["u"]
+    if user.is_superuser:
+        approved_user = UserProfile.objects.get(id=pk)
+        approved_user.affiliation_msg = ""
+        approved_user.is_moderator = True
+        approved_user.is_approved = True
+        approved_user.save()
+        return HttpResponseRedirect(reverse('overview'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
     

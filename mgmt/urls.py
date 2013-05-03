@@ -5,4 +5,5 @@ urlpatterns = patterns('mgmt.views',
 
     url(r'^init/$', 'db_init', name="init"),
     url(r'^$', 'overview', name="overview"),
+    url(r'^approve/(?P<pk>\d+)$', 'approve_user', name="approve_user"),
 )
