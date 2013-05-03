@@ -34,7 +34,8 @@
                 <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>
                 <br>
                 {% else %}
-                <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>&emsp;INVALID FIRST NAME
+                <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>
+                <span class="form-prompt">* Invalid firstname</span>
                 <br>
                 {% endif %}
             {% endif %}  
@@ -44,7 +45,8 @@
                 <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>
                 <br>
                 {% else %}
-                <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>&emsp;INVALID LAST NAME
+                <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>
+                <span class="form-prompt">* Invalid lastname</span>
                 <br>
                 {% endif %}
             {% endif %}
@@ -54,7 +56,8 @@
                 <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
                 <br>
                 {% else %}
-                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>&emsp;INVALID EMAIL
+                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
+                <span class="form-prompt">* Invalid email</span>
                 <br>
                 {% endif %}
             {% endif %}
@@ -64,7 +67,8 @@
                 <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
                 <br>
                 {% else %}
-                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>&emsp;INVALID PASSWORD
+                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
+                <span class="form-prompt">* Invalid password</span>
                 <br>
                 {% endif %}
             {% endif %}
@@ -85,7 +89,8 @@
                 <input type="radio" id="id_aff_sta" name="aff" value="1"> 
                 <label class="form-label-inline" for="id_aff_sta"> STAFF </label>
                 <input type="radio" id="id_aff_fac" name="aff" value="2">
-                <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>&emsp;PLEASE SELECT AN OPTION
+                <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>
+                <span class="form-prompt">* Please select an option</span>
                 {% endif %}
                 <label class="form-label-regular" for="major">YOUR MAJOR</label>
                 <select class="form-dropdown-regular" name="major" id="major" size="1">
@@ -152,8 +157,8 @@
                 <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>
                 <br>
                 {% else %}
-                <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>&emsp;INVALID BIO    
-                <br>
+                <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>
+                <span class="form-prompt">* Invalid bio</span>
                 {% endif %}
             {% endif %}         
         {% endfor %}
