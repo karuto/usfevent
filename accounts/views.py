@@ -136,6 +136,7 @@ def public_profile(request, pk):
         friends = Friendship.objects.filter(friend_from=template_var["user"])
         friends = list(friends) # Cast queryset to list to avoid u("")
         template_var["friends"] = friends
+        template_var["friends_num"] = len(friends)
         
         # Retrieve list of friends' saved events of current user.
 
