@@ -13,22 +13,31 @@
 
 
 <div class="main-item-block">
-<input type="file" name="picture"/>
+	<div id="preview">
+         <img id="imghead" src=''>
+	</div>
+	 <div style="position:relative;">
+		<button id="browzer_button" 
+		style="position:absolute; margin-left:30px; width:150px;"/>Upload avatar</button>
+		<input type="file" name="picture" style="opacity:0; z-index:1;"
+		 onchange="document.getElementById('browzer_button').value = 
+		 this.value;previewImage(this);" />
+	 </div>
 </div>
 
 <div class="entry-content-block">
-<input type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{u.firstname}}"/>
+<input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{u.firstname}}"/>
 &emsp;
-<input type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{u.lastname}}"/>
+<input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{u.lastname}}"/>
 <br>
 <label for="id_aff_stu">YOUR AFFILIATION</label>
 <br>
-<input type="text" id="id_affmsg" name="affmsg" placeholder=" AFFILIATION MESSAGE (IF YOU HAVE ONE) " maxlength="200" size="40"  value="{{u.affiliation_msg}}"/>
+<input class="form-field-regular" type="text" id="id_affmsg" name="affmsg" placeholder=" AFFILIATION MESSAGE (IF YOU HAVE ONE) " maxlength="200" size="40"  value="{{u.affiliation_msg}}"/>
 <br> 
-<textarea type="text" id="id_bio" name="bio" rows="3" cols="40" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF">{{u.bio}}</textarea>
+<textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="3" cols="40" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF">{{u.bio}}</textarea>
 <br>
 
-<input type="submit" value="Update"/>
+<input class="form-button-regular" type="submit" value="Update"/>
 <br><br>
 </form>
 </div>

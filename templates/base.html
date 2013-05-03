@@ -29,9 +29,23 @@
         <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
         <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
         {% endif %}
+        </nav>
+
+<style>
+.global-item {
+  display: inline;
+  float: right;
+}
+</style>
+
+        
+        <li class="global-item"><a href="/">
+        <img class="user-avatar-mini" style="width: 25px; height:25px; margin:10px;"
+         src="/webhost_media/{{ u.avatar }}"/>
+        </a></li>
 
         {% if request.user.is_authenticated %}
-	    <li class="external-item"><a href="/notification/msg_box">Message Unread:<b style="backgroud-color:red;" id = "msg_new_number">{{msg_unread}}</b> </a></li>
+	    <li class="global-item" style="width: 25px; height:25px; margin:10px; background-color:red;" ><a href="/notification/msg_box"><b class="aligncenter" style="color:white" id = "msg_new_number">{{msg_unread}}</b></a></li>
 	    
 	    <script>
 		function myFunction(){
@@ -42,8 +56,9 @@
 		</script>
 		
         {% endif %}
-        </nav>
-        
+
+
+
         <form role="search" method="get" id="searchform" action="/events/search">
           <input id="searchform-text" type="text" value="{{request.session.query_session}}" name="query" id="query" />
 		<select id = "sorted_method_id" name="sorted_method" style="display:none;">
