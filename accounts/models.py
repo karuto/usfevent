@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     is_approved = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return "Linked to: " + str(self.django_user)
+        return "User Profile of [" + str(self.django_user) + "], firstname " + str(self.firstname)
 
 class Friendship(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)

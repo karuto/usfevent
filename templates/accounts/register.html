@@ -12,11 +12,11 @@
 <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
 
-<div class="page-subhero-text">Upload your profile image</div>
+<div class="main-item-block">
 <input type="file" name="picture"/>
-<br><br>
+</div>
 
-<div class="page-subhero-text">Fill out your basic info</div>
+<div class="main-item-block">
 <input type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" />
 &emsp;
 <input type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" />
@@ -24,8 +24,7 @@
 <input type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
 <br>
 <input type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
-<br>
-<br>
+
 
 <div class="page-subhero-text">Tell us a bit more about yourself</div>
 
@@ -67,6 +66,7 @@
 <input type="submit" value="Register"/>
 <br><br>
 </form>
+</div>
        
 </div><!-- .layout-content-wrap -->
 {% endblock %}

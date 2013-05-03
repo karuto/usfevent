@@ -405,6 +405,11 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   margin: 10px;
   width: 250px;
 }
+.content-major-block {
+  float: left;
+  margin: 10px;
+  width: 520px;
+}
 /* This defines the appearance of main-item; much more universal. */
 .main-item-style {
   background-color: #fff;
