@@ -10,8 +10,14 @@
 <form class="form-search" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
 <div class="page-subhero-text">Upload your image</div>
-<input type="file" name="picture"/>
-
+	<div id="preview">
+         <img id="imghead"  src=''>
+	</div>
+      
+	 <div style="position:relative;">
+		<button id="browzer_button" style="position:absolute; margin-left:30px;width:150px;"/> Browzer </button>
+		<input type="file" name="picture" style="opacity:0; z-index:1;" onchange="document.getElementById('browzer_button').value = this.value;previewImage(this);" />
+	 </div>
 <br><br>
 
 <div class="page-subhero-text">Add any additional info</div>
