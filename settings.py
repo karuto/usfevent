@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'event',
     'accounts',
     'notification',
+    'mgmt',
 )
 
 AUTHENTICATION_BACKENDS = (
