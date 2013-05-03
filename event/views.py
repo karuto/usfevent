@@ -61,7 +61,7 @@ def homepage(request):
 @login_required
 def index(request):
     """Creates standard index page view for Don's Affairs.
-    
+
     Gets user profile object and its list of "Like" objects,
     list of "Event" objects inorder of creation and formats
     each event object to its title.
@@ -124,7 +124,15 @@ def single(request, pk):
         
     # Save the date related
     template_var["allusers"] = UserProfile.objects.all()
-    template_var["auth_users"] = User.objects.all()        
+    template_var["auth_users"] = User.objects.all()
+
+    
+    like = Like.objects.filter(event=Event.objects.get(id=pk), user = UserProfile.objects.filter(django_user=request.user)[0])
+    if(len(like) == 0):
+        template_var["isAlreadySaved"] = False
+    else:
+        template_var["isAlreadySaved"] = True
+        
     return render_to_response("event/event_single.html", template_var,
                               context_instance=RequestContext(request))
     
@@ -182,6 +190,7 @@ def tagpage(request, tag):
                               context_instance=RequestContext(request))
 
 
+
 @login_required	
 def add_comment(request, pk, pk2):
     """Posts comment to specific event.
@@ -211,6 +220,7 @@ def add_comment(request, pk, pk2):
             comment.user = UserProfile.objects.get(django_user=request.user)
             comment.content = p["content"]
             comment.save()
+
             # Sys notification
             from_user = UserProfile.objects.get(django_user=pk2) # Who's event that is commented on
             to_user = Event.objects.get(id=pk).author
@@ -252,6 +262,35 @@ def like_event(request, pk):
         event_id = pk
         sys_notification(to_user, "save_event", from_user, event_id)
     return redirect('index')
+
+
+@login_required	
+def unlike_event(request, pk):
+    """unlike a saved event.
+    
+    remove a Like object which contains the User who liked the event.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID of event receiving the "Like".
+        
+    Returns:
+        redirect to index.
+    
+    Raises:
+        None.
+        
+    """
+    template_var = base_template_vals(request)
+    previousLike = Like.objects.filter(event=Event.objects.get(id=pk), 
+                                        user=UserProfile.objects.filter(
+                                        django_user=request.user)[0])
+    if(len(previousLike) != 0):
+        like = previousLike[0]
+        like.delete()
+    return redirect('index')
+
 
 
 @login_required
@@ -386,6 +425,7 @@ def post(request):
 
     return render_to_response("event/event_post.html", template_var,
                               context_instance=RequestContext(request))
+
 
 
 def splitTags(user_input):

@@ -29,7 +29,7 @@ from event.models import Message
 from global_func import base_template_vals
 
 
-@login_required
+
 def sys_notification(target, types, from_user, event_id):
     """Collects / sends message for 'followed' and 'commented' notification.
     
@@ -52,12 +52,16 @@ def sys_notification(target, types, from_user, event_id):
     msg_from = UserProfile.objects.get(
                django_user=User.objects.get(username__exact='admin'))  
                #admin userprofile #TODO: FUCKING HARDCODE, BUT NO BETTER WAY?!
+
     message = Message()
     message.msg_from = msg_from
     message.msg_to = target
 
+    print "prepare to send"
+
     if (types == "followed"):
         message.content = str(from_user.django_user) + " followed you."
+        print "send"
     elif(types == "add_comment"):
         message.content = str(from_user.django_user) + " comments on your event." + "<a href='/events/"+ event_id+"'>link</a>"
     elif(types == "save_event"):
@@ -89,6 +93,7 @@ def msg_open(request, pk):
                           django_user=request.user)[0]
     msg = Message.objects.get(msg_to=current_user_profile, id=pk)
     
+
     if(msg):
         msg.is_read = True
         msg.save()
@@ -101,7 +106,6 @@ def msg_box(request):
     """Loads user's messages inbox.
     
     Gathers and displays user's recieved messages.
->>>>>>> 06e88c89fe29fc436857ce3da5e6c3914904bd99
 
     Args:
         request: Django's HttpRequest object that contains metadata.

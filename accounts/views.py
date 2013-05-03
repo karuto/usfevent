@@ -2,6 +2,7 @@
     http://google-styleguide.googlecode.com/svn/trunk/pyguide.html
 """
 
+
 # Python imports
 from datetime import date
 
@@ -11,6 +12,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
@@ -60,10 +62,47 @@ def add_friend(request, pk):
         f.save()
         # System notification
         event_id = 0  # Should be nothing in this case
+        print str(to_user)
+        print str(from_user)
         sys_notification(to_user, "followed", from_user, event_id)
-        
+
     return HttpResponseRedirect(reverse('index'))
 
+@login_required 
+def remove_friend(request, pk): 
+    """remove targeted user from the friend-list of the current user.
+    
+    Only works if current user is authenticated.
+    Retrieves the current user and the targeted user's (user_id = pk)
+    UserProfile objects, check if they are friends already; if so, remove their.
+    Friendship from database.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: Parameter in URL, representing targeted user's UserProfile id.
+    
+    Returns:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+    
+    Raises:
+        None.       
+    """
+
+    #global template_var
+    template_var = base_template_vals(request)
+    
+    if request.user.is_authenticated():
+        from_user = UserProfile.objects.get(django_user=request.user)
+        to_user = UserProfile.objects.get(id=pk)
+        size = len(Friendship.objects.filter(
+                    friend_from=from_user, friend_to=to_user))
+        if(size != 0):
+            f = Friendship.objects.filter(
+                    friend_from=from_user, friend_to=to_user)[0]
+            f.delete()
+
+    return HttpResponseRedirect(reverse('index'))
 
 @login_required 
 def public_profile(request, pk):
@@ -86,6 +125,7 @@ def public_profile(request, pk):
         None.       
     """
     
+
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         template_var["user"] = UserProfile.objects.get(id=pk)
@@ -96,6 +136,7 @@ def public_profile(request, pk):
         template_var["friends"] = friends
         
         # Retrieve list of friends' saved events of current user.
+
         template_var["saved_events"] = Like.objects.filter(
                                        user=template_var["user"])
         friends_events = []
@@ -111,13 +152,22 @@ def public_profile(request, pk):
             if(friends_event.id not in event_id_list):
                 event_id_list.append(friends_event.id)
                 friends_events_.append(friends_event)
+
         
         template_var["friend_events"] = friends_events_
         template_var["friends_saved_entries"] = friends_saved_entries
 
+        #checck if current login user follow selected public profile user or not
+        currentUser = UserProfile.objects.filter(django_user=request.user)
+        isAlreadyFollowed = Friendship.objects.filter(friend_from=currentUser, friend_to=template_var["user"])
+        if(len(isAlreadyFollowed) != 0):
+            template_var["isAlreadyFollowed"] = True;
+        else:
+            template_var["isAlreadyFollowed"] = False;
         
     return render_to_response("accounts/public_profile.html", template_var,
                               context_instance=RequestContext(request))
+
 
 
 @login_required
@@ -140,6 +190,7 @@ def index(request):
     Raises:
         None.       
     """
+
     
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
@@ -197,6 +248,7 @@ def register(request):
             https://docs.djangoproject.com/en/dev/ref/request-response/
     
     Returns:
+
         USER LOGGED IN: 
         HttpResponseRedirect, to the homepage (index) with no parameters.
         REGISTRATION SUCCESSFUL:
@@ -207,6 +259,7 @@ def register(request):
     Raises:
         None.       
     """
+
     template_var = base_template_vals(request)
     grad_years = []
     for y in range(date.today().year, date.today().year + 5): 
@@ -360,6 +413,56 @@ def logout(request):
     """
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
+
+@login_required    
+def edit_profile(request):
+    """edit current user's profile.
+    
+    Modify user's profile
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+    
+    Returns:
+        HttpResponseRedirect, to the homepage (index) with no parameters.
+    
+    Raises:
+        None.
+    """
+    template_var = base_template_vals(request)
+    current_user_profile = template_var["u"]
+
+    #username = firstname + "_" + lastname
+    #email = request.POST['email']
+    #password = request.POST['password']
+    #grad_ = request.POST['grad_year']
+    #bio_ = request.POST['bio']
+    #aff_ = request.POST['aff']
+    #affmsg_ = request.POST['affmsg']
+
+    if request.method == 'POST':
+        firstname = request.POST['firstname']
+        lastname = request.POST['lastname']
+        bio_ = request.POST['bio']
+        affmsg_ = request.POST['affmsg']
+        current_user_profile.firstname = firstname
+        current_user_profile.lastname = lastname
+        current_user_profile.bio = bio_
+        current_user_profile.affmsg = affmsg_
+        current_user_profile.save()
+
+        try:
+            avatar_ = request.FILES["picture"]
+            current_user_profile.avatar = avatar_
+            current_user_profile.save()
+        except:
+            print "no pics"
+        
+        
+        return HttpResponseRedirect(reverse("index"))
+    return render_to_response("accounts/edit_profile.html", template_var,
+                              context_instance=RequestContext(request))
 
 
 #def sanitize()    
