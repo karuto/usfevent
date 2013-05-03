@@ -29,7 +29,13 @@
 <input class="form-field-regular" type = "text" name="date"  placeholder="EVENT DATE yyyy-mm-dd"/><br>
 <input class="form-field-regular" type = "text" name="loc" placeholder="EVENT LOCATION"/><br>
 <textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL"></textarea><br>
-<input class="form-field-regular" type = "text" name="tags"  placeholder="TAGS / CATEGORIES"/><br>
+
+TAGS / CATEGORIES <br>
+<select name="tags">
+	{% for tag in tags %}
+		<option value="{{tag}}">{{tag}}</option>
+	{% endfor %}
+</select>
 
 <input class="form-button-regular" type="submit" value="Submit for approval" />
 </form>

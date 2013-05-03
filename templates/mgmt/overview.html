@@ -11,65 +11,51 @@
     </div>
     <div class="main-item-block hero-block">
         <h2 class="aligncenter hero-block-header">Moderator requests</h2>
-        <h3 class="aligncenter hero-header-num">{{ user_num }}</h3>
+        <h3 class="aligncenter hero-header-num"><a href="#id-m" style="color:white">{{ user_num }}</a></h3>
     </div>
     <div class="main-item-block hero-block">
         <h2 class="aligncenter hero-block-header">Event Submission</h2>
-        <h3 class="aligncenter hero-header-num">{{ event_num }}</h3>
+        <h3 class="aligncenter hero-header-num"><a href="#id-e" style="color:white">{{ event_num }}</a></h3>
     </div>
 </div><!-- .layout-hero-blocks -->
 
-<div class="content-item-block">
-	Hi superuser your name is {{ u.firstname }}
-	<br>
-	<br>
-	<div class="page-subhero-text">{{ user_num }} Users awaiting approval</div>
+<div class="layout-content-header">
+    <h1 class="page-hero-text" id="id-m">Moderator requests ({{ user_num }})</h1>
+</div>
+
+<div class="entry-content-mega-block">
+    <div style="padding: 20px">
 	{% for app_user in user_list %}		
 	    <a href="{% url mgmt.views.approve_user app_user.id %}">
-	    Approve {{ app_user.firstname }}</a>: 
-	    {{ app_user.affiliation_msg }}
+	    <img class="user-avatar-mini" src="/webhost_media/{{ app_user.avatar }}"/>
+	    <span class="page-subhero-text"><strong> Approve </strong>
+	    {{ app_user.firstname }} </a>: {{ app_user.affiliation_msg }}
+	    </span>
 	    <br>
 	{% endfor %}
-	<br>
-	<br>
-	<div class="page-subhero-text">{{ event_num }} Events awaiting approval</div>
-	{% for app_event in event_list %}		
-	    <a href="{% url mgmt.views.approve_event app_event.id %}">
-	    Approve {{ app_event }}</a>
-	    <br>
-	{% endfor %}
+	</div>
 </div>
+
 
 
 <div class="layout-content-header">
-    <h1 class="page-hero-text">Admin request</h1>
+    <h1 class="page-hero-text" id="id-e">Event submission ({{ event_num }})</h1>
 </div>
 
-<div class="content-item-block">
-	Hi superuser your name is {{ u.firstname }}
-	<br>
-	<br>
-	<div class="page-subhero-text">{{ user_num }} Users awaiting approval</div>
-	{% for app_user in user_list %}		
+<div class="entry-content-mega-block">
+    <div style="padding: 20px">
+	{% for app_event in event_list %}	
 	    <a href="{% url mgmt.views.approve_user app_user.id %}">
-	    Approve {{ app_user.firstname }}</a>: 
-	    {{ app_user.affiliation_msg }}
+	    <img class="user-avatar-mini" src="/webhost_media/{{ app_event.image1 }}"/>
+	    <span class="page-subhero-text"><strong> Approve </strong>
+	    {{ app_event.title }} </a>
+	    </span>
 	    <br>
 	{% endfor %}
-	<br>
-	<br>
-	<div class="page-subhero-text">{{ event_num }} Events awaiting approval</div>
-	{% for app_event in event_list %}		
-	    <a href="{% url mgmt.views.approve_event app_event.id %}">
-	    Approve {{ app_event }}</a>
-	    <br>
-	{% endfor %}
+	</div>
 </div>
 
 
-<div class="layout-content-header">
-    <h1 class="page-hero-text">Event submission</h1>
-</div>
 
 
 

@@ -481,6 +481,12 @@ h1.entry-title {
   margin: 10px;
   width: 520px; /* equals 2 main-item-blocks' grid */
 }
+.entry-content-mega-block {
+  background-color: white;
+  float: left;
+  margin: 10px;
+  width: 790px; /* equals 3 main-item-blocks' grid */
+}
 .layout-entry-content .event-meta {
   margin: 0 0 15px;
 }
