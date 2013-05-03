@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/webhost_media/static/style.css" />
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="http://www.steamdev.com/zclip/js/jquery.zclip.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
+
 </head>
 
 <body>
@@ -30,27 +32,18 @@
 
         {% if request.user.is_authenticated %}
 	    <li class="external-item"><a href="/notification/msg_box">Message Unread:<b style="backgroud-color:red;" id = "msg_new_number">{{msg_unread}}</b> </a></li>
+	    
 	    <script>
-
-		function myFunction()
-		{
-		setInterval(function(){
-			document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
-
-
-		},3000);
+		function myFunction(){
+		    setInterval(function(){
+			    document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
+		    },3000);
 		}
 		</script>
+		
         {% endif %}
-
-
         </nav>
-    
-	   
-    
-
-    
-        <!-- Currently search does not work -->
+        
         <form role="search" method="get" id="searchform" action="/events/search">
           <input id="searchform-text" type="text" value="{{request.session.query_session}}" name="query" id="query" />
 		<select id = "sorted_method_id" name="sorted_method">
@@ -71,25 +64,30 @@
         
     <div class="layout-main-wrap">
     <div class="layout-main-inner-wrap">
-    
+
     <aside class="layout-sidebar-wrap">
         <!--<a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>!-->
-        <div class="sidebar-divider">GATEWAYS</div>
+        <div class="sidebar-divider"><a href="">My events</a></div>
         {% if u.is_moderator %}
-        <h4><a href="{%url event.views.post %}">Submit event</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.post %}">Submit event</a></h4>
         {% endif %}
-        <h4><a href="{%url event.views.search %}">Search event</a></h4>
-        <h4><a href="{%url event.views.archives %}">Event archives</a></h4>
-        <h4><a href="{%url event.views.msg_send %}">Send messages</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.search %}">Search event</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.archives %}">Event archives</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.msg_send %}">Send messages</a></h4>
         
-        <div class="sidebar-divider">POPULAR CATEGORIES</div>
+        <div class="sidebar-divider">CATEGORIES</div>
         
-        <h4><a href="/events/tag/lecture">Lecture</a></h4>
-        <h4><a href="/events/tag/academic">Academic</a></h4>
-        <h4><a href="/events/tag/sports">Sports</a></h4>
-        <h4><a href="/events/tag/art">Art</a></h4>
-        <h4><a href="/events/tag/music">Music</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/art">Art</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/music">Music</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/theater">Theater</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/sports">Sports</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/lecture">Lecture</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/festivals">Festivals</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/holiday">Holiday</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/community">Community</a></h4>
+        <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/miscellaneous">Miscellaneous</a></h4>
         
+        <div class="sidebar-divider"><a href="">Friends' events</a></div>
     </aside><!-- .layout-sidebar-wrap -->
 
 

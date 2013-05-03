@@ -181,6 +181,8 @@ img {
 
 
 /* Global */
+/* http://www.google.com/fonts/#QuickUsePlace:quickUse/Family: */
+@import url(http://fonts.googleapis.com/css?family=Raleway);
 
 body {
   /*background-color: #E7E7E2;*/
@@ -190,18 +192,17 @@ body {
 }
 body, input, textarea {
   color: #444;
-  font: 16px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", FreeSans, sans-serif;
+  font: 14px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", FreeSans, sans-serif;
+  font-family: 'Raleway', sans-serif;
   font-weight: 300;
 }
 a {
-  color: #508373;
+  color: #74d8db;
   text-decoration: none;
 }
 a:hover {
-  color: darkRed;
-  text-shadow: 0px 1px 1px #FF9999;
+  color: #60B3B5;
 }
-
 
 /* Layout rules */
 /* Notes
@@ -257,7 +258,7 @@ a:hover {
   margin: 0 20px;
 }
 .layout-listview-header {
-  margin: 0 20px 20px;
+  margin: 0 10px 20px;
 }
 .layout-content-header {
   margin: 0 0 20px;
@@ -275,8 +276,10 @@ a:hover {
 /* Secondary content */
 .layout-sidebar-wrap {
   float: left;
+  padding: 10px;
   position: relative;
-  width: 160px;
+  text-transform: uppercase;
+  width: 140px; /* Total width: 10+140+10 = 160 (exact fit!) */
 }
 /* Footer content */
 .layout-footer-wrap {
@@ -373,18 +376,23 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 
 /* USF EVENT BEGIN */
-/* Main page related */
+/* Universal modules, main framework components */
 .sidebar-divider {
-  border-top: 1px dashed #508373;
-  border-bottom: 1px dashed #508373;
-  margin: 10px;
+  color: #74d8db;
+  font-size: 14px;
+  font-weight: 900;
+  margin: 15px 0 5px;
+  text-align: right;
 }
-.layout-sidebar-wrap h4 {
-  font-weight: bold;
-  margin: 5px;
-  text-transform: uppercase;
+.sidebar-item {
+  font-size: 12px;
+  text-align: right;
+}
+.sidebar-link {
+  color: #444;
 }
 .page-hero-text {
+  font-family: 'Raleway', sans-serif;
   font-size: 39px;
   font-weight: 900;
   letter-spacing: 0.1em;
@@ -397,6 +405,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   margin: 0 0 20px;
   text-transform: uppercase;
 }
+
 
 /* Entry item related */
 /* This defines the block properties of main-item. */
@@ -411,8 +420,9 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   color: #000;
 }
 .entry-header {
-  background-color: #508373;
+  background-color: #959595;
   border-bottom: 1px solid #d0d0d0;
+  color: white;
   /*border-top: 2px solid #ce5333;*/
 /*  font-size: 16px;
   font-style: bold;*/
@@ -426,12 +436,12 @@ h1.entry-title {
   padding: 10px;  
 }
 .entry-meta {
-  color: #999;
   margin: 0 20px 20px;
 }
 .post-item .entry-meta {
   margin: 0 20px 10px;
 }
+
 
 /* Entry content related */
 .entry-content {
@@ -507,7 +517,7 @@ h1.entry-title {
   width: 200px;
 }
 .profile-hero {
-  background-color: #508373;
+  background-color: #74d8db;
   /* border-bottom: 1px solid #f0f0f0; */
   height: 200px;
 }
@@ -565,6 +575,13 @@ h1.entry-title {
   height: 68px;
   width: 68px;
 }
+
+
+
+/* Form related */
+
+
+
 /* USF EVENT END */
 
 
@@ -831,134 +848,7 @@ img.avatar {
   margin-right: auto;
   margin-bottom: 20px;
 }
-/* Content styling */
-.layout-feature-post .normal { 
-  /* This enforces authors to manually apply this CSS class for displaying
-   content properly in featured posts, which is not an optimal solution. 
-   But hey, what gives, right? */
-  padding: 0 50px;
-}
-.layout-feature-post blockquote .big {
-  color: #ce5333;
-  font-size: 18px;
-  font-style: italic;
-  font-weight: bold;
-  line-height: 160%;
-}
-.semi-focus {
-  font-size: 12px;
-}
-.semi-focus, .less-focus {
-  color: #777;
-  font-weight: 300;
-}
-.stick {
-  position: fixed;
-  top: 70px;
-  width: 396px; /* KM TODO: Temporary imperfect solution, change later */
-}
-#wpcc_widget_inner {
-  display: inline;
-}
-#disqus_thread { /* Widget support */
- background-color: #fff;
- border: 1px solid #d0d0d0;
- margin: 20px 0 40px;   
- padding: 30px 20px;
-}
 
-
-
-/* Widget related */
-.widget-area .widget {
-  /*border-top: 3px solid #ce5333;*/
-  margin: 0 0 20px;
-}
-.widget-title {
-  background-color: #F5F5F5;
-  border-bottom: 1px solid #d0d0d0;
-  color: #666;
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  padding: 5px 20px;
-  text-transform: uppercase;
-/*  background-image: url('http://i.imgur.com/FV2MV.png');
-  background-position: center;*/
-}
-.RandomPostWidget .widget-title {
-  /*display: none;*/
-}
-.widget .widget-post-list {
-  margin: 0px;
-}
-.widget > ul {
-  margin: 20px;
-}
-.widget-post-list .entry-header {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-.widget-post-list .entry-header:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.widget-post-list .entry-meta {
-  color: #666;
-}
-
-/* TODO: This is a temp solution. Use different sidebar for different pages! */
-/*.category-comicbits .ImagePostWidget,*/
-.single-post .ImagePostWidget {
-  display: none;
-}
-.ImagePostWidget .widget-title {
-  display: none;
-}
-.ImagePostWidget .entry-header {
-  height: 90px;
-  border-bottom: 0px;
-}
-
-.social-unit {
-  border-bottom: 1px dashed #EDE8EA;
-  display: block;
-  margin: 0 0 10px;
-  overflow: hidden; /* KM: Fix IE Collapse */
-  padding: 0 0 10px;
-}
-.social-unit:last-child {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-.social-img img {
-  float: left;
-  margin: 2px 0 0;
-  width: 40px;
-}
-.social-title {
-  display: block;
-  margin-left: 55px;
-}
-.social-note {
-  display: block;
-  font: 13px/160% 'Helvetica Neue', Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
-  font-weight: normal;
-  color: #666;
-}
-.social-unit a:hover,{
-  color: #000;
-}
-
-
-
-/* Footer related */
-.footer-plug {  
-  background-color: #fff;
-  font: 34px/175% Georgia, serif;
-  /*font-family: "Microsoft Yahei","冬青黑体简体中文 w3","黑体", serif;*/
-  font-style: italic;
-  padding: 40px;
-  text-align: center;
-}
 
 
 
@@ -1034,10 +924,6 @@ img.avatar {
 .clearfix-modern {
  *zoom: 1;
 }
-
-
-
-
 .roboto-font {
   font: 12px/175% "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", FreeSans, sans-serif;
   /*font-style: italic;*/

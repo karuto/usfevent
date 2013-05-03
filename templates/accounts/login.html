@@ -7,6 +7,8 @@
     <h1 class="page-hero-text">Login</h1>
 </div>
 
+
+
 <div id="login" class="main-item-block">
 			
     {% if messages %}
@@ -17,11 +19,11 @@
     </ul>
     {% endif %}
     <form action="" method="post">{% csrf_token %}
-    <input type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
+    <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
     <br>
-    <input type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
+    <input class="form-field-regular" type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
     <br>
-    <input type="submit" value="Login"/>
+    <input class="form-button-regular" type="submit" value="Login"/>
     </form>
             
 </div>
