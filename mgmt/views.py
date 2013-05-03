@@ -100,6 +100,11 @@ def approve_user(request, pk):
         approved_user.is_moderator = True
         approved_user.is_approved = True
         approved_user.save()
+        #system notification
+        to_user = approved_user
+        from_user = template_var["u"]
+        event_id = 0
+        sys_notification(to_user, "approve_user", from_user, event_id)
         return HttpResponseRedirect(reverse('overview'))
     else:
         return HttpResponseRedirect(reverse('index'))
@@ -113,6 +118,11 @@ def approve_event(request, pk):
         approved_event = Event.objects.get(id=pk)
         approved_event.is_approved = True
         approved_event.save()
+        #system notification
+        to_user = approved_event.author
+        from_user = template_var["u"]
+        event_id = pk
+        sys_notification(to_user, "approve_event", from_user, event_id)
         return HttpResponseRedirect(reverse('overview'))
     else:
         return HttpResponseRedirect(reverse('index'))
