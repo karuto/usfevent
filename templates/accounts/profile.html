@@ -1,35 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="layout-content-wrap">
 
 {% if request.user.is_authenticated %}
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Hi, {{ up.firstname }}</h1>
+    <a href="{% url accounts.views.edit_profile %}">Edit Profile</a>
+</div>
 
-<div class="layout-profile-content">
-    <div class="profile-hero clearfix-modern">    
-    <div class="profile-image">
+<div class="layout-profile-content clearfix-modern">
+    <div class="profile-image main-item-block">
         <img class="user-avatar-major" src="/webhost_media/{{ up.avatar }}"/>
     </div>
     
-    <div class="profile-content">
-        <h1 class="profile-name page-hero-text">
-            Hi, {{ up.firstname }}&nbsp;<span class="roboto-font">( {{ request.user.email }} ) (Note: this is your private profile.)</span>
-
-        <span class="roboto-font"><a style="color:yellow;" href="{% url accounts.views.edit_profile %}">Edit Profile</a></span>
-        </h1>
-
+    <div class="profile-content main-item-block">
         <div class="profile-metadata">
-            <span class="roboto-font">
-            &raquo;&nbsp;Status: {{ up.position }}&emsp;
-            &raquo;&nbsp;Location: {{ up.location }}&emsp;
-            &raquo;&nbsp;Interest: {{ up.interest }}&emsp;
-            </span>
             <p class="profile-bio"><strong>Bio:</strong> {{ up.bio }}</p>
-        
         </div><!-- .profile-metadata -->
-    </div><!-- .profile-content -->    
-    </div><!-- .profile-hero -->        
+    </div><!-- .profile-content -->      
 </div><!-- .layout-profile-content -->
 
 
@@ -54,40 +43,6 @@
     </div><!-- .profile-friends -->
 </div><!-- .layout-profile-content -->
 
-<!--
-    <div class="main-item-block main-item-style post-item">
-    <h3>Message Sent List:<b style="backgroud-color:red;" id = "msg_new_number">{{msg|length}}</b> </h3>
-    <script>
-	function myFunction()
-	{
-	setInterval(function(){
-		document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
-
-
-	},3000);
-	}
-	</script>
-    {% for msg in msg_sent_list %}
-    <strong>From:</strong> {{msg.msg_from.django_user}}<br>
-    <strong>To:</strong>{{msg.msg_to.django_user}}<br>
-    <strong>Content:</strong>{{msg.content}}<br>
-    <strong>Date:</strong>{{msg.time}}<br>
-    {% endfor %}
-    </div>
-
-
-    <div class="main-item-block main-item-style post-item">
-    <h3>Message Received List: </h3>
-    {% for msg in msg_received_list %}
-    <strong>From:</strong> {{msg.msg_from.django_user}}<br>
-    <strong>To:</strong>{{msg.msg_to.django_user}}<br>
-    <strong>Content:</strong>{{msg.content}}<br>
-    <strong>Date:</strong>{{msg.time}}<br>
-    {% endfor %}
-    </div>
-
-    
--->        
 
 
 <div class="layout-profile-content layout-profile-list">
@@ -150,12 +105,11 @@
         
         {% endfor %}
     </div>
-</div><!-- .layout-profile-content layout-profile-list -->
+</div><!-- .layout-profile-content -->
 
 
 
     
 {% endif %}
     
-</div><!-- .layout-content-wrap -->
 {% endblock %}

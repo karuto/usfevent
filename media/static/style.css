@@ -258,11 +258,9 @@ a:hover {
 .layout-content-wrap {
   margin: 0 20px;
 }
-.layout-listview-header {
-  margin: 20px 10px;
-}
+.layout-listview-header,
 .layout-content-header {
-  margin: 0 0 20px;
+  margin: 20px 10px;
 }
 #layout-posts-masonry { /* Masonry support needed */
   clear: both;
@@ -484,11 +482,13 @@ h1.entry-title {
 }
 
 /* Profile related */
-.layout-entry-interactions,
-.layout-profile-content {
+.layout-entry-interactions{
   background-color: white;
   border: 1px solid #d0d0d0;
-  margin: 0 0 30px;
+  margin: 0 10px 30px;
+}
+.layout-profile-content {
+  
 }
 .layout-content-wrap > .layout-profile-list {
   float:left;
@@ -511,34 +511,19 @@ h1.entry-title {
   text-transform: uppercase;
 }
 .profile-image {
-  float: left;
+  
 }
 .user-avatar-major {
   height: 200px;
   width: 200px;
 }
-.profile-hero {
-  background-color: #74d8db;
-  /* border-bottom: 1px solid #f0f0f0; */
-  height: 200px;
-}
 .profile-content {
-  float: left;
-  width: 838px; /* 1040(wrap)-200(avatar)-1-1(borders) = 838 */
 }
 .profile-name {
-  color: white;
-  padding: 20px 20px 0;
 }
 .profile-metadata {
-  color: white;
-  padding: 0 20px 20px;
 }
 .profile-bio {
-  border-top: 1px dashed #d0d0d0;
-  font-size: 18px;
-  margin: 10px 0 0;
-  padding: 10px 0 0;
 }
 .profile-list-event,
 .profile-friends {
@@ -570,7 +555,8 @@ h1.entry-title {
   width: 68px;
 }
 .user-avatar-major {
-
+  height: 250px;
+  width: 250px;
 }
 .user-avatar-mini {
   height: 68px;

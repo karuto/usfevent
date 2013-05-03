@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=500, blank=True)
     avatar = models.ImageField('picture',upload_to='uploadImages', default='static/avatar_blank.jpg')
     graduation_year = models.IntegerField(default=2013)
+    major = models.CharField(max_length=200, blank=True, default="Computer Science")
     affiliation_type = models.IntegerField(default=0) # 0 stu, 1 staff, 2 faculty
     affiliation_msg = models.CharField(max_length=200, blank=True)
     is_connected = models.BooleanField(default=False)
