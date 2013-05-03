@@ -274,19 +274,20 @@ def register(request):
         
     if request.method == "POST":
         # TODO: don't assume all these fields are in the POST! Check if exist.
-        firstname = request.POST['firstname']
-        lastname = request.POST['lastname']
+        firstname = strip_tags(request.POST['firstname'])
+        lastname = strip_tags(request.POST['lastname'])
         username = firstname + "_" + lastname
-        email = request.POST['email']
+        email = strip_tags(request.POST['email'])
         password = request.POST['password']
         grad_ = request.POST['grad_year']
         major = request.POST['major']
-        bio_ = request.POST['bio']
+        bio_ = strip_tags(request.POST['bio'])
+        print "bio_", bio_
         aff_test = False
         if 'aff' in request.POST:
             aff_ = request.POST['aff']
             aff_test = True        
-        affmsg_ = request.POST['affmsg']
+        affmsg_ = strip_tags(request.POST['affmsg'])
 
         # Check for clean input
         results = sanitize(firstname, lastname, email, bio_, password)
@@ -303,7 +304,7 @@ def register(request):
             print "affmsg_ ", affmsg_
         else: # gotta kick back
             print "tests failed"
-            results.append(aff_test)
+            results.insert(-1, aff_test)
             errors = results
             print "errors ", errors
             old_input = {}
@@ -325,11 +326,9 @@ def register(request):
                 old_input['affmsg'] = affmsg_
             old_input['errors'] = errors
             old_input['grad_years'] = template_var["grad_years"]
-            print old_input
+            print "old input ", old_input
             return render_to_response(template, old_input,
                                       context_instance=RequestContext(request))
-            
-
         
         # Does this username already exist in user database? Prepare to check
         i = 0
@@ -405,15 +404,33 @@ def login(request):
         return HttpResponseRedirect(reverse("index"))
      
     if request.method == 'POST':
-        email = request.POST['email']
+        email = strip_tags(request.POST['email'])
         password = request.POST['password']
-        # TODO Joseph: add sanitize functions here
+        results = sanitize_login(email, password)
+        if all(results) == False:
+            old_input = {}
+            if len(email) > 0:
+                old_input['email'] = email
+            if len(password) > 0:
+                old_input['password'] = password
+            old_input['errors'] = results
+            return render_to_response("accounts/login.html", old_input,
+                                      context_instance=RequestContext(request))
         if login_helper(request, email, password):
             if len(request.GET) > 0:
                 next_url = request.GET["next"]
                 if next_url:
                     return HttpResponseRedirect(next_url)
             return HttpResponseRedirect(reverse("index"))
+        else:
+            old_input = {}
+            if len(email) > 0:
+                old_input['email'] = email
+            if len(password) > 0:
+                old_input['password'] = password
+            old_input['errors'] = [False, False]
+            return render_to_response("accounts/login.html", old_input,
+                                      context_instance=RequestContext(request))
     return render_to_response("accounts/login.html", template_var,
                               context_instance=RequestContext(request))
     
@@ -547,4 +564,17 @@ def sanitize(first, last, email, bio, password):
        result[2] = False
        print "invalid email"
        return result
+  
+   
+def sanitize_login(email, password):
+
+    result = [True, True]
     
+    if len(password) == 0:
+        result[1] == False
+    if email_re.match(email):
+       return result
+    else:
+       result[0] = False
+       print "invalid email"
+       return result    
