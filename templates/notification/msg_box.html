@@ -5,15 +5,21 @@
 
 {% if request.user.is_authenticated %}
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text" id="id-e">Notifications ({{ msg_unread }})</h1>
+</div>
+
+<div class="entry-content-mega-block">
+    <div style="padding: 20px; font-size: 18px; line-height: 170%;">
 {% for msg in msg_received_list %}
     <strong>From:</strong> {{msg.msg_from.django_user}}<br>
+    <strong>Date: </strong>{{msg.time}}<br>
     <strong>Content:</strong>
     {% if msg.is_read %}
     <a href="/notification/{{msg.id}}/msg_open" style="display: inline;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
     
     {% else %}
      <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight: bold;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
-
     {% endif %}
     <script>
 	function myFunction(message, id)
@@ -23,9 +29,11 @@
 
 	}
     </script>
-    <strong>Date:</strong>{{msg.time}}<br>
+    
+    <br><br>
 {% endfor %}
-
+	</div>
+</div><!-- .entry-content-mega-block -->
 
 
 
