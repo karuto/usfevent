@@ -218,6 +218,7 @@ def index(request):
         friends = Friendship.objects.filter(friend_from=up[0])
         friends = list(friends) # Cast queryset to list to avoid u("")
         template_var["friends"] = friends
+        template_var["friends_num"] = len(friends)
         
         # Retrieve and parse friends' saved events' list of current user
         friends_events = []

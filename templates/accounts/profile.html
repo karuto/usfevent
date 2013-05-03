@@ -16,33 +16,29 @@
     
     <div class="profile-content main-item-block">
         <div class="profile-metadata">
-            <p class="profile-bio"><strong>Bio:</strong> {{ up.bio }}</p>
+            <h3 class="profile-type">
+                {% if up.affiliation_type == 0 %}
+                    Student
+                {% endif %}
+                {% if up.affiliation_type == 1 %}
+                    Staff
+                {% endif %}
+                {% if up.affiliation_type == 2 %}
+                    Faculty
+                {% endif %}
+            </h3>
+            <h3 class="profile-major">{{ up.major }}</h3>
+            <h3 class="profile-grad">Class of {{ up.graduation_year }}</h3>
+            
+            <a href="">
+            <div class="form-button-mini profile-following-button">
+                Following {{ friends_num }} friends
+            </div>
+            </a>
+            <h3 class="profile-bio"><!--<strong>Bio:</strong>--> {{ up.bio }}</h3>
         </div><!-- .profile-metadata -->
     </div><!-- .profile-content -->      
 </div><!-- .layout-profile-content -->
-
-
-<div class="layout-profile-content">
-    <div class="profile-content-header">
-        <div class="profile-header">
-        You are following {{ friends|length }} users
-        </div>
-    </div><!-- .profile-content-header -->
-    <div class="profile-friends clearfix-modern">
-        <h3>
-	        {% for f in friends %}
-	        <div class="user-friend-link" >
-	        <a href="/user/{{ f.friend_to.id }}"
-	        title="Go to {{ f.friend_to.django_user.username }}'s Profile">
-	        <img class="user-avatar-mini" 
-	        src="/webhost_media/{{ f.friend_to.avatar }} "/>
-            </a>
-            </div><!-- .user-friend-link -->
-            {% endfor %}
-        </h3>
-    </div><!-- .profile-friends -->
-</div><!-- .layout-profile-content -->
-
 
 
 <div class="layout-profile-content layout-profile-list">

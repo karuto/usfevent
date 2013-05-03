@@ -485,6 +485,15 @@ h1.entry-title {
 }
 
 /* Profile related */
+.profile-metadata {
+  font-size: 16px;
+}
+.profile-metadata h3 {
+  padding: 10px 0 0;
+}
+.profile-following-button {
+  margin: 10px 0 0;
+}
 .layout-entry-interactions{
   background-color: white;
   border: 1px solid #d0d0d0;
@@ -591,6 +600,7 @@ h1.entry-title {
   font-size: 18px;
   margin: 10px 0;
 }
+.form-button-mini,
 .form-button-regular {
   background-color: #74d8db;
   border: none;
@@ -598,7 +608,18 @@ h1.entry-title {
   font-size: 18px;
   font-weight: 900;
   padding: 5px 0;
+}
+.form-button-mini:hover,
+.form-button-regular:hover {
+  background-color: white;
+  color: #74D8DB;  
+}
+
+.form-button-regular {
   width: 250px;
+}
+.form-button-mini {
+  padding: 10px;
 }
 
 /* USF EVENT END */
