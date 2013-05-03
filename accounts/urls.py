@@ -7,10 +7,13 @@ urlpatterns = patterns('accounts.views',
 
     url(r'^(?P<pk>\d+)$', "public_profile", name='profile'),
     url(r'^(?P<pk>\d+)/add/$', "add_friend", name='friend'),
+    url(r'^(?P<pk>\d+)/remove/$', "remove_friend", name='unfriend'),
 
     url(r'^index/$', 'index', name="accounts_index"),
     url(r'^register/$', 'register', name="register"),
     url(r'^login/$', 'login', name="login"),
     url(r'^logout/$', 'logout', name="logout"),
+
+    url(r'^edit_profile/$', 'edit_profile', name="edit_profile"),
 
 )

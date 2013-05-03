@@ -11,6 +11,9 @@ DIR_ABS = os.path.dirname(os.path.abspath(__file__))
 # DIRNAME_ABSOLUTE = os.path.dirname(os.path.abspath(__file__))
 
 
+LOGIN_URL = '/user/login'
+LOGOUT_URL = '/user/logout'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 

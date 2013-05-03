@@ -1,38 +1,30 @@
+{% extends "base.html" %}
 
+{% block content %}
+<div class="layout-content-wrap">
 
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Login</h1>
+</div>
 
-
-
-
-<!DOCTYPE html>
-<html>
-	<head>
-	<title></title>
-	<link rel="stylesheet" href="http://www.cs.usfca.edu/~yzhang8/login.css" type="text/css" />
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	</head>
-		<body>
-		    <center>
+<div id="login" class="main-item-block">
 			
-<img src="http://www.cs.usfca.edu/~yzhang8/logo.gif" %}" alt="My image"/>
-			
-			<div id="login">
-			
-			 {% if messages %}
-<ul>
-    {% for message in messages %}
-    <li>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <form action="" method="post">{% csrf_token %}
-    <table border="0" cellpadding="0" >
-        {{form.as_table}}        
-    </table>
-    <p> <a href="{%url accounts.views.register%}">register</a> <a href="{%url accounts.views.index%}">return to index</a> <input type="submit" value="login"/></p>
+    <input type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
+    <br>
+    <input type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
+    <br>
+    <input type="submit" value="Login"/>
     </form>
             
-			</div>
-            </center>
-		</body>
-</html>
+</div>
+
+</div><!-- .layout-content-wrap -->
+{% endblock %}
