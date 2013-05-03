@@ -499,31 +499,24 @@ h1.entry-title {
   border: 1px solid #d0d0d0;
   margin: 0 10px 30px;
 }
-.layout-profile-content {
-  
-}
-.layout-content-wrap > .layout-profile-list {
+.layout-profile-list {
+  background-color: white;
   float:left;
-  width: 506px;
+  margin: 20px 10px;
+  width: 450px;
 }
-.layout-content-wrap > .layout-profile-list:last-child {
-  float:right;
-  margin-right: 0px;
+.layout-profile-list:last-child {
 }
 
 .entry-interaction-header,
 .profile-content-header {
-  background-color: #F6F7F8;
-  border-bottom: 1px solid #d0d0d0;
+  font-weight: 900;
 }
 .profile-header {
   font-size: 18px;
-  
+  font-weight: 900;
   padding: 20px;
   text-transform: uppercase;
-}
-.profile-image {
-  
 }
 .user-avatar-major {
   height: 200px;
@@ -547,16 +540,22 @@ h1.entry-title {
 }
 .profile-event-metadata {
   float: left;
-  width: 75%;
+  padding: 0 0 0 10px;
+  width: 250px; /* 410-150-10 = 250*/
 }
 .profile-event-metadata h4 {
   font-size: 14px;
 }
+.event-unit-title {
+  font-size: 18px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
 .profile-event-image {
-  float: right;
+  float: left;
 }
 .event-avatar-mini {
-  width: 68px;
+  width: 150px;
 }
 .user-avatar-major {
   height: 250px;
