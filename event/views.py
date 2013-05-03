@@ -369,7 +369,6 @@ def post(request):
             except:
                 event = Event(title=title_, body=body_, location=loc_,
                               refer=refer_, event_time=date_, author=from_user)
-        
             event.save() 
             tags = splitTags(tags_)
             for tag in tags:

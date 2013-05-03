@@ -11,9 +11,18 @@
 	<br>
 	<div class="page-subhero-text">{{ user_num }} Users awaiting approval</div>
 	{% for app_user in user_list %}		
-	    <a href="{% url mgmt.views.approve_user app_user.id %}">Approve {{ app_user.firstname }}</a>: {{ app_user.affiliation_msg }}
+	    <a href="{% url mgmt.views.approve_user app_user.id %}">
+	    Approve {{ app_user.firstname }}</a>: 
+	    {{ app_user.affiliation_msg }}
 	    <br>
-	    
+	{% endfor %}
+	<br>
+	<br>
+	<div class="page-subhero-text">{{ event_num }} Events awaiting approval</div>
+	{% for app_event in event_list %}		
+	    <a href="{% url mgmt.views.approve_event app_event.id %}">
+	    Approve {{ app_event }}</a>
+	    <br>
 	{% endfor %}
 </div>
 

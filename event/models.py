@@ -8,14 +8,15 @@ from taggit.managers import TaggableManager
 
 # Create your models here.
 class Event(models.Model):
-    title = models.CharField(max_length = 100)
+    title = models.CharField(max_length=100)
     body = models.TextField()
     refer = models.URLField()
     created = models.DateTimeField(auto_now=True)
     event_time = models.DateTimeField(default=datetime.now)
-    location = models.CharField(max_length = 100, default="USF Graphics Center")
+    location = models.CharField(max_length=100, default="USF Graphics Center")
     tags = TaggableManager()
-    flagged = models.BooleanField(default = False)
+    flagged = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=False)
     image1 = models.ImageField('picture',upload_to='uploadImages', default='static/event_blank.jpg')
     author = models.ForeignKey(UserProfile)
 
@@ -39,8 +40,8 @@ admin.site.register(Comment, CommentAdmin)
 
 
 class Message(models.Model):
-    msg_from = models.ForeignKey(UserProfile, related_name = "msg_from")
-    msg_to = models.ForeignKey(UserProfile, related_name = "msg_to")
+    msg_from = models.ForeignKey(UserProfile, related_name="msg_from")
+    msg_to = models.ForeignKey(UserProfile, related_name="msg_to")
     content = models.TextField()
     time = models.DateTimeField(auto_now=True)
     is_read = models.BooleanField(default=False)

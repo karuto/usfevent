@@ -82,11 +82,12 @@ def overview(request):
                                     affiliation_msg__iregex=r'^.{1,}$').filter(
                                     is_approved=False)
         template_var["user_num"] = len(template_var["user_list"])
+        template_var["event_list"] = Event.objects.filter(is_approved=False)
+        template_var["event_num"] = len(template_var["event_list"])
         return render_to_response("mgmt/overview.html", template_var,
                                   context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect(reverse('index'))
-    
 
 
 @login_required
@@ -102,4 +103,18 @@ def approve_user(request, pk):
         return HttpResponseRedirect(reverse('overview'))
     else:
         return HttpResponseRedirect(reverse('index'))
+
+
+@login_required
+def approve_event(request, pk): 
+    template_var = base_template_vals(request)
+    user = template_var["u"]
+    if user.is_superuser:
+        approved_event = Event.objects.get(id=pk)
+        approved_event.is_approved = True
+        approved_event.save()
+        return HttpResponseRedirect(reverse('overview'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
+    
     
