@@ -10,7 +10,7 @@ from taggit.managers import TaggableManager
 class Event(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField()
-    refer = models.URLField()
+    refer = models.URLField(blank=True)
     created = models.DateTimeField(auto_now=True)
     event_time = models.DateTimeField(default=datetime.now)
     location = models.CharField(max_length=100, default="USF Graphics Center")
