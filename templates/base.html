@@ -18,6 +18,9 @@
         <nav class="external-nav">
         <li class="external-item"><a href="/events">Don's Affairs</a></li>
         {% if request.user.is_authenticated %}
+        {% if u.is_superuser %}
+        <li class="external-item"><a href="{%url mgmt.views.overview %}">Management</a></li>
+        {% endif %}
         <li class="external-item"><a href="/">Profile</a></li>
         <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
         {% else %}
@@ -70,7 +73,6 @@
     <aside class="layout-sidebar-wrap">
         <!--<a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>!-->
         <div class="sidebar-divider">GATEWAYS</div>
-        <!--<h4><a href="/admin">Admin</a></h4>-->
         {% if u.is_moderator %}
         <h4><a href="{%url event.views.post %}">Submit event</a></h4>
         {% endif %}
