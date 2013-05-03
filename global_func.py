@@ -1,5 +1,7 @@
 from event.models import Message
 from accounts.models import UserProfile
+from taggit.models import Tag
+
 
 def base_template_vals(request):
     template_var = {}
@@ -17,5 +19,7 @@ def base_template_vals(request):
             if message.is_read == False:
                 msg_unread += 1
         template_var["msg_unread"] = msg_unread
+
+        template_var["tags"] = Tag.objects.all()
 
     return template_var

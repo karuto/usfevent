@@ -618,10 +618,13 @@ def default_tag_init(request):
     """
     template_var = base_template_vals(request)
     event = Event.objects.create(author=UserProfile.objects.all()[0])   #fake event, not saved
-    event.tags.add("greek life")
-    event.tags.add("greek life")
-    event.tags.add("test1")
-    event.tags.add("test2")
-    event.tags.add("test3")
+    event.tags.add("art")
+    event.tags.add("music")
+    event.tags.add("threater")
+    event.tags.add("sports")
+    event.tags.add("festivals")
+    event.tags.add("holiday")
+    event.tags.add("community")
+    event.tags.add("miscellaneous")
     event.delete()
     return HttpResponse("Default Tags Initialized.")
