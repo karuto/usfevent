@@ -33,12 +33,16 @@ EVENT LOCATION <br>
 EVENT DETAIL <br>
 <textarea type = "text" name="body"></textarea><br>
 TAGS / CATEGORIES <br>
-<select name="tags">
-	{% for tag in tags %}
-		<option value="{{tag}}">{{tag}}</option>
-	{% endfor %}
-  			
-</select>
+
+
+
+{% for tag in tags %}
+<input type="checkbox" id="id_{{tag}}" name="tags" value="{{tag}}" >
+<label style="display:inline;" class="form-label-regular" for="id_{{tag}}">{{tag}}</label>
+		&nbsp;
+    		
+{% endfor %}
+  		
 
 <br>
 <div class="page-subhero-text">Submit for authorization</div>
