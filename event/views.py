@@ -51,8 +51,8 @@ def homepage(request):
         None.
     """
     template_var = base_template_vals(request)
-    template_var["events"] = Event.objects.filter(is_approved=True).order_by(
-                             "-created")
+    template_var["events"] = Event.objects.filter(is_approved=True
+                             ).order_by("-created")
     
     return render_to_response("event/event_homepage.html", template_var,
                               context_instance=RequestContext(request))
@@ -147,7 +147,8 @@ def archives(request):
     """
     template_var = base_template_vals(request)
     try:
-        template_var["events"] = Event.objects.all().order_by("-event_time")
+        template_var["events"] = Event.objects.all().filter(
+                                 is_approved=True).order_by("-event_time")
     except Event.DoesNotExist:
         raise Http404
     return render_to_response("event/event_listview.html", template_var,
@@ -173,7 +174,8 @@ def tagpage(request, tag):
     template_var = base_template_vals(request)
     template_var["tag"] = tag
     try:
-        template_var["events"] = Event.objects.filter(tags__name__in = [tag])
+        template_var["events"] = Event.objects.filter(is_approved=True
+                                 ).filter(tags__name__in = [tag])
     except Event.DoesNotExist:
         raise Http404
     return render_to_response("event/tag_single.html", template_var,
@@ -504,15 +506,16 @@ def search(request):
                 checkbox_session.append(str(query_tag))
                 query_tag_list.append(str(query_tag))
                 
-            events_found_advanced = Event.objects.filter(
-                                    tags__name__in=query_tag_list)
+            events_found_advanced = Event.objects.filter(is_approved=True
+                                    ).filter(tags__name__in=query_tag_list)
                
         query = request.GET.get('query', '').strip('\t\n\r')
         if query == '' : #first came in/accidentily type space/..
             if advanced_search:
                 events_found_advanced = events_found_advanced #TODO: Bin this line does nothing.
             else:
-                events_found_basic = Event.objects.all().order_by("-created")  
+                events_found_basic = Event.objects.filter(is_approved=True
+                                     ).order_by("-created")  
         else:
             if advanced_search:
                 events_found_advanced = events_found_advanced.filter(
