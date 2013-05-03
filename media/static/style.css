@@ -517,14 +517,6 @@ h1.entry-title {
   height: 200px;
   width: 200px;
 }
-.profile-content {
-}
-.profile-name {
-}
-.profile-metadata {
-}
-.profile-bio {
-}
 .profile-list-event,
 .profile-friends {
   margin: 20px;
@@ -566,7 +558,14 @@ h1.entry-title {
 
 
 /* Form related */
-
+.form-field-regular {
+  border-color: #74d8db;
+  border-style: solid;
+  border-width: 1px;
+  margin: 10px;
+  width: 250px;
+  text-transform: uppercase;
+}
 
 
 /* USF EVENT END */
