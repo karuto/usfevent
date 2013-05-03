@@ -6,10 +6,13 @@
 </div>
 
 <div class="content-item-block">
-	Hi {{ u.firstname }}
+	Hi superuser your name is {{ u.firstname }}
 	<br>
-	{% for u in user_list %}		
-	    {{ u }}<br>
+	<br>
+	<div class="page-subhero-text">Users awaiting approval</div>
+	{% for app_user in user_list %}		
+	    {{ app_user.firstname }}&nbsp;{{ app_user.lastname }}<br>		
+	    {{ app_user.affiliation_msg }}<br>
 	{% endfor %}
 </div>
 

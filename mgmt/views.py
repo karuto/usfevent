@@ -76,8 +76,10 @@ def overview(request):
     template_var = base_template_vals(request)
     user = template_var["u"]
     if user.is_superuser:
+        # Retrieve objects if its "affiliation_msg" string length > 1
+        # http://stackoverflow.com/questions/15708416/django-lookup-by-length-of-text-field
         template_var["user_list"] = UserProfile.objects.filter(
-                                    affiliation_msg__isnull=False)
+                                    affiliation_msg__iregex=r'^.{1,}$')
     
     
     
