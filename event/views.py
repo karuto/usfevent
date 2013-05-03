@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
+from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -50,7 +51,8 @@ def homepage(request):
         None.
     """
     template_var = base_template_vals(request)
-    template_var["events"] = Event.objects.all().order_by("-created")
+    template_var["events"] = Event.objects.filter(is_approved=True).order_by(
+                             "-created")
     
     return render_to_response("event/event_homepage.html", template_var,
                               context_instance=RequestContext(request))
@@ -105,11 +107,13 @@ def single(request, pk):
         event/event_single.html with template_vars.
         
     Raises:
-        Http404 error.
+        Http404 error, if event can't be found or isn't approved yet.
     """
     template_var = base_template_vals(request)
     try:
         e = Event.objects.get(pk=int(pk))
+        if e.is_approved is False:
+            raise Http404
         template_var['event'] = e
     except Event.DoesNotExist:
         raise Http404
