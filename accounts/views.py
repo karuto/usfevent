@@ -151,12 +151,12 @@ def index(request):
         template_var["up"] = up[0]
 
         # Retrieve message / notification related lists of current user
-        current_django_user = UserProfile.objects.filter(
+        current_user_profile = UserProfile.objects.filter(
                               django_user=request.user)[0]
         template_var["msg_sent_list"] = Message.objects.filter(
-                                        msg_from=current_django_user)
+                                        msg_from=current_user_profile)
         template_var["msg_received_list"] = Message.objects.filter(
-                                            msg_to=current_django_user)
+                                            msg_to=current_user_profile)
         
         # Retrieve likes (saved events) list of current user
         template_var["likes"] = Like.objects.filter(user=up[0])

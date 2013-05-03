@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     
     url(r'^$', 'accounts.views.index', name="index"),
 
-    url(r'^theride/', include('mgmt.urls')),
+    url(r'^mgmt/', include('mgmt.urls')),
     url(r'^events/', include('event.urls')),
     url(r'^user/', include('accounts.urls')),
     url(r'^notification/', include('notification.urls')),

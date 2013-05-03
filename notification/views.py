@@ -8,6 +8,7 @@ import time
 
 # django-level imports
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.mail import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
@@ -28,6 +29,7 @@ from event.models import Message
 from global_func import base_template_vals
 
 
+@login_required
 def sys_notification(target, types, from_user, event_id):
     """Collects / sends message for 'followed' and 'commented' notification.
     
@@ -64,6 +66,8 @@ def sys_notification(target, types, from_user, event_id):
         message.content = "Unknown System Notification."    
     message.save()
 
+
+@login_required
 def msg_open(request, pk):
     """Loads single message view.
     
@@ -81,9 +85,9 @@ def msg_open(request, pk):
         None.
     """
     template_var = base_template_vals(request)
-    current_django_user = UserProfile.objects.filter(
+    current_user_profile = UserProfile.objects.filter(
                           django_user=request.user)[0]
-    msg = Message.objects.get(msg_to=current_django_user, id=pk)
+    msg = Message.objects.get(msg_to=current_user_profile, id=pk)
     
     if(msg):
         msg.is_read = True
@@ -92,6 +96,7 @@ def msg_open(request, pk):
     return HttpResponse(msg.content)
 
 
+@login_required
 def msg_box(request):
     """Loads user's messages inbox.
     
@@ -109,10 +114,10 @@ def msg_box(request):
         None.    
     """
     template_var = base_template_vals(request)
-    current_django_user = UserProfile.objects.filter(
+    current_user_profile = UserProfile.objects.filter(
                           django_user=request.user)[0]
     template_var["msg_received_list"] = Message.objects.filter(
-                                        msg_to=current_django_user)
+                                        msg_to=current_user_profile)
     return render_to_response("notification/msg_box.html", template_var,
                               context_instance=RequestContext(request))
                               

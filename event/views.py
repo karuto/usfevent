@@ -55,7 +55,7 @@ def homepage(request):
                               context_instance=RequestContext(request))
 
 
-
+@login_required
 def index(request):
     """Creates standard index page view for Don's Affairs.
     
@@ -87,6 +87,7 @@ def index(request):
                               context_instance=RequestContext(request))
 
 
+@login_required
 def single(request, pk):
     """Gathers data for single event object.
     
@@ -123,6 +124,7 @@ def single(request, pk):
                               context_instance=RequestContext(request))
     
 
+@login_required
 def archives(request):
     """Gathers archive list of all events for list_view of events.
         
@@ -172,7 +174,8 @@ def tagpage(request, tag):
     return render_to_response("event/tag_single.html", template_var,
                               context_instance=RequestContext(request))
 
-	
+
+@login_required	
 def add_comment(request, pk, pk2):
     """Posts comment to specific event.
     
@@ -208,7 +211,8 @@ def add_comment(request, pk, pk2):
             sys_notification(to_user, "add_comment", from_user, event_id)
     return single(request, pk)
 
-	
+
+@login_required	
 def like_event(request, pk):
     """Adds a like to an event.
     
@@ -227,20 +231,23 @@ def like_event(request, pk):
         
     """
     template_var = base_template_vals(request)
-    if request.user.is_authenticated():
-        previousLike = Like.objects.filter(event=Event.objects.get(id=pk), user=UserProfile.objects.filter(django_user=request.user)[0])
-        if(len(previousLike) == 0):
-            like = Like(event=Event.objects.get(id=pk))
-            like.user = UserProfile.objects.filter(django_user=request.user)[0]
-            like.save()
-            #sys notification
-            from_user = UserProfile.objects.get(django_user = User.objects.get(username__exact='admin')) 
-            to_user = UserProfile.objects.get(django_user=request.user)
-            event_id = pk
-            sys_notification(to_user, "save_event", from_user, event_id)
+    previousLike = Like.objects.filter(event=Event.objects.get(id=pk), 
+                                        user=UserProfile.objects.filter(
+                                        django_user=request.user)[0])
+    if(len(previousLike) == 0):
+        like = Like(event=Event.objects.get(id=pk))
+        like.user = UserProfile.objects.filter(django_user=request.user)[0]
+        like.save()
+        #sys notification
+        from_user = UserProfile.objects.get(django_user = User.objects.get(
+                                            username__exact='admin')) 
+        to_user = UserProfile.objects.get(django_user=request.user)
+        event_id = pk
+        sys_notification(to_user, "save_event", from_user, event_id)
     return redirect('index')
 
 
+@login_required
 def share_email(request, pk):
     """Shares an Event via email with another user.
     
@@ -259,7 +266,6 @@ def share_email(request, pk):
         None.
     """
     template_var = base_template_vals(request)
-    
     subject = 'Your friend shared an event with you on Dons Affairs!'
     from_email = 'from@example.com'
     to = 'donsaffair@gmail.com'
@@ -280,6 +286,7 @@ def share_email(request, pk):
     return redirect('index')
     
 
+@login_required
 def save_event(request):
     """Saves event to profile for later access.
     
@@ -298,13 +305,8 @@ def save_event(request):
     Raises:
         None.
     """
-    
-    template_var = {}
-    template_var["allusers"] = UserProfile.objects.all()
-
-    current_django_user = UserProfile.objects.filter(
-                          django_user=request.user)[0]  #TODO: Bin Unusd variable.
-    
+    template_var = base_template_vals(request)
+    template_var["allusers"] = UserProfile.objects.all()    
     if request.method == "POST":
         if request.user.is_authenticated():
             message = Message()
@@ -314,13 +316,13 @@ def save_event(request):
                              id__exact=request.POST["msg_to_django_user_id"])[0]
             message.content = request.POST["content"]
             message.save()
-
         return HttpResponseRedirect("/events/msg/")
         
     return render_to_response("event/message_send.html", template_var, 
                               context_instance=RequestContext(request))
 
 
+@login_required
 def post(request):
     """Posts an event.
     
@@ -340,38 +342,37 @@ def post(request):
         None.
     """
     template_var = base_template_vals(request)
-    if request.user.is_authenticated():
-        from_user = UserProfile.objects.get(django_user=request.user)
-        if request.method == "POST":
-            title_ = request.POST["title"]
-            body_ =  request.POST["body"]
-            refer_ = request.POST["refer"]
-            date_ = request.POST["date"]
-            try:
-                time.strptime(date_, '%m/%d/%Y')
-            except ValueError:
-                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
-                date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
-                
-            loc_ = request.POST["loc"]
-            tags_ = request.POST["tags"]
-            if(len(tags_) == 0):
-                tags_ = "untagged"
-            try:
-                image1_ = request.FILES["picture"]
-                event = Event(title=title_, body=body_, location=loc_,
-                              refer=refer_, event_time=date_, image1=image1_,
-                              author=from_user)
-            except:
-                event = Event(title=title_, body=body_, location=loc_,
-                              refer=refer_, event_time=date_, author=from_user)
-        
-            event.save() 
-            tags = splitTags(tags_)
-            for tag in tags:
-                event.tags.add(tag)
-            event.save() 
-            return HttpResponseRedirect(reverse("index"))    
+    from_user = UserProfile.objects.get(django_user=request.user)
+    if request.method == "POST":
+        title_ = request.POST["title"]
+        body_ =  request.POST["body"]
+        refer_ = request.POST["refer"]
+        date_ = request.POST["date"]
+        try:
+            time.strptime(date_, '%m/%d/%Y')
+        except ValueError:
+            current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
+            date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+            
+        loc_ = request.POST["loc"]
+        tags_ = request.POST["tags"]
+        if(len(tags_) == 0):
+            tags_ = "untagged"
+        try:
+            image1_ = request.FILES["picture"]
+            event = Event(title=title_, body=body_, location=loc_,
+                          refer=refer_, event_time=date_, image1=image1_,
+                          author=from_user)
+        except:
+            event = Event(title=title_, body=body_, location=loc_,
+                          refer=refer_, event_time=date_, author=from_user)
+    
+        event.save() 
+        tags = splitTags(tags_)
+        for tag in tags:
+            event.tags.add(tag)
+        event.save() 
+        return HttpResponseRedirect(reverse("index"))    
 
     return render_to_response("event/event_post.html", template_var,
                               context_instance=RequestContext(request))
@@ -409,6 +410,7 @@ def splitTags(user_input):
     return tags
 
 
+@login_required
 def msg_send(request):
     """Sends message from one user to another.
     

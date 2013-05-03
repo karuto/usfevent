@@ -3,5 +3,6 @@ from mgmt import views
 
 urlpatterns = patterns('mgmt.views',
 
-    url(r'^begins/$', 'db_init', name="init"),
+    url(r'^init/$', 'db_init', name="init"),
+    url(r'^$', 'overview', name="overview"),
 )
