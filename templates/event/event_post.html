@@ -31,11 +31,16 @@
 <textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL"></textarea><br>
 
 TAGS / CATEGORIES <br>
-<select name="tags">
-	{% for tag in tags %}
-		<option value="{{tag}}">{{tag}}</option>
-	{% endfor %}
-</select>
+
+
+
+
+{% for tag in tags %}
+<input type="checkbox" id="id_{{tag}}" name="tags" value="{{tag}}" >
+<label style="display:inline;" class="form-label-regular" for="id_{{tag}}">{{tag}}</label>
+		&nbsp;
+    		
+{% endfor %}
 
 <input class="form-button-regular" type="submit" value="Submit for approval" />
 </form>

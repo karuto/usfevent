@@ -403,7 +403,7 @@ def post(request):
                 date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
                 
             loc_ = request.POST["loc"]
-            tags_ = request.POST["tags"]
+            tags_ = request.POST.getlist("tags")
             if(len(tags_) == 0):
                 tags_ = "untagged"
             try:
@@ -415,7 +415,8 @@ def post(request):
                 event = Event(title=title_, body=body_, location=loc_,
                               refer=refer_, event_time=date_, author=from_user)
             event.save() 
-            tags = splitTags(tags_)
+            #tags = splitTags(tags_)
+            tags = list(tags_)
             for tag in tags:
                 event.tags.add(tag)
             event.save() 
