@@ -16,7 +16,7 @@
 <input type="file" name="picture"/>
 </div>
 
-<div class="main-item-block">
+<div class="entry-content-block">
 <input type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" />
 &emsp;
 <input type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" />
@@ -25,18 +25,14 @@
 <br>
 <input type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
 
-
-<div class="page-subhero-text">Tell us a bit more about yourself</div>
-
+<br>
 <label for="id_aff_stu">YOUR AFFILIATION</label>
 <br>
 <input type="radio" id="id_aff_stu" name="aff" value="0">STUDENT &emsp;
 <input type="radio" id="id_aff_sta" name="aff" value="1">STAFF &emsp;
 <input type="radio" id="id_aff_fac" name="aff" value="2">FACULTY
 <br>
-<br>
 <label for="id_aff_stu">YOUR GRADUATION YEAR</label>
-<br>
 <select name="grad_year" id="grad_year" size="1">
     {% for y in grad_years %}
     <option value="{{ y }}">&emsp;{{ y }}&emsp;</option>
@@ -47,21 +43,7 @@
 <input type="text" id="id_affmsg" name="affmsg" placeholder=" AFFILIATION MESSAGE (IF YOU HAVE ONE) " maxlength="200" size="40" />
 <br> 
 <textarea type="text" id="id_bio" name="bio" rows="3" cols="40" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF"></textarea>
-
-<br><br>
-
-
-<div class="page-subhero-text">Preferences of events</div>
-<input type="checkbox" name="preferences" value="art"/>Art
-<input type="checkbox" name="preferences" value="music"/>Music
-<input type="checkbox" name="preferences" value="theater"/>Theater
-<input type="checkbox" name="preferences" value="academic"/>Academic
-<input type="checkbox" name="preferences" value="food"/>Food
-<input type="checkbox" name="preferences" value="festival"/>Festival
-<input type="checkbox" name="preferences" value="lecture"/>Lecture
-<input type="checkbox" name="preferences" value="service" />Service
-<input type="checkbox" name="preferences" value="holiday" />Holiday
-<br><br>
+<br>
 
 <input type="submit" value="Register"/>
 <br><br>

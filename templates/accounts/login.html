@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div id="login">
+<div class="layout-content-wrap">
+
+<div class="layout-content-header">
+    <h1 class="page-hero-text">Login</h1>
+</div>
+
+<div id="login" class="main-item-block">
 			
     {% if messages %}
     <ul>
@@ -20,4 +26,5 @@
             
 </div>
 
+</div><!-- .layout-content-wrap -->
 {% endblock %}

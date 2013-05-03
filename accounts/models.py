@@ -11,8 +11,7 @@ class UserProfile(models.Model):
     avatar = models.ImageField('picture',upload_to='uploadImages', default='static/avatar_blank.jpg')
     graduation_year = models.IntegerField(default=2013)
     affiliation_type = models.IntegerField(default=0) # 0 stu, 1 staff, 2 faculty
-    affiliation_msg = models.CharField(max_length=200, blank=True)  
-    preferences = models.CharField(max_length=200, blank=True)  
+    affiliation_msg = models.CharField(max_length=200, blank=True)
     is_connected = models.BooleanField(default=False)
     is_moderator = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

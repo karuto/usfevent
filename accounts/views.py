@@ -150,15 +150,6 @@ def index(request):
                                       context_instance=RequestContext(request))
         template_var["up"] = up[0]
 
-        # Parse "preferences" string in current user's userprofile
-        template_var["preferences"] = up[0].preferences
-        preferencelist = up[0].preferences.split(",")
-        prefered_events = []
-        for p in preferencelist:
-            prefered_events_ = Event.objects.filter(tags__name__in=[p])
-            prefered_events.extend(prefered_events_) # Concatenates two lists
-        template_var["prefered_events"] = prefered_events
-
         # Retrieve message / notification related lists of current user
         current_django_user = UserProfile.objects.filter(
                               django_user=request.user)[0]
@@ -228,15 +219,17 @@ def register(request):
     if request.method == "POST":
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']
+        username = firstname + "_" + lastname
         email = request.POST['email']
         password = request.POST['password']
-        username = firstname + "_" + lastname
+        grad_ = request.POST['grad_year']
+        bio_ = request.POST['bio']
+        aff_ = request.POST['aff']
+        affmsg_ = request.POST['affmsg']
         
         # Does this username already exist in user database? Prepare to check
         i = 0
-        queryname = str(username) + "_" + str(i)
-        is_username_valid = False
-        
+        queryname = str(username) + "_" + str(i)        
         # If username "first_last_i" already exists...
         while (len(User.objects.filter(username = queryname)) > 0):
             i = i + 1
@@ -247,23 +240,11 @@ def register(request):
         user.save()
     
         try:
-            grad_ = request.POST['grad_year']
-            bio_ = request.POST['bio']
-            aff_ = request.POST['aff']
-            affmsg_ = request.POST['affmsg']
-            
-            preferencelist = request.POST.getlist('preferences')
-            preferences_ = ""
-            for preference in preferencelist:
-                preferences_ += preference + ","
-            preferences_ = preferences_[:len(preferences_) - 1]
-
             try:
                 avatar_ = request.FILES["picture"]
                 profile = UserProfile(django_user=user, 
                                       firstname=firstname,
                                       lastname=lastname,
-                                      preferences=preferences_, 
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
                                       affiliation_msg=affmsg_,
@@ -272,20 +253,18 @@ def register(request):
             except:
                 profile = UserProfile(django_user=user,
                                       firstname=firstname,
-                                      lastname=lastname,
-                                      preferences=preferences_, 
+                                      lastname=lastname, 
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
                                       affiliation_msg=affmsg_,
                                       bio=bio_)
             profile.save()
-            
+            login_helper(request, email, password)
+            return HttpResponseRedirect(reverse("index"))    
         except Exception:
             # If we can not finish saving userprofile, delete the user object
             # Because we don't want users without userprofiles attached
             user.delete()
-        login_helper(request, email, password)
-        return HttpResponseRedirect(reverse("index"))    
         
     return render_to_response("accounts/register.html", template_var, 
                               context_instance=RequestContext(request))
