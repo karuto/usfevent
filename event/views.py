@@ -599,3 +599,29 @@ def search(request):
                               context_instance=RequestContext(request))
     
     
+
+
+def default_tag_init(request):
+    """Creates default tags
+    
+    Use when server first starts up.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        event/event_search_results.html with template_vars.
+        
+    Raises:
+        None.
+    """
+    template_var = base_template_vals(request)
+    event = Event.objects.create(author=UserProfile.objects.all()[0])   #fake event, not saved
+    event.tags.add("greek life")
+    event.tags.add("greek life")
+    event.tags.add("test1")
+    event.tags.add("test2")
+    event.tags.add("test3")
+    event.delete()
+    return HttpResponse("Default Tags Initialized.")

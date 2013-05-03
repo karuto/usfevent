@@ -21,4 +21,6 @@ urlpatterns = patterns('event.views',
     
     url(r'^msg/$', 'msg_send', name="msg_send"),
     url(r'^search/$', 'search', name="search"),
+    url(r'^default_tag_init/$', 'default_tag_init', name="default_tag_init"),
+                       
 )
