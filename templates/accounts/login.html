@@ -22,10 +22,35 @@
     </ul>
     {% endif %}
     <form action="" method="post">{% csrf_token %}
+    
+    {% if errors %}
+        {% for e in errors %}
+            {% if forloop.counter0 == 0 %}
+                {% if e %}
+                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
+                <br>
+                {% else %}
+                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>&emsp;INVALID EMAIL
+                <br>
+                {% endif %}
+            {% endif %}  
+            
+            {% if forloop.counter0 == 1 %}
+                {% if e %}
+                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
+                <br>
+                {% else %}
+                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>&emsp;INVALID PASSWORD
+                <br>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
     <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
     <br>
     <input class="form-field-regular" type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
     <br>
+    {% endif %}
     <input class="form-button-regular" type="submit" value="Login"/>
     </form>
             
