@@ -24,226 +24,136 @@
 </div>
 
 <div class="entry-content-block">
-
+    <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>
     {% if errors %}
         {% for e in errors %}
             {% if forloop.counter0 == 0 %}
                 {% if e %}
-                <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>
-                <br>
                 {% else %}
-                <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" value="{{ firstname }}"/>
-                <span class="form-prompt">* Invalid firstname</span>
-                <br>
+                <span class="form-prompt">* INVALID FIRST NAME</span>
                 {% endif %}
             {% endif %}  
-            
-            {% if forloop.counter0 == 1 %}
-                {% if e %}
-                <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>
-                <br>
-                {% else %}
-                <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>
-                <span class="form-prompt">* Invalid lastname</span>
-                <br>
-                {% endif %}
-            {% endif %}
-            
-            {% if forloop.counter0 == 2 %}
-                {% if e %}
-                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
-                <br>
-                {% else %}
-                <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
-                <span class="form-prompt">* Invalid email</span>
-                <br>
-                {% endif %}
-            {% endif %}
-            
-            {% if forloop.counter0 == 3 %}
-                {% if e %}
-                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
-                <br>
-                {% else %}
-                <input class="form-field-regular" type="password"  id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
-                <span class="form-prompt">* Invalid password</span>
-                <br>
-                {% endif %}
-            {% endif %}
-            
-            {% if forloop.counter0 == 4 %}
-                {% if e %}
-                <label class="form-label-regular" for="id_aff_stu">YOUR AFFILIATION</label>
-                <input type="radio" id="id_aff_stu" name="aff" value="0" {% if aff == '0' %} checked {% else %}{% endif %}>
-                <label class="form-label-inline" for="id_aff_stu"> STUDENT </label>
-                <input type="radio" id="id_aff_sta" name="aff" value="1" {% if aff == '1' %} checked {% else %}{% endif %}> 
-                <label class="form-label-inline" for="id_aff_sta"> STAFF </label>
-                <input type="radio" id="id_aff_fac" name="aff" value="2" {% if aff == '2' %} checked {% else %}{% endif %}>
-                <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>
-                {% else %}
-                <label class="form-label-regular" for="id_aff_stu">YOUR AFFILIATION</label>
-                <input type="radio" id="id_aff_stu" name="aff" value="0">
-                <label class="form-label-inline" for="id_aff_stu"> STUDENT </label>
-                <input type="radio" id="id_aff_sta" name="aff" value="1"> 
-                <label class="form-label-inline" for="id_aff_sta"> STAFF </label>
-                <input type="radio" id="id_aff_fac" name="aff" value="2">
-                <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>
-                <span class="form-prompt">* Please select an option</span>
-                {% endif %}
-                <label class="form-label-regular" for="major">YOUR MAJOR</label>
-                <select class="form-dropdown-regular" name="major" id="major" size="1">
-                <option value="Select your major" disabled>&emsp;Please select your major&emsp;</option>
-                <option value="Advertising">&emsp;Advertising&emsp;</option>
-                <option value="Architecture and Community Design">&emsp;Architecture and Community Design&emsp;</option>
-                <option value="Art History/Arts Management">&emsp;Art History/Arts Management&emsp;</option>
-                <option value="Asian Studies">&emsp;Asian Studies&emsp;</option>
-                <option value="Biology">&emsp;Biology&emsp;</option>
-                <option value="Business">&emsp;Business&emsp;</option>
-                <option value="Business Economics">&emsp;Business Economics&emsp;</option>
-                <option value="Chemistry">&emsp;Chemistry&emsp;</option>
-                <option value="Communication Studies">&emsp;Communication Studies&emsp;</option>
-                <option value="Comparative Literature and Culture">&emsp;Comparative Literature and Culture&emsp;</option>
-                <option value="Computer Science">&emsp;Computer Science&emsp;</option>
-                <option value="Design">&emsp;Design&emsp;</option>
-                <option value="Economics">&emsp;Economics&emsp;</option>
-                <option value="Education">&emsp;Education&emsp;</option>
-                <option value="English with Literature Emphasis ">&emsp;English with Literature Emphasis &emsp;</option>
-                <option value="English with Writing Emphasis">&emsp;English with Writing Emphasis&emsp;</option>
-                <option value="Environmental Science">&emsp;Environmental Science&emsp;</option>
-                <option value="Environmental Studies">&emsp;Environmental Studies&emsp;</option>
-                <option value="Exercise and Sport Science">&emsp;Exercise and Sport Science&emsp;</option>
-                <option value="Fine Arts">&emsp;Fine Arts&emsp;</option>
-                <option value="French Studies">&emsp;French Studies&emsp;</option>
-                <option value="History">&emsp;History&emsp;</option>
-                <option value="Information Systems">&emsp;Information Systems&emsp;</option>
-                <option value="International Studies">&emsp;International Studies&emsp;</option>
-                <option value="Japanese Studies">&emsp;Japanese Studies&emsp;</option>
-                <option value="Latin American Studies">&emsp;Latin American Studies&emsp;</option>
-                <option value="Law">&emsp;Law&emsp;</option>
-                <option value="Mathematics">&emsp;Mathematics&emsp;</option>
-                <option value="Management">&emsp;Management&emsp;</option>
-                <option value="Media Studies">&emsp;Media Studies&emsp;</option>
-                <option value="Museum Studies">&emsp;Museum Studies&emsp;</option>
-                <option value="Nursing and Health Professions">&emsp;Nursing and Health Professions&emsp;</option>
-                <option value="Organizations, Leadership & Management">&emsp;Organizations, Leadership & Management&emsp;</option>
-                <option value="Performing Arts and Social Justice">&emsp;Performing Arts and Social Justice&emsp;</option>
-                <option value="Philosophy">&emsp;Philosophy&emsp;</option>
-                <option value="Physics and Astronomy">&emsp;Physics and Astronomy&emsp;</option>
-                <option value="Politics">&emsp;Politics&emsp;</option>
-                <option value="Psychology">&emsp;Psychology&emsp;</option>
-                <option value="Public Administration">&emsp;Public Administration&emsp;</option>
-                <option value="Sociology">&emsp;Sociology&emsp;</option>
-                <option value="Spanish Studies">&emsp;Spanish Studies&emsp;</option>
-                <option value="Theology and Religious Studies">&emsp;Theology and Religious Studies&emsp;</option>
-                <option value="OTHER">&emsp;OTHER&emsp;</option>
-                <!--<option value="xxxxxxxx">&emsp;xxxxxxxx&emsp;</option>-->
-                </select>
-
-                <label class="form-label-regular" for="grad_year">YOUR GRADUATION YEAR</label>
-                <select class="form-dropdown-regular" name="grad_year" id="grad_year" size="1">
-                <option value="Select your year" disabled>&emsp;Please select your year of graduation&emsp;</option>
-                {% for y in grad_years %}
-                    <option value="{{ y }}" {% if y == grad_year %} selected{% endif %}>&emsp;{{ y }}&emsp;</option>
-                {% endfor %}
-                </select>
-                <textarea class="form-textarea-regular" type="text" id="id_affmsg" name="affmsg" rows="2" placeholder=" PLEASE EXPLAIN FOR APPROVAL " maxlength="200">{{ affmsg }}</textarea>
-                <br> 
-                {% endif %}
-                        
-            {% if forloop.counter0 == 5 %}
-                {% if e %}
-                <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>
-                <br>
-                {% else %}
-                <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>
-                <span class="form-prompt">* Invalid bio</span>
-                {% endif %}
-            {% endif %}         
         {% endfor %}
     {% else %}
-    <input class="form-field-regular" type="text" id="id_firstname" name="firstname" placeholder=" FIRSTNAME " maxlength="100" size="20" />
+    {% endif %}
     <br>
-    <input class="form-field-regular" type="text" 
-    id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" />
+    <input class="form-field-regular" type="text" id="id_lastname" name="lastname" placeholder=" LASTNAME " maxlength="100" size="20" value="{{ lastname }}"/>
+    {% if errors %}
+        {% for e in errors %}
+            {% if forloop.counter0 == 1 %}
+                {% if e %}
+                {% else %}
+                <span class="form-prompt">* INVALID LAST NAME</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    {% endif %}
     <br>
-    <input class="form-field-regular" type="text" 
-    id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" />
+    <input class="form-field-regular" type="text" id="id_email" name="email" placeholder=" EMAIL " maxlength="100" size="20" value="{{ email }}"/>
+    {% if errors %}
+        {% for e in errors %}
+            {% if forloop.counter0 == 2 %}
+                {% if e %}
+                {% else %}
+                <span class="form-prompt">* INVALID EMAIL</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    {% endif %}
     <br>
-    <input class="form-field-regular" type="password" 
-    id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" />
+    <input class="form-field-regular" type="password" id="id_password" name="password" placeholder=" PASSWORD " maxlength="30" size="20" value="{{ password }}"/>
+    {% if errors %}
+        {% for e in errors %}
+            {% if forloop.counter0 == 3 %}
+                {% if e %}
+                {% else %}
+                <span class="form-prompt">* INVALID PASSWORD</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    {% endif %}
     <br>
     <label class="form-label-regular" for="id_aff_stu">YOUR AFFILIATION</label>
-    <input type="radio" id="id_aff_stu" name="aff" value="0">
-    <label class="form-label-inline" for="id_aff_stu"> STUDENT </label>
-    <input type="radio" id="id_aff_sta" name="aff" value="1"> 
+    <input type="radio" id="id_aff_stu" name="aff" value="0" {% if aff == '0' %} checked {% else %}{% endif %}>
+    <label class="form-label-inline" for="id_aff_stu"> STUDENT </label>        
+    <input type="radio" id="id_aff_sta" name="aff" value="1" {% if aff == '1' %} checked {% else %}{% endif %}> 
     <label class="form-label-inline" for="id_aff_sta"> STAFF </label>
-    <input type="radio" id="id_aff_fac" name="aff" value="2">
+    <input type="radio" id="id_aff_fac" name="aff" value="2" {% if aff == '2' %} checked {% else %}{% endif %}>
     <label class="form-label-inline" for="id_aff_fac"> FACULTY </label>
-    
+    {% if errors %}
+        {% for e in errors %}  
+            {% if forloop.counter0 == 4 %}
+                {% if e %}
+                {% else %}
+                <span class="form-prompt">* PLEASE SELECT AN OPTION</span>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    {% endif %}
+    <br>
     <label class="form-label-regular" for="major">YOUR MAJOR</label>
     <select class="form-dropdown-regular" name="major" id="major" size="1">
-        <option value="Select your major" disabled>&emsp;Please select your major&emsp;</option>
-        <option value="Advertising">&emsp;Advertising&emsp;</option>
-        <option value="Architecture and Community Design">&emsp;Architecture and Community Design&emsp;</option>
-        <option value="Art History/Arts Management">&emsp;Art History/Arts Management&emsp;</option>
-        <option value="Asian Studies">&emsp;Asian Studies&emsp;</option>
-        <option value="Biology">&emsp;Biology&emsp;</option>
-        <option value="Business">&emsp;Business&emsp;</option>
-        <option value="Business Economics">&emsp;Business Economics&emsp;</option>
-        <option value="Chemistry">&emsp;Chemistry&emsp;</option>
-        <option value="Communication Studies">&emsp;Communication Studies&emsp;</option>
-        <option value="Comparative Literature and Culture">&emsp;Comparative Literature and Culture&emsp;</option>
-        <option value="Computer Science">&emsp;Computer Science&emsp;</option>
-        <option value="Design">&emsp;Design&emsp;</option>
-        <option value="Economics">&emsp;Economics&emsp;</option>
-        <option value="Education">&emsp;Education&emsp;</option>
-        <option value="English with Literature Emphasis ">&emsp;English with Literature Emphasis &emsp;</option>
-        <option value="English with Writing Emphasis">&emsp;English with Writing Emphasis&emsp;</option>
-        <option value="Environmental Science">&emsp;Environmental Science&emsp;</option>
-        <option value="Environmental Studies">&emsp;Environmental Studies&emsp;</option>
-        <option value="Exercise and Sport Science">&emsp;Exercise and Sport Science&emsp;</option>
-        <option value="Fine Arts">&emsp;Fine Arts&emsp;</option>
-        <option value="French Studies">&emsp;French Studies&emsp;</option>
-        <option value="History">&emsp;History&emsp;</option>
-        <option value="Information Systems">&emsp;Information Systems&emsp;</option>
-        <option value="International Studies">&emsp;International Studies&emsp;</option>
-        <option value="Japanese Studies">&emsp;Japanese Studies&emsp;</option>
-        <option value="Latin American Studies">&emsp;Latin American Studies&emsp;</option>
-        <option value="Law">&emsp;Law&emsp;</option>
-        <option value="Mathematics">&emsp;Mathematics&emsp;</option>
-        <option value="Management">&emsp;Management&emsp;</option>
-        <option value="Media Studies">&emsp;Media Studies&emsp;</option>
-        <option value="Museum Studies">&emsp;Museum Studies&emsp;</option>
-        <option value="Nursing and Health Professions">&emsp;Nursing and Health Professions&emsp;</option>
-        <option value="Organizations, Leadership & Management">&emsp;Organizations, Leadership & Management&emsp;</option>
-        <option value="Performing Arts and Social Justice">&emsp;Performing Arts and Social Justice&emsp;</option>
-        <option value="Philosophy">&emsp;Philosophy&emsp;</option>
-        <option value="Physics and Astronomy">&emsp;Physics and Astronomy&emsp;</option>
-        <option value="Politics">&emsp;Politics&emsp;</option>
-        <option value="Psychology">&emsp;Psychology&emsp;</option>
-        <option value="Public Administration">&emsp;Public Administration&emsp;</option>
-        <option value="Sociology">&emsp;Sociology&emsp;</option>
-        <option value="Spanish Studies">&emsp;Spanish Studies&emsp;</option>
-        <option value="Theology and Religious Studies">&emsp;Theology and Religious Studies&emsp;</option>
-        <option value="OTHER">&emsp;OTHER&emsp;</option>
-        <!--<option value="xxxxxxxx">&emsp;xxxxxxxx&emsp;</option>-->
+    <option value="Select your major" disabled>&emsp;Please select your major&emsp;</option>
+    <option value="Advertising">&emsp;Advertising&emsp;</option>
+    <option value="Architecture and Community Design">&emsp;Architecture and Community Design&emsp;</option>
+    <option value="Art History/Arts Management">&emsp;Art History/Arts Management&emsp;</option>
+    <option value="Asian Studies">&emsp;Asian Studies&emsp;</option>
+    <option value="Biology">&emsp;Biology&emsp;</option>
+    <option value="Business">&emsp;Business&emsp;</option>
+    <option value="Business Economics">&emsp;Business Economics&emsp;</option>
+    <option value="Chemistry">&emsp;Chemistry&emsp;</option>
+    <option value="Communication Studies">&emsp;Communication Studies&emsp;</option>
+    <option value="Comparative Literature and Culture">&emsp;Comparative Literature and Culture&emsp;</option>
+    <option value="Computer Science">&emsp;Computer Science&emsp;</option>
+    <option value="Design">&emsp;Design&emsp;</option>
+    <option value="Economics">&emsp;Economics&emsp;</option>
+    <option value="Education">&emsp;Education&emsp;</option>
+    <option value="English with Literature Emphasis ">&emsp;English with Literature Emphasis &emsp;</option>
+    <option value="English with Writing Emphasis">&emsp;English with Writing Emphasis&emsp;</option>
+    <option value="Environmental Science">&emsp;Environmental Science&emsp;</option>
+    <option value="Environmental Studies">&emsp;Environmental Studies&emsp;</option>
+    <option value="Exercise and Sport Science">&emsp;Exercise and Sport Science&emsp;</option>
+    <option value="Fine Arts">&emsp;Fine Arts&emsp;</option>
+    <option value="French Studies">&emsp;French Studies&emsp;</option>
+    <option value="History">&emsp;History&emsp;</option>
+    <option value="Information Systems">&emsp;Information Systems&emsp;</option>
+    <option value="International Studies">&emsp;International Studies&emsp;</option>
+    <option value="Japanese Studies">&emsp;Japanese Studies&emsp;</option>
+    <option value="Latin American Studies">&emsp;Latin American Studies&emsp;</option>
+    <option value="Law">&emsp;Law&emsp;</option>
+    <option value="Mathematics">&emsp;Mathematics&emsp;</option>
+    <option value="Management">&emsp;Management&emsp;</option>
+    <option value="Media Studies">&emsp;Media Studies&emsp;</option>
+    <option value="Museum Studies">&emsp;Museum Studies&emsp;</option>
+    <option value="Nursing and Health Professions">&emsp;Nursing and Health Professions&emsp;</option>
+    <option value="Organizations, Leadership & Management">&emsp;Organizations, Leadership & Management&emsp;</option>
+    <option value="Performing Arts and Social Justice">&emsp;Performing Arts and Social Justice&emsp;</option>
+    <option value="Philosophy">&emsp;Philosophy&emsp;</option>
+    <option value="Physics and Astronomy">&emsp;Physics and Astronomy&emsp;</option>
+    <option value="Politics">&emsp;Politics&emsp;</option>
+    <option value="Psychology">&emsp;Psychology&emsp;</option>
+    <option value="Public Administration">&emsp;Public Administration&emsp;</option>
+    <option value="Sociology">&emsp;Sociology&emsp;</option>
+    <option value="Spanish Studies">&emsp;Spanish Studies&emsp;</option>
+    <option value="Theology and Religious Studies">&emsp;Theology and Religious Studies&emsp;</option>
+    <option value="OTHER">&emsp;OTHER&emsp;</option>
+    <!--<option value="xxxxxxxx">&emsp;xxxxxxxx&emsp;</option>-->
     </select>
-    
     <label class="form-label-regular" for="grad_year">YOUR GRADUATION YEAR</label>
     <select class="form-dropdown-regular" name="grad_year" id="grad_year" size="1">
-        <option value="Select your year" disabled>&emsp;Please select your year of graduation&emsp;</option>
-        {% for y in grad_years %}
+    <option value="Select your year" disabled>&emsp;Please select your year of graduation&emsp;</option>
+    {% for y in grad_years %}
         <option value="{{ y }}" {% if y == grad_year %} selected{% endif %}>&emsp;{{ y }}&emsp;</option>
-        {% endfor %}
+    {% endfor %}
     </select>
-    
-    <br>
-    <textarea class="form-textarea-regular" type="text" id="id_affmsg" name="affmsg" rows="2" placeholder=" PLEASE EXPLAIN FOR APPROVAL " maxlength="200"></textarea>
-    <br> 
-    <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF"></textarea>
-    <br>
-    {% endif %}
+    <textarea class="form-textarea-regular" type="text" id="id_affmsg" name="affmsg" rows="2" placeholder=" PLEASE EXPLAIN FOR APPROVAL " maxlength="200">{{ affmsg }}</textarea>
 
+    <textarea class="form-textarea-regular" type="text" id="id_bio" name="bio" rows="5" maxlength="500" placeholder="WRITE A SHORT BIO FOR YOURSELF" >{{ bio }}</textarea>
+               
     <input class="form-button-regular" type="submit" value="Register"/>
     <br><br>
     </form>
