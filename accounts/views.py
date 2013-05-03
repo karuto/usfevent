@@ -25,8 +25,6 @@ from event.models import Comment
 from event.models import Event
 from event.models import Like
 from event.models import Message
-from forms import LoginForm
-from forms import RegisterForm
 from global_func import base_template_vals
 from models import UserProfile
 from notification.views import sys_notification
@@ -263,6 +261,8 @@ def register(request):
             try:
                 avatar_ = request.FILES["picture"]
                 profile = UserProfile(django_user=user, 
+                                      firstname=firstname,
+                                      lastname=lastname,
                                       preferences=preferences_, 
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
@@ -271,6 +271,8 @@ def register(request):
                                       avatar=avatar_)
             except:
                 profile = UserProfile(django_user=user,
+                                      firstname=firstname,
+                                      lastname=lastname,
                                       preferences=preferences_, 
                                       graduation_year=grad_,
                                       affiliation_type=aff_,
@@ -316,18 +318,17 @@ def login(request):
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse("index"))
-    form = LoginForm()    
+     
     if request.method == 'POST':
-        form = LoginForm(request.POST.copy())
-        if form.is_valid():
-            login_helper(request, form.cleaned_data["email"],
-                         form.cleaned_data["password"])
+        email = request.POST['email']
+        password = request.POST['password']
+        # TODO Joseph: add sanitize functions here
+        if login_helper(request, email, password):
             if len(request.GET) > 0:
                 next_url = request.GET["next"]
                 if next_url:
                     return HttpResponseRedirect(next_url)
             return HttpResponseRedirect(reverse("index"))
-    template_var["form"] = form        
     return render_to_response("accounts/login.html", template_var,
                               context_instance=RequestContext(request))
     
