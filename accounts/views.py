@@ -57,6 +57,10 @@ def add_friend(request, pk):
     template_var = base_template_vals(request)   
     from_user = UserProfile.objects.get(django_user=request.user)
     to_user = UserProfile.objects.get(id=pk)
+
+    if(from_user == to_user):#should not follow self
+        return HttpResponseRedirect(reverse('index'))
+    
     size = len(Friendship.objects.filter(friend_from=from_user,
                                          friend_to=to_user))
     if(size == 0):
@@ -224,6 +228,7 @@ def index(request):
         # Retrieve and parse friends' saved events' list of current user
         friends_events = []
         for friend in friends:
+            print friend.friend_to
             local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
             if len(local_likes) > 0:
                 friends_events.append(local_likes[0].event)
@@ -234,6 +239,7 @@ def index(request):
                     event_id_list.append(friends_event.id)
                     friends_events_.append(friends_event)
         template_var["friends_events"] = friends_events_
+        template_var["friends_events"] = []
         
     return render_to_response("accounts/profile.html", template_var,
                               context_instance=RequestContext(request))
