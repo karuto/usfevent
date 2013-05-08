@@ -25,6 +25,7 @@
 
 <div class="entry-content-mega-block">
     <div style="padding: 20px">
+	{% if user_list %}
 	{% for app_user in user_list %}		
 	    <a href="{% url mgmt.views.approve_user app_user.id %}">
 	    <img class="user-avatar-mini" src="/webhost_media/{{ app_user.avatar }}"/>
@@ -32,7 +33,7 @@
 	    {{ app_user.firstname }} </a>: {{ app_user.affiliation_msg }}
 	    </span>
 	    <br>
-	{% endfor %}
+	{% endfor %}{% endif %}
 	</div>
 </div>
 
@@ -44,14 +45,15 @@
 
 <div class="entry-content-mega-block">
     <div style="padding: 20px">
+{%if event_list%}
 	{% for app_event in event_list %}	
-	    <a href="{% url mgmt.views.approve_user app_user.id %}">
+	    <a href="{% url mgmt.views.approve_event app_event.id %}">
 	    <img class="user-avatar-mini" src="/webhost_media/{{ app_event.image1 }}"/>
 	    <span class="page-subhero-text"><strong> Approve </strong>
 	    {{ app_event.title }} </a>
 	    </span>
 	    <br>
-	{% endfor %}
+	{% endfor %}{% endif %}
 	</div>
 </div>
 
