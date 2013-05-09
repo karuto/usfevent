@@ -9,14 +9,17 @@
 <div class="layout-content-header">
     <h1 class="page-hero-text page-hero-inline">{{ user.firstname }} {{ user.lastname }}</h1>
     &emsp;
-    {% if isAlreadyFollowed %}
-    <a  class="page-hero-support form-button-mini"
-    href="{% url unfriend user.id %}" style="color: white;">Unfollow</a>
+    {% if request.user.id == user.django_user.id %}
+        (This is you!)
     {% else %}
-    <a class="page-hero-support form-button-mini"
-     href="{% url friend user.id %}" style="color: white;">Follow</a>
-    {% endif %}
-    </span>    
+        {% if isAlreadyFollowed %}
+        <a  class="page-hero-support form-button-mini"
+        href="{% url unfriend user.id %}" style="color: white;">Unfollow</a>
+        {% else %}
+        <a class="page-hero-support form-button-mini"
+         href="{% url friend user.id %}" style="color: white;">Follow</a>
+        {% endif %}    
+    {% endif %}    
 </div>
 
 <div class="layout-profile-content clearfix-modern">
