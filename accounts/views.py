@@ -16,6 +16,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -52,11 +53,17 @@ def add_friend(request, pk):
         HttpResponseRedirect, to the homepage (index) with no parameters.
     
     Raises:
-        None.       
+        Http404, if either of the friendship participants is non-existent.      
     """    
     template_var = base_template_vals(request)   
-    from_user = UserProfile.objects.get(django_user=request.user)
-    to_user = UserProfile.objects.get(id=pk)
+    try:
+        from_user = UserProfile.objects.get(django_user=request.user)    
+    except UserProfile.DoesNotExist:
+        raise Http404  
+    try:
+        to_user = UserProfile.objects.get(id=pk)    
+    except UserProfile.DoesNotExist:
+        raise Http404  
 
     if(from_user == to_user):#should not follow self
         return HttpResponseRedirect(reverse('index'))
