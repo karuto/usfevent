@@ -125,7 +125,9 @@ def public_profile(request, pk):
         pk: Parameter in URL, representing targeted user's UserProfile id.
     
     Returns:
-        accounts/public_profile.html with template_vars.
+        accounts/public_profile.html with template_vars, if the querying user 
+        exists; if user try to access public profile of non-existent users, 
+        redirect back to index.
     
     Raises:
         None.       
@@ -134,8 +136,10 @@ def public_profile(request, pk):
 
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
-        template_var["user"] = UserProfile.objects.get(id=pk)
-        
+        try:
+            template_var["user"] = UserProfile.objects.get(id=pk)
+        except UserProfile.DoesNotExist:
+            return HttpResponseRedirect(reverse('index'))
         # Retrieve list of friends of current user.
         friends = Friendship.objects.filter(friend_from=template_var["user"])
         friends = list(friends) # Cast queryset to list to avoid u("")
