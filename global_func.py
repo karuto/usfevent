@@ -1,5 +1,5 @@
-from event.models import Message
 from accounts.models import UserProfile
+from notification.models import Message
 from taggit.models import Tag
 
 

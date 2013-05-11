@@ -25,9 +25,8 @@ from accounts.models import UserProfile
 from event.models import Comment
 from event.models import Event
 from event.models import Like
-from event.models import Message
 from global_func import base_template_vals
-
+from notification.models import Message
 
 
 def sys_notification(target, types, from_user, event_id):
