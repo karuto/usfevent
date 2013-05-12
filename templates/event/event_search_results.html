@@ -42,7 +42,7 @@
                 <a href="{%url single event.id %}">{{ event.title }}</a>
             </h1>
             <h3 class="main-item-meta roboto-font">
-                {{ event.event_time|date:"m-d-Y" }}<br>
+                {{ event.event_time|date:"m-d-Y" }} &nbsp;{{ event.event_time|time}}<br>
                 {{ event.location }}
             </h3>
         </header>

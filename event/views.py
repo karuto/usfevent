@@ -448,6 +448,7 @@ def post(request):
         None.
     """
     template_var = base_template_vals(request)
+    
     user = template_var["u"]
     from_user = UserProfile.objects.get(django_user=request.user)
     if user.is_moderator or user.is_superuser:
@@ -456,9 +457,12 @@ def post(request):
             body_ =  request.POST["body"]
             refer_ = request.POST["refer"]
             date_ = request.POST["date"]
-            print date_
+            time_ = request.POST["time"]
+            
             try:
-                date_ = datetime.strptime(date_, '%m/%d/%Y')
+                datetime_ = date_ + ' ' + time_
+                print datetime_ 
+                datetime_ = datetime.strptime(datetime_, '%m/%d/%Y %H:%M')
             except ValueError:
                 print "input date format is wrong"
                 
@@ -469,11 +473,11 @@ def post(request):
             try:
                 image1_ = request.FILES["picture"]
                 event = Event(title=title_, body=body_, location=loc_,
-                              refer=refer_, event_time=date_, image1=image1_,
+                              refer=refer_, event_time=datetime_, image1=image1_,
                               author=from_user)
             except:
                 event = Event(title=title_, body=body_, location=loc_,
-                              refer=refer_, event_time=date_, author=from_user)
+                              refer=refer_, event_time=datetime_, author=from_user)
             event.save() 
             tags = list(tags_)
             for tag in tags:
