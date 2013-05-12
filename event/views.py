@@ -456,11 +456,11 @@ def post(request):
             body_ =  request.POST["body"]
             refer_ = request.POST["refer"]
             date_ = request.POST["date"]
+            print date_
             try:
-                time.strptime(date_, '%m/%d/%Y')
+                date_ = datetime.strptime(date_, '%m/%d/%Y')
             except ValueError:
-                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
-                date_ = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+                print "input date format is wrong"
                 
             loc_ = request.POST["loc"]
             tags_ = request.POST.getlist("tags")

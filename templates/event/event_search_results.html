@@ -31,7 +31,9 @@
 <div id="layout-posts-masonry">
 {% for event in events_found %}
     <div class="main-item-block main-item-style post-item">            
-        <img class="entry-image" src="/webhost_media/{{event.image1}}" width="100%">
+        <a href="{%url single event.id %}">
+		<img class="entry-image" src="/webhost_media/{{event.image1}}" width="100%">
+	   </a>
         <a href="{% url like_event event.id %}" title="Click to save this event for later">
             <div class="entry-bookmark"></div>
         </a>
@@ -40,7 +42,7 @@
                 <a href="{%url single event.id %}">{{ event.title }}</a>
             </h1>
             <h3 class="main-item-meta roboto-font">
-                {{ event.event_time|date:"Y-m-d" }}<br>
+                {{ event.event_time|date:"m-d-Y" }}<br>
                 {{ event.location }}
             </h3>
         </header>
