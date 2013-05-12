@@ -31,12 +31,12 @@
             <h3 class="profile-major">{{ up.major }}</h3>
             <h3 class="profile-grad">Class of {{ up.graduation_year }}</h3>
             
-            <a href="">
-            <div class="form-button-mini profile-following-button">
-			<a style="color:white;" href="{%url accounts.views.show_friends up.id %}">Following {{ friends_num }} friends</a>
+            
+            <div class="profile-following-button">
+			<a class="form-button-mini" href="{%url accounts.views.show_friends up.id %}">Following {{ friends_num }} friends</a>
 
             </div>
-            </a>
+            
             <h3 class="profile-bio"><!--<strong>Bio:</strong>--> {{ up.bio }}</h3>
         </div><!-- .profile-metadata -->
     </div><!-- .profile-content -->      

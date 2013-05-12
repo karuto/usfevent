@@ -25,6 +25,15 @@
 <input class="form-field-regular" type = "text" name="title" placeholder="EVENT TITLE" value="{{ e.title }}"/><br> 
 <input class="form-field-regular" type = "text" name="refer" placeholder="EVENT URL" value="{{ e.refer }}"/><br>
 <input class="form-field-regular" type = "text" name="date"  placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time }}"/><br>
+<label class="form-label-regular" for="major">Event Time:</label>
+<select class="form-dropdown-regular" name="time" size="1">
+  {% for time_hour in time_hours %}
+	<option value="{{time_hour}}:00">{{time_hour}}:00</option>
+	<option value="{{time_hour}}:15">{{time_hour}}:15</option>
+	<option value="{{time_hour}}:30">{{time_hour}}:30</option>
+	<option value="{{time_hour}}:45">{{time_hour}}:45</option>
+  {% endfor %}
+</select>
 <input class="form-field-regular" type = "text" name="loc"   placeholder="EVENT LOCATION" value="{{ e.location }}"/><br>
 <textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL">{{ e.body }}</textarea><br>
 
