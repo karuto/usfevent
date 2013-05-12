@@ -449,9 +449,13 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   background: url("/webhost_media/static/bm.png");
   height: 60px;
   margin: 0 10px;
+  opacity: 0.5;
   position: relative;
   width: 50px;
   z-index: 10;
+}
+.entry-bookmark:hover {
+  opacity: 1;
 }
 .entry-image {
   z-index: 2;
