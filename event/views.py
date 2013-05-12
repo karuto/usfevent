@@ -475,7 +475,6 @@ def post(request):
                 event = Event(title=title_, body=body_, location=loc_,
                               refer=refer_, event_time=date_, author=from_user)
             event.save() 
-            #tags = splitTags(tags_)
             tags = list(tags_)
             for tag in tags:
                 event.tags.add(tag)
@@ -486,39 +485,6 @@ def post(request):
 
     return render_to_response("event/event_post.html", template_var,
                               context_instance=RequestContext(request))
-
-
-
-def splitTags(user_input):
-    """Parses a list of tags.
-    
-    Splits string containing tags seperated either by spaces or commas.
-    
-    Args:
-        user_input: String containing all the tags.
-        
-    Returns:
-        List containing tags.
-    
-    Raises:
-        None.
-    """
-    
-    elements = []
-    if ',' in user_input:
-        elements = user_input.split(',')
-    elif ' ' in user_input:
-        elements = user_input.split(' ')
-    else:
-        elements.append(user_input)
-
-    tags = []
-    for element in elements:
-        element = element.strip(' \t\n\r').lower()
-        if(len(element) == 0): continue
-        if element not in tags:
-            tags.append(element)
-    return tags
 
 
 @login_required
@@ -658,4 +624,37 @@ def search(request):
 
     return render_to_response("event/event_search_results.html", template_var,
                               context_instance=RequestContext(request))
+
+
+def splitTags(user_input):
+    """Parses a list of tags.
+    
+    Splits string containing tags seperated either by spaces or commas.
+    
+    Args:
+        user_input: String containing all the tags.
+        
+    Returns:
+        List containing tags.
+    
+    Raises:
+        None.
+    """
+    
+    elements = []
+    if ',' in user_input:
+        elements = user_input.split(',')
+    elif ' ' in user_input:
+        elements = user_input.split(' ')
+    else:
+        elements.append(user_input)
+
+    tags = []
+    for element in elements:
+        element = element.strip(' \t\n\r').lower()
+        if(len(element) == 0): continue
+        if element not in tags:
+            tags.append(element)
+    return tags
+
     

@@ -14,10 +14,8 @@
          <img id="imghead" src=''>
 	</div>
 	 <div style="position:relative;">
-		<button id="browzer_button" 
-		style="position:absolute; margin-left:30px; width:150px;"/>Upload poster</button>
-		<input type="file" name="picture" style="opacity:0; z-index:1;"
-		 onchange="document.getElementById('browzer_button').value = 
+		<input id="browser_button" type="file" name="picture" class="form-button-regular"  style=""
+		 onchange="document.getElementById('browser_button').value = 
 		 this.value;previewImage(this);" />
 	 </div>
 </div>
