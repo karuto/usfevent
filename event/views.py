@@ -230,6 +230,33 @@ def add_comment(request, pk, pk2):
 
 
 @login_required	
+def edit_event(request, pk):
+    """Edit an event's info.
+    
+    Creates and saves a Like object which contains the User who liked the event.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID of event receiving the edit.
+        
+    Returns:
+        redirect to index.
+    
+    Raises:
+        None.
+        
+    """
+    template_var = base_template_vals(request)
+    user = template_var["u"]
+    if user.is_superuser or user.is_moderator:
+        
+        return redirect('index')
+    else :
+        return redirect('index')
+
+
+@login_required	
 def like_event(request, pk):
     """Adds a like to an event.
     
