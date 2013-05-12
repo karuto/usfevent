@@ -445,6 +445,17 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   background-color: #fff;
   color: #000;
 }
+.entry-bookmark {
+  background: url("/webhost_media/static/bm.png");
+  height: 60px;
+  margin: 0 10px;
+  position: relative;
+  width: 50px;
+  z-index: 10;
+}
+.entry-image {
+  z-index: 2;
+}
 .entry-header {
   background-color: #959595;
   border-bottom: 1px solid #d0d0d0;
