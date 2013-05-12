@@ -629,14 +629,6 @@ def edit_profile(request):
     template_var = base_template_vals(request)
     current_user_profile = template_var["u"]
 
-    #username = firstname + "_" + lastname
-    #email = request.POST['email']
-    #password = request.POST['password']
-    #grad_ = request.POST['grad_year']
-    #bio_ = request.POST['bio']
-    #aff_ = request.POST['aff']
-    #affmsg_ = request.POST['affmsg']
-
     if request.method == 'POST':
         firstname = request.POST['firstname']
         lastname = request.POST['lastname']

@@ -249,9 +249,12 @@ def edit_event(request, pk):
     """
     template_var = base_template_vals(request)
     user = template_var["u"]
+    template_var["e"] = Event.objects.get(id=pk)
     if user.is_superuser or user.is_moderator:
-        
-        return redirect('index')
+        if request.method == 'POST':
+            return True
+        return render_to_response("event/event_edit.html", template_var,
+                                  context_instance=RequestContext(request))
     else :
         return redirect('index')
 
@@ -630,7 +633,7 @@ def search(request):
 
 
 def default_tag_init(request):
-    """Creates default tags
+    """Creates default tags 
     
     Use when server first starts up.
     
