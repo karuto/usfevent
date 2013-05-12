@@ -610,6 +610,7 @@ def logout(request):
     auth_logout(request)
     return HttpResponseRedirect(reverse('index'))
 
+
 @login_required    
 def edit_profile(request):
     """edit current user's profile.
@@ -651,7 +652,6 @@ def edit_profile(request):
         return HttpResponseRedirect(reverse("index"))
     return render_to_response("accounts/edit_profile.html", template_var,
                               context_instance=RequestContext(request))
-
 
 
 def sanitize(first, last, email, bio, password):

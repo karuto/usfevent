@@ -629,34 +629,3 @@ def search(request):
     return render_to_response("event/event_search_results.html", template_var,
                               context_instance=RequestContext(request))
     
-    
-
-
-def default_tag_init(request):
-    """Creates default tags, which serves as categories.
-    
-    You should only visit this URL when server first starts up. Creates a 
-    temporary event entry, fills in the tags, then deletes the event.
-    
-    Args:
-        request: Django's HttpRequest object that contains metadata.
-            https://docs.djangoproject.com/en/dev/ref/request-response/
-            
-    Returns:
-        HttpResponse with one line prompt.
-        
-    Raises:
-        None.
-    """
-    template_var = base_template_vals(request)
-    event = Event.objects.create(author=UserProfile.objects.all()[0])
-    event.tags.add("art")
-    event.tags.add("music")
-    event.tags.add("threater")
-    event.tags.add("sports")
-    event.tags.add("festivals")
-    event.tags.add("holiday")
-    event.tags.add("community")
-    event.tags.add("miscellaneous")
-    event.delete()
-    return HttpResponse("Default Tags Initialized.")

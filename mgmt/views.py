@@ -33,9 +33,12 @@ from notification.views import sys_notification
 
 @login_required
 def db_init(request): 
-    """Initialize the global database.
+    """Initialize the global database, fill in pre-set content and taxonomies.
     
-    Fill in pre-set content and taxonomies.
+    Creates default tags, which serves as categories.
+    
+    You should only visit this URL when server first starts up. Creates a 
+    temporary event entry, fills in the tags, then deletes the event.
     
     Args:
         request: Django's HttpRequest object that contains metadata.
@@ -49,11 +52,38 @@ def db_init(request):
     """
     template_var = base_template_vals(request) 
     user = template_var["u"]
+    """
     if user.is_superuser:
         return render_to_response("mgmt/init.html", template_var,
                                   context_instance=RequestContext(request))
     else:
-        return HttpResponseRedirect(reverse('index'))
+    """
+    event = Event.objects.create(author=UserProfile.objects.all()[0])
+    event.tags.add("art")
+    event.tags.add("music")
+    event.tags.add("threater")
+    event.tags.add("sports")
+    event.tags.add("festivals")
+    event.tags.add("holiday")
+    event.tags.add("community")
+    event.tags.add("miscellaneous")
+    event.delete()
+    return HttpResponseRedirect(reverse('index'))
+        
+def default_tag_init(request):
+    """
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+            
+    Returns:
+        HttpResponse with one line prompt.
+        
+    Raises:
+        None.
+    """
+    return HttpResponse("Default Tags Initialized.")        
     
 
 @login_required
