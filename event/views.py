@@ -633,22 +633,23 @@ def search(request):
 
 
 def default_tag_init(request):
-    """Creates default tags 
+    """Creates default tags, which serves as categories.
     
-    Use when server first starts up.
+    You should only visit this URL when server first starts up. Creates a 
+    temporary event entry, fills in the tags, then deletes the event.
     
     Args:
         request: Django's HttpRequest object that contains metadata.
             https://docs.djangoproject.com/en/dev/ref/request-response/
             
     Returns:
-        event/event_search_results.html with template_vars.
+        HttpResponse with one line prompt.
         
     Raises:
         None.
     """
     template_var = base_template_vals(request)
-    event = Event.objects.create(author=UserProfile.objects.all()[0])   #fake event, not saved
+    event = Event.objects.create(author=UserProfile.objects.all()[0])
     event.tags.add("art")
     event.tags.add("music")
     event.tags.add("threater")
