@@ -27,20 +27,21 @@
 <input class="form-field-regular" type = "text" name="title" placeholder="EVENT TITLE" value="{{ e.title }}"/><br> 
 <input class="form-field-regular" type = "text" name="refer" placeholder="EVENT URL" value="{{ e.refer }}"/><br>
 <input class="form-field-regular" type = "text" name="date"  placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time }}"/><br>
-<input class="form-field-regular" type = "text" name="loc" placeholder="EVENT LOCATION" value="{{ e.location }}"/><br>
+<input class="form-field-regular" type = "text" name="loc"   placeholder="EVENT LOCATION" value="{{ e.location }}"/><br>
 <textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL">{{ e.body }}</textarea><br>
 
+<br>
+
 TAGS / CATEGORIES <br>
-
-
-
 
 {% for tag in tags %}
 <input type="checkbox" id="id_{{tag}}" name="tags" value="{{tag}}" >
 <label style="display:inline;" class="form-label-regular" for="id_{{tag}}">{{tag}}</label>
-		&nbsp;
-    		
+&nbsp;    		
 {% endfor %}
+
+<br>
+<br>
 
 <input class="form-button-regular" type="submit" value="Submit for approval" />
 </form>

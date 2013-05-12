@@ -230,36 +230,6 @@ def add_comment(request, pk, pk2):
 
 
 @login_required	
-def edit_event(request, pk):
-    """Edit an event's info.
-    
-    Creates and saves a Like object which contains the User who liked the event.
-    
-    Args:
-        request: Django's HttpRequest object that contains metadata.
-            https://docs.djangoproject.com/en/dev/ref/request-response/
-        pk: ID of event receiving the edit.
-        
-    Returns:
-        redirect to index.
-    
-    Raises:
-        None.
-        
-    """
-    template_var = base_template_vals(request)
-    user = template_var["u"]
-    template_var["e"] = Event.objects.get(id=pk)
-    if user.is_superuser or user.is_moderator:
-        if request.method == 'POST':
-            return True
-        return render_to_response("event/event_edit.html", template_var,
-                                  context_instance=RequestContext(request))
-    else :
-        return redirect('index')
-
-
-@login_required	
 def like_event(request, pk):
     """Adds a like to an event.
     
@@ -396,6 +366,65 @@ def save_event(request):
         
     return render_to_response("event/message_send.html", template_var, 
                               context_instance=RequestContext(request))
+                              
+
+@login_required	
+def edit_event(request, pk):
+    """Edit an event's info.
+    
+    Creates and saves a Like object which contains the User who liked the event.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID of event receiving the edit.
+        
+    Returns:
+        redirect to index.
+    
+    Raises:
+        None.
+        
+    """
+    template_var = base_template_vals(request)
+    user = template_var["u"]
+    event = Event.objects.get(id=pk)
+    template_var["e"] = event
+    if user.is_superuser or user.is_moderator:
+        if request.method == 'POST':
+            title = request.POST['title']
+            refer = request.POST['refer']
+            date = request.POST['date']
+            loc = request.POST['loc']
+            body = request.POST['body']
+            
+            # Deal with time field
+            try:
+                time.strptime(date, '%m/%d/%Y')
+            except ValueError:
+                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
+                date = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+                            
+            # Deal with tags checkbox list
+            tags = request.POST.getlist("tags")                        
+            if len(tags) == 0:
+                tags = "untagged"
+            else:
+                taglist = list(tags)
+                for t in taglist:
+                    event.tags.add(t)
+                
+            event.title = title
+            event.refer = refer
+            event.date = date
+            event.location = loc
+            event.body = body
+            event.save() 
+            return single(request, pk)
+        return render_to_response("event/event_edit.html", template_var,
+                                  context_instance=RequestContext(request))
+    else :
+        return redirect('index')
 
 
 @login_required
@@ -414,6 +443,7 @@ def post(request):
         HttpResponseRedirect to index
         ELSE:
         event/event_post.html with template_vars
+        
     Raises:
         None.
     """
