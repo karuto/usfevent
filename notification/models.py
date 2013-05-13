@@ -8,6 +8,7 @@ from django.db import models
 class Message(models.Model):
     msg_from = models.ForeignKey(UserProfile, related_name="msg_from")
     msg_to = models.ForeignKey(UserProfile, related_name="msg_to")
+    title = models.CharField(max_length=100)
     content = models.TextField()
     time = models.DateTimeField(auto_now=True)
     is_read = models.BooleanField(default=False)
