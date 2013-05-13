@@ -18,30 +18,21 @@ $(function() {
 <div class="layout-content-wrap">
 
 <div class="layout-content-header">
-    <h1 class="page-hero-text">Submit new event</h1>
+    <h1 class="page-hero-text">New design order form</h1>
 </div>
 
 <form class="form-search" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
-<div class="main-item-block">
-	<div id="preview">
-         <img id="imghead" src=''>
-	</div>
-	 <div style="position:relative;">
-		<button id="browzer_button" 
-		style="position:absolute; margin-left:30px; width:150px;"/>Upload poster</button>
-		<input type="file" name="picture" style="opacity:0; z-index:1;"
-		 onchange="document.getElementById('browzer_button').value = 
-		 this.value;previewImage(this);" />
-	 </div>
-</div>
-
-
 <div class="entry-content-block">
-<input class="form-field-regular" type="text" name="title" placeholder="EVENT TITLE"/><br> 
-<input class="form-field-regular" type="text" name="refer" placeholder="EVENT URL"/><br>
+<input class="form-field-regular" type="text" name="project_name" placeholder="PROJECT NAME"/><br> 
+<label class="form-label-regular" for="major">Client Information</label>
+<input class="form-field-regular" type="text" name="client_name" placeholder="NAME"/><br> 
+<input class="form-field-regular" type="text" name="client_phone" placeholder="PHONE NUMBER"/><br> 
+<input class="form-field-regular" type="text" name="client_email" placeholder="EMAIL"/><br> 
+<input class="form-field-regular" type="text" name="client_org" placeholder="ORGANIZATION"/><br>
+
+
 <input class="form-field-regular" type="text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id="datepicker"/><br>
-<label class="form-label-regular" for="major">Event Time:</label>
 <select class="form-dropdown-regular" name="time" size="1">
 
   {% for time_hour in time_hours %}
