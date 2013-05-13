@@ -80,7 +80,8 @@
         </div><!-- .profile-event-unit -->
         {% endfor %}
         <div class="profile-more-link">
-            <a href="">See more</a>
+            <a href="{%url accounts.views.see_more_saved_events up.id %}">See more</a>
+
         </div>
         {% else %}
             {{ user.firstname }} currently does not have any saved events.
@@ -116,7 +117,8 @@
         </div><!-- .profile-event-unit -->
         {% endfor %}
         <div class="profile-more-link">
-            <a href="">See more</a>
+            <a href="{%url accounts.views.see_more_friends_events up.id %}">See more</a>
+
         </div>
         {% else %}
             {{ user.firstname }} currently does not have any friends.

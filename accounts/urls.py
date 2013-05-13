@@ -17,4 +17,7 @@ urlpatterns = patterns('accounts.views',
 
     url(r'^edit_profile/$', 'edit_profile', name="edit_profile"),
 
+    url(r'^(?P<pk>\d+)/see_more_saved_events/$', 'see_more_saved_events', name="see_more_saved_events"),
+    url(r'^(?P<pk>\d+)/see_more_friends_events/$', 'see_more_friends_events', name="see_more_friends_events"),  
+
 )

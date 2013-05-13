@@ -144,40 +144,22 @@ def public_profile(request, pk):
     template_var = base_template_vals(request)
     if request.user.is_authenticated():
         try:
-            template_var["user"] = UserProfile.objects.get(id=pk)
+            template_var["up"] = UserProfile.objects.get(id=pk)
+            template_var["user"] = template_var["up"]
         except UserProfile.DoesNotExist:
             return HttpResponseRedirect(reverse('index'))
         # Retrieve list of friends of current user.
-        friends = Friendship.objects.filter(friend_from=template_var["user"])
+        friends = Friendship.objects.filter(friend_from=template_var["up"])
         friends = list(friends) # Cast queryset to list to avoid u("")
         template_var["friends"] = friends
         template_var["friends_num"] = len(friends)
-        
+        template_var["saved_events"] = see_saved_events(template_var, False)
         # Retrieve list of friends' saved events of current user.
-
-        template_var["saved_events"] = Like.objects.filter(
-                                       user=template_var["user"])
-        friends_events = []
-        friends_saved_entries = []
-        for friend in friends:
-            local_likes = Like.objects.filter(user=friend.friend_to)
-            if len(local_likes) > 0:
-                friends_saved_entries.append(local_likes[0])
-                friends_events.append(local_likes[0].event)
-        event_id_list = []
-        friends_events_ = [] # This is the final list that get passed to HTML
-        for friends_event in friends_events:
-            if(friends_event.id not in event_id_list):
-                event_id_list.append(friends_event.id)
-                friends_events_.append(friends_event)
-
-        
-        template_var["friend_events"] = friends_events_
-        template_var["friends_saved_entries"] = friends_saved_entries
+        template_var["friends_saved_entries"] = see_friends_events(request, template_var, False, True)
 
         #checck if current login user follow selected public profile user or not
         currentUser = UserProfile.objects.filter(django_user=request.user)
-        isAlreadyFollowed = Friendship.objects.filter(friend_from=currentUser, friend_to=template_var["user"])
+        isAlreadyFollowed = Friendship.objects.filter(friend_from=currentUser, friend_to=template_var["up"])
         if(len(isAlreadyFollowed) != 0):
             template_var["isAlreadyFollowed"] = True;
         else:
@@ -227,7 +209,7 @@ def index(request):
                                             msg_to=current_user_profile)
         
         # Retrieve likes (saved events) list of current user
-        template_var["likes"] = Like.objects.filter(user=up[0])
+        template_var["saved_events"] = see_saved_events(template_var, False)
         
         # Retrieve friend list of current user
         friends = Friendship.objects.filter(friend_from=up[0])
@@ -236,23 +218,80 @@ def index(request):
         template_var["friends_num"] = len(friends)
         
         # Retrieve and parse friends' saved events' list of current user
-        friends_events = []
-        for friend in friends:
-            print friend.friend_to
-            local_likes = Like.objects.filter(id__exact=friend.friend_to.id)
-            if len(local_likes) > 0:
-                friends_events.append(local_likes[0].event)
-        event_id_list = []
-        friends_events_ = []
-        for friends_event in friends_events:
-                if(friends_event.id not in event_id_list):
-                    event_id_list.append(friends_event.id)
-                    friends_events_.append(friends_event)
-        template_var["friends_events"] = friends_events_
-        
+        template_var["friends_events"] =  see_friends_events(request, template_var, False, False)
     return render_to_response("accounts/profile.html", template_var,
                               context_instance=RequestContext(request))
 
+def see_more_saved_events(request, pk):
+    template_var = base_template_vals(request)
+    if request.user.is_authenticated():
+        # Retrieve data for current user's private profile
+        up = UserProfile.objects.filter(id=pk)
+        if len(up) == 0: # no userprofile, say root user created in terminal
+            return render_to_response("accounts/profile.html", template_var,
+                                      context_instance=RequestContext(request))
+        template_var["up"] = up[0]
+        # Retrieve likes (saved events) list of current user
+        template_var["saved_events"] = see_saved_events(template_var, True)
+
+    return render_to_response("accounts/see_more_saved_events.html", template_var,
+                              context_instance=RequestContext(request))
+def see_more_friends_events(request, pk):
+    template_var = base_template_vals(request)
+    if request.user.is_authenticated():
+        # Retrieve data for current user's private profile
+        up = UserProfile.objects.filter(id=pk)
+        if len(up) == 0: # no userprofile, say root user created in terminal
+            return render_to_response("accounts/profile.html", template_var,
+                                      context_instance=RequestContext(request))
+        template_var["up"] = up[0]
+        # Retrieve friend list of current user
+        friends = Friendship.objects.filter(friend_from=up[0])
+        friends = list(friends) # Cast queryset to list to avoid u("")
+        template_var["friends"] = friends
+        #friends' saved event
+        template_var["friends_saved_entries"] = see_friends_events(request, template_var, True, True)
+
+    return render_to_response("accounts/see_more_friends_events.html", template_var,
+                              context_instance=RequestContext(request))
+
+#helper function
+def see_saved_events(template_var, fetchAll):
+    if(fetchAll):
+        return Like.objects.filter(user=template_var["up"])
+    else:
+        return Like.objects.filter(user=template_var["up"])[0:5]
+    
+#helper function
+def see_friends_events(request, template_var, fetchAll, entry):
+    # Retrieve and parse friends' saved events' list of current user
+    friends_events = []
+    friends_saved_entries = []
+    friends = template_var["friends"]
+    for friend in friends:
+        print friend.friend_to
+        local_likes = Like.objects.filter(user=friend.friend_to)
+        if len(local_likes) > 0:
+            if(fetchAll):
+                for local_like in local_likes:
+                    friends_events.append(local_like.event)
+                    friends_saved_entries.append(local_like)
+            else:
+                friends_events.append(local_likes[0].event)
+                friends_saved_entries.append(local_likes[0])
+    event_id_list = []
+    friends_events_ = []
+    for friends_event in friends_events:
+            if(friends_event.id not in event_id_list):
+                event_id_list.append(friends_event.id)
+                friends_events_.append(friends_event)
+    #template_var["friend_events"] = friends_events_
+    #template_var["friends_saved_entries"] = friends_saved_entries
+    if entry:
+        return friends_saved_entries
+    else:
+        return friends_events_
+    
 
 @login_required 
 def show_friends(request, pk):
