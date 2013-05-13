@@ -401,8 +401,25 @@ def register(request):
     if request.method == "POST":
         print request.POST
         # TODO: don't assume all these fields are in the POST! Check if exist.
-        firstname = strip_tags(request.POST['firstname'])
-        lastname = strip_tags(request.POST['lastname'])
+        if "-" in request.POST['firstname']:
+            new = []
+            firstname = request.POST['firstname'].split("-")
+            for name in firstname:
+                name = strip_tags(name)
+                new.append(name)
+            firstname = "-".join(new) 
+        else:        
+            firstname = strip_tags(request.POST['firstname'])
+        print "firstname stripped", firstname    
+        if "-" in request.POST['lastname']:
+            new =  []
+            lastname = request.POST['lastname'].split("-")
+            for name in lastname:
+                name = strip_tags(name)
+                new.append(name)
+            lastname = "-".join(new) 
+        else:
+            lastname = strip_tags(request.POST['lastname'])
         username = firstname + "_" + lastname
         email = strip_tags(request.POST['email'])
         password = request.POST['password']
@@ -659,14 +676,14 @@ def sanitize(first, last, email, bio, password):
     result = [True, True, True, True, True]
     
     for c in first:
-        if c not in string.ascii_letters and c.isspace() is False:
+        if (c not in string.ascii_letters + '-') and (c.isspace() is False):
             result[0] = False
             print "invalid first name"
             break
     if len(first) == 0:
         result[0] = False
     for c in last:
-        if c not in string.ascii_letters and c.isspace() is False:
+        if (c not in string.ascii_letters + '-') and (c.isspace() is False):
             result[1] = False
             print "invalid last name"
             break
