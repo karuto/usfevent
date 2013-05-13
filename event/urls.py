@@ -12,6 +12,7 @@ urlpatterns = patterns('event.views',
     url(r'^archives/$', 'archives', name='archives'),
     url(r'^tag/(?P<tag>\w+)$', 'tagpage', name='tag'),
     url(r'^post/$', 'post', name="post"),
+    url(r'^order/$', 'order', name="order"),
 
     url(r'^(\d+)/(\d+)/add_comment/$', 'add_comment', name="add_comment"),
     url(r'^(\d+)/edit$', 'edit_event', name="edit_event"),

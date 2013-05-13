@@ -20,11 +20,9 @@ def base_template_vals(request):
                 msg_unread += 1
         template_var["msg_unread"] = msg_unread
 
-        template_var["tags"] = Tag.objects.all()
-
-        
-        #time_hour & minute
-        time_hours = ["00","01","02","03","04","05","06","07","08","09","10","11","12","13","14","15","16","17","18","19","20","21","22","23"]
-        template_var["time_hours"] = time_hours
+    # Used in numerous cases, basically anywhere with time-related form fields
+    time_hours = ["00","01","02","03","04","05","06","07","08","09","10","11",
+    "12","13","14","15","16","17","18","19","20","21","22","23"]
+    template_var["time_hours"] = time_hours
 
     return template_var

@@ -429,6 +429,13 @@ def edit_event(request, pk):
         return redirect('index')
 
 
+def order(request):
+    template_var = base_template_vals(request)
+    return render_to_response("event/event_order.html", template_var,
+                                  context_instance=RequestContext(request)) 
+
+
+
 @login_required
 def post(request):
     """Posts an event, only moderators can access.
@@ -452,6 +459,7 @@ def post(request):
     template_var = base_template_vals(request)
     
     user = template_var["u"]
+    template_var["tags"] = Tag.objects.all()
     from_user = UserProfile.objects.get(django_user=request.user)
     if user.is_moderator or user.is_superuser:
         if request.method == "POST":
@@ -459,8 +467,7 @@ def post(request):
             body_ =  request.POST["body"]
             refer_ = request.POST["refer"]
             date_ = request.POST["date"]
-            time_ = request.POST["time"]
-            
+            time_ = request.POST["time"]            
             try:
                 datetime_ = date_ + ' ' + time_
                 print datetime_ 

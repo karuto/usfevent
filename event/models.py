@@ -24,6 +24,10 @@ class Event(models.Model):
         return self.title
         
 
+#class Order(models.Model):
+
+
+
 class Comment(models.Model):
     user = models.ForeignKey(UserProfile)
     event = models.ForeignKey(Event)

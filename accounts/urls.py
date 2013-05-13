@@ -10,7 +10,7 @@ urlpatterns = patterns('accounts.views',
     url(r'^(?P<pk>\d+)/remove/$', "remove_friend", name='unfriend'),
     url(r'^(?P<pk>\d+)/friends/$', "show_friends", name='show_friends'),
 
-    url(r'^index/$', 'index', name="accounts_index"),
+    url(r'^index/$', 'index', name="index"),
     url(r'^register/$', 'register', name="register"),
     url(r'^login/$', 'login', name="login"),
     url(r'^logout/$', 'logout', name="logout"),

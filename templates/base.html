@@ -23,7 +23,7 @@
         {% if u.is_superuser %}
         <li class="external-item"><a href="{%url mgmt.views.overview %}">Management</a></li>
         {% endif %}
-        <li class="external-item"><a href="/">Profile</a></li>
+        <li class="external-item"><a href="{%url accounts.views.index %}">Profile</a></li>
         <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
         {% else %}
         <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
