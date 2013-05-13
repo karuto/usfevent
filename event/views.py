@@ -20,6 +20,7 @@ from django.shortcuts import render_to_response
 from django.template import Context
 from django.template import loader
 from django.template import RequestContext
+from django.utils.html import strip_tags
 
 # app-level imports
 from accounts.models import UserProfile
@@ -34,7 +35,7 @@ from taggit.models import Tag
 
 
 def homepage(request):
-    """Creates standard index page view for Don's Affairs.
+    """Creates standard homepage view for Don's Affairs.
     
     Gets user profile object and its list of "Like" objects,
     list of "Event" objects inorder of creation and formats
@@ -463,9 +464,9 @@ def post(request):
     from_user = UserProfile.objects.get(django_user=request.user)
     if user.is_moderator or user.is_superuser:
         if request.method == "POST":
-            title_ = request.POST["title"]
-            body_ =  request.POST["body"]
-            refer_ = request.POST["refer"]
+            title_ = strip_tags(request.POST["title"])
+            body_ =  strip_tags(request.POST["body"])
+            refer_ = strip_tags(request.POST["refer"])
             date_ = request.POST["date"]
             time_ = request.POST["time"]            
             try:
@@ -475,7 +476,7 @@ def post(request):
             except ValueError:
                 print "input date format is wrong"
                 
-            loc_ = request.POST["loc"]
+            loc_ = strip_tags(request.POST["loc"])
             tags_ = request.POST.getlist("tags")
             if(len(tags_) == 0):
                 tags_ = "untagged"
