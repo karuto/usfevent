@@ -395,15 +395,17 @@ def edit_event(request, pk):
             title = request.POST['title']
             refer = request.POST['refer']
             date = request.POST['date']
+            time = request.POST['time']
             loc = request.POST['loc']
             body = request.POST['body']
             
             # Deal with time field
             try:
-                time.strptime(date, '%m/%d/%Y')
+                event_datetime = date + ' ' + time
+                print event_datetime
+                event_datetime = datetime.strptime(event_datetime, '%m/%d/%Y %H:%M')
             except ValueError:
-                current_day = datetime.now().strftime("%Y-%m-%d %H:%M")
-                date = datetime.strptime(current_day, '%Y-%m-%d %H:%M')
+                print "Error when processing time field"
                             
             # Deal with tags checkbox list
             tags = request.POST.getlist("tags")                        
@@ -416,7 +418,7 @@ def edit_event(request, pk):
                 
             event.title = title
             event.refer = refer
-            event.date = date
+            event.event_time = event_datetime
             event.location = loc
             event.body = body
             event.save() 

@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+<!--JQuery DatePicker css and js starts-->
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script>
+$(function() {
+    $( "#datepicker" ).datepicker();
+});
+</script>
+<!--JQuery DatePicker css and js ends-->
+
+
 <div class="layout-content-wrap">
 
 <div class="layout-content-header">
@@ -22,20 +35,18 @@
 
 
 <div class="entry-content-block">
-<input class="form-field-regular" type = "text" name="title" placeholder="EVENT TITLE" value="{{ e.title }}"/><br> 
-<input class="form-field-regular" type = "text" name="refer" placeholder="EVENT URL" value="{{ e.refer }}"/><br>
-<input class="form-field-regular" type = "text" name="date"  placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time }}"/><br>
+<input class="form-field-regular" type="text" name="title" placeholder="EVENT TITLE" value="{{ e.title }}"/><br> 
+<input class="form-field-regular" type="text" name="refer" placeholder="EVENT URL" value="{{ e.refer }}"/><br>
+<input class="form-field-regular" id="datepicker" type = "text" name="date" placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time|date:'m/d/Y' }}"/><br>
 <label class="form-label-regular" for="major">Event Time:</label>
 <select class="form-dropdown-regular" name="time" size="1">
   {% for time_hour in time_hours %}
 	<option value="{{time_hour}}:00">{{time_hour}}:00</option>
-	<option value="{{time_hour}}:15">{{time_hour}}:15</option>
 	<option value="{{time_hour}}:30">{{time_hour}}:30</option>
-	<option value="{{time_hour}}:45">{{time_hour}}:45</option>
   {% endfor %}
 </select>
-<input class="form-field-regular" type = "text" name="loc"   placeholder="EVENT LOCATION" value="{{ e.location }}"/><br>
-<textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL">{{ e.body }}</textarea><br>
+<input class="form-field-regular" type="text" name="loc"   placeholder="EVENT LOCATION" value="{{ e.location }}"/><br>
+<textarea class="form-textarea-regular" type="text" name="body" row="5" placeholder="EVENT DETAIL">{{ e.body }}</textarea><br>
 
 <br>
 

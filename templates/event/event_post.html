@@ -5,15 +5,12 @@
 <!--JQuery DatePicker css and js starts-->
 
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-  
-  
-  <script>
-  $(function() {
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script>
+$(function() {
     $( "#datepicker" ).datepicker();
-  });
-  </script>
+});
+</script>
 <!--JQuery DatePicker css and js ends-->
 
 
@@ -41,9 +38,9 @@
 
 
 <div class="entry-content-block">
-<input class="form-field-regular" type = "text" name="title" placeholder="EVENT TITLE"/><br> 
-<input class="form-field-regular" type = "text" name="refer" placeholder="EVENT URL"/><br>
-<input class="form-field-regular" type = "text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id = "datepicker"/><br>
+<input class="form-field-regular" type="text" name="title" placeholder="EVENT TITLE"/><br> 
+<input class="form-field-regular" type="text" name="refer" placeholder="EVENT URL"/><br>
+<input class="form-field-regular" type="text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id="datepicker"/><br>
 <label class="form-label-regular" for="major">Event Time:</label>
 <select class="form-dropdown-regular" name="time" size="1">
 
@@ -52,7 +49,6 @@
 	<option value="{{time_hour}}:15">{{time_hour}}:15</option>
 	<option value="{{time_hour}}:30">{{time_hour}}:30</option>
 	<option value="{{time_hour}}:45">{{time_hour}}:45</option>
-
   {% endfor %}
   
 </select>

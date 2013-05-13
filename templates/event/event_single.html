@@ -122,7 +122,7 @@ $(function(){
         </div><!-- .entry-interaction-content -->
 
         <div class="entry-interaction-header page-subhero-text">
-            <a href="/admin/event/event/{{event.id}}">Edit this event</a>
+            <a href="{% url event.views.edit_event event.id %}">Edit this event</a>
         </div>
         
     {% else %}
