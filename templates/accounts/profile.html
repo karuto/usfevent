@@ -49,8 +49,8 @@
         </div>
     </div><!-- .profile-content-header -->
     <div class="profile-list-event">
-        {% if likes %}
-        {% for e in likes %}
+        {% if saved_events %}
+        {% for e in saved_events %}
         <div class="profile-event-unit clearfix-modern">
             <div class="profile-event-image">
                 <a href="{%url event.views.single e.event.id %}">
@@ -68,7 +68,7 @@
         </div><!-- .profile-event-unit -->
         {% endfor %}
         <div class="profile-more-link">
-            <a href="">See more</a>
+            <a href="{%url accounts.views.see_more_saved_events up.id %}">See more</a>
         </div>
         {% else %}
             {{ up.firstname}} currently does not have any saved events.
@@ -104,7 +104,8 @@
         </div><!-- .profile-event-unit -->
         {% endfor %}
         <div class="profile-more-link">
-            <a href="">See more</a>
+            <a href="{%url accounts.views.see_more_friends_events up.id %}">See more</a>
+
         </div>
         {% else %}
             {{ up.firstname }} currently does not have any friends.
