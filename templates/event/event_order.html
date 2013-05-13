@@ -8,7 +8,7 @@
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <script>
 $(function() {
-    $( "#datepicker" ).datepicker();
+    $( ".datepicker" ).datepicker();
 });
 </script>
 <!--JQuery DatePicker css and js ends-->
@@ -24,36 +24,71 @@ $(function() {
 <form class="form-search" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 
 <div class="entry-content-block">
-<input class="form-field-regular" type="text" name="project_name" placeholder="PROJECT NAME"/><br> 
-<label class="form-label-regular" for="major">Client Information</label>
+<label class="form-label-regular">Client Information</label>
 <input class="form-field-regular" type="text" name="client_name" placeholder="NAME"/><br> 
 <input class="form-field-regular" type="text" name="client_phone" placeholder="PHONE NUMBER"/><br> 
 <input class="form-field-regular" type="text" name="client_email" placeholder="EMAIL"/><br> 
 <input class="form-field-regular" type="text" name="client_org" placeholder="ORGANIZATION"/><br>
+ASUSF Sponsored? &nbsp;
+<input type="radio" name="sponsored" value="yes">Yes &nbsp;
+<input type="radio" name="sponsored" value="no" checked>No<br>
+<br>
 
-
-<input class="form-field-regular" type="text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id="datepicker"/><br>
-<select class="form-dropdown-regular" name="time" size="1">
-
+<label class="form-label-regular">Project Information</label>
+<input class="form-field-regular" type="text" name="project_name" placeholder="PROJECT NAME"/><br> 
+<input class="form-field-regular datepicker" type="text" name="project_deadline"  placeholder="PROJECT DEADLINE (Click to pick)" readonly/><br>
+<input class="form-field-regular datepicker" type="text" name="event_date"  placeholder="EVENT DATE (Click to pick)" readonly/><br>
+<select class="form-dropdown-regular" name="event_time" size="1">
   {% for time_hour in time_hours %}
-	<option value="{{time_hour}}:00">{{time_hour}}:00</option>
-	<option value="{{time_hour}}:15">{{time_hour}}:15</option>
-	<option value="{{time_hour}}:30">{{time_hour}}:30</option>
-	<option value="{{time_hour}}:45">{{time_hour}}:45</option>
+	<option value="{{time_hour}}:00">Event starting time - {{time_hour}}:00</option>
+	<option value="{{time_hour}}:30">Event starting time - {{time_hour}}:30</option>
   {% endfor %}
-  
 </select>
-<input class="form-field-regular" type = "text" name="loc" placeholder="EVENT LOCATION"/><br>
-<textarea class="form-textarea-regular" type = "text" name="body" row="5" placeholder="EVENT DETAIL"></textarea><br>
+<input class="form-field-regular" type="text" name="event_location" placeholder="EVENT LOCATION"/><br>
 
-TAGS / CATEGORIES <br>
+<textarea class="form-textarea-regular" type="text" name="design_concept" row="5" placeholder="DESIGN CONCEPT (Color scheme, imagery, theme, inspiration, etc.)"></textarea><br>
+<textarea class="form-textarea-regular" type="text" name="design_text" row="5" placeholder="TEXT (All text is due at the time the order is placed.)"></textarea><br>
 
-{% for tag in tags %}
-<input type="checkbox" id="id_{{tag}}" name="tags" value="{{tag}}" >
-<label style="display:inline;" class="form-label-regular" for="id_{{tag}}">{{tag}}</label>
-		&nbsp;
-    		
-{% endfor %}
+
+PROJECT TYPE
+<input type="checkbox" id="type_poster" name="tags" value="type_poster">
+<label style="display:inline;" for="type_poster">Poster (11*17)</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_flyer" name="tags" value="type_flyer">
+<label style="display:inline;" for="type_flyer">Flyer (8.5*11)</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_handbill" name="tags" value="type_handbill">
+<label style="display:inline;" for="type_handbill">Handbills (1/4 of Flyer)</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_businesscard" name="tags" value="type_businesscard">
+<label style="display:inline;" for="type_businesscard">Business Card (2*3.5)</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_pamphlet" name="tags" value="type_pamphlet">
+<label style="display:inline;" for="type_pamphlet">Pamphlet</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_invitation" name="tags" value="type_invitation">
+<label style="display:inline;" for="type_invitation">Invitation</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_logo" name="tags" value="type_logo">
+<label style="display:inline;" for="type_logo">Logo</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_banner" name="tags" value="type_banner">
+<label style="display:inline;" for="type_banner">Banner</label>
+</input>
+&nbsp;
+<input type="checkbox" id="type_other" name="tags" value="type_other">
+<label style="display:inline;" for="type_other">Other</label>
+</input>
+&nbsp;
+<br>
+<input class="form-field-regular" type="text" name="other" placeholder="OTHER TYPE (Please specify.)"/><br> 
 
 <input class="form-button-regular" type="submit" value="Submit for approval" />
 </form>
