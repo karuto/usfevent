@@ -37,7 +37,7 @@ $(function() {
 <div class="entry-content-block">
 <input class="form-field-regular" type="text" name="title" placeholder="EVENT TITLE" value="{{ e.title }}"/><br> 
 <input class="form-field-regular" type="text" name="refer" placeholder="EVENT URL" value="{{ e.refer }}"/><br>
-<input class="form-field-regular" id="datepicker" type = "text" name="date" placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time|date:'m/d/Y' }}"/><br>
+<input class="form-field-regular" id="datepicker" type = "text" name="date" placeholder="EVENT DATE yyyy-mm-dd" value="{{ e.event_time|date:'m/d/Y' }}" readonly/><br>
 <label class="form-label-regular" for="major">Event Time:</label>
 <select class="form-dropdown-regular" name="time" size="1">
   {% for time_hour in time_hours %}
