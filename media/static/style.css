@@ -316,6 +316,26 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 /* Header related */
 /* USF EVENT BEGIN */
+.external-nav{
+  float: left;
+  line-height: 46px;
+  border-left: 1px solid #f0f0f0;
+  border-right: 1px solid #f0f0f0;
+}
+.external-item {
+  font-weight: 900;
+  display: inline-block;
+  list-style: none;
+  padding: 0 5px;
+  text-transform: uppercase;
+}
+.external-item:last-child {
+  padding-right: 20px;
+}
+.global-item {
+  display: inline;
+  float: right;
+}
 .site-logo-img {
   max-width: 80%;
   margin: 0 auto;
@@ -357,23 +377,6 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   margin: 0 auto;
   max-width: 1238px; /* 1+1238+1 = 1240 */
 }
-.external-nav{
-  float: left;
-  line-height: 46px;
-  border-left: 1px solid #f0f0f0;
-  border-right: 1px solid #f0f0f0;
-}
-.external-item {
-  font-weight: 900;
-  display: inline-block;
-  list-style: none;
-  padding: 0 5px;
-  text-transform: uppercase;
-}
-.external-item:last-child {
-  padding-right: 20px;
-}
-
 
 
 

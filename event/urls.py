@@ -15,7 +15,7 @@ urlpatterns = patterns('event.views',
     url(r'^order/$', 'order', name="order"),
 
     url(r'^(\d+)/(\d+)/add_comment/$', 'add_comment', name="add_comment"),
-    url(r'^(\d+)/edit$', 'edit_event', name="edit_event"),
+    url(r'^(\d+)/edit$', 'edit_event', name="edit"),
     url(r'^(\d+)/like/$', 'like_event', name="like_event"),
     url(r'^(\d+)/unlike/$', 'unlike_event', name="unlike_event"),
     url(r'^(\d+)/email/$', 'share_email', name="share_email"),

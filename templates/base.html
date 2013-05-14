@@ -30,14 +30,6 @@
         <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
         {% endif %}
         </nav>
-
-<style>
-.global-item {
-  display: inline;
-  float: right;
-}
-</style>
-
         
         <li class="global-item"><a href="/">
         <img class="user-avatar-mini" style="width: 25px; height:25px; margin:10px;"
@@ -83,13 +75,24 @@
     <aside class="layout-sidebar-wrap">
         <img style="width: 170px; margin: -30px 0 0;" src="/webhost_media/static/logo.png">
         <!--<a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>!-->
+        
+        <div class="sidebar-divider"><a href="{% url event.views.order %}">Order</a></div>
+        
         <div class="sidebar-divider"><a href="">My events</a></div>
         {% if u.is_moderator %}
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.post %}">Submit event</a></h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.post %}">Submit event</a>
+        </h4>
         {% endif %}
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.search %}">Search event</a></h4>
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.archives %}">Event archives</a></h4>
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.msg_send %}">Send messages</a></h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.search %}">Search event</a>
+        </h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.archives %}">Event archives</a>
+        </h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.msg_send %}">Send messages</a>
+        </h4>
         
         <div class="sidebar-divider">CATEGORIES</div>
         

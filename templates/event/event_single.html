@@ -122,12 +122,12 @@ $(function(){
         </div><!-- .entry-interaction-content -->
 
         <div class="entry-interaction-header page-subhero-text">
-            <a href="{% url event.views.edit_event event.id %}">Edit this event</a>
+            <a href="{% url event.views.edit event.id %}">Edit this event</a>
         </div>
         
     {% else %}
         <div class="page-subhero-text">
-            <a href="{%url accounts.views.login %}">Login</a>
+            <a href="{% url accounts.views.login %}">Login</a>
              is required for posting comments.
         </div>
     {% endif %}
