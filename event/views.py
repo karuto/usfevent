@@ -411,7 +411,7 @@ def edit(request, pk):
             # Deal with tags checkbox list
             tags = request.POST.getlist("tags")                        
             if len(tags) == 0:
-                tags = "untagged"
+                event.tags.add("untagged")
             else:
                 taglist = list(tags)
                 for t in taglist:
@@ -479,7 +479,7 @@ def post(request):
             loc_ = strip_tags(request.POST["loc"])
             tags_ = request.POST.getlist("tags")
             if(len(tags_) == 0):
-                tags_ = "untagged"
+                tags_ = ["untagged"]
             try:
                 image1_ = request.FILES["picture"]
                 event = Event(title=title_, body=body_, location=loc_,
