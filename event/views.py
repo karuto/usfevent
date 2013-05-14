@@ -370,7 +370,7 @@ def save_event(request):
                               
 
 @login_required	
-def edit_event(request, pk):
+def edit(request, pk):
     """Edit an event's info.
     
     Creates and saves a Like object which contains the User who liked the event.
