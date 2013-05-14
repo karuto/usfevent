@@ -333,42 +333,6 @@ def share_email(request, pk):
     return redirect('index')
     
 
-@login_required
-def save_event(request):
-    """Saves event to profile for later access.
-    
-    Creates a message object that is sent to the user about the event.
-    
-    Args:
-        request: Django's HttpRequest object that contains metadata.
-            https://docs.djangoproject.com/en/dev/ref/request-response/
-    
-    Returns:
-        IF REQUEST IS POST:
-        HttpResponseRedirect to /events/msg/
-        ELSE:
-        event/message_send.html with template_vars
-    
-    Raises:
-        None.
-    """
-    template_var = base_template_vals(request)
-    template_var["allusers"] = UserProfile.objects.all()    
-    if request.method == "POST":
-        if request.user.is_authenticated():
-            message = Message()
-            message.msg_from = UserProfile.objects.filter(
-                               django_user=request.user)[0]
-            message.msg_to = UserProfile.objects.filter(
-                             id__exact=request.POST["msg_to_django_user_id"])[0]
-            message.content = request.POST["content"]
-            message.save()
-        return HttpResponseRedirect("/events/msg/")
-        
-    return render_to_response("event/message_send.html", template_var, 
-                              context_instance=RequestContext(request))
-                              
-
 @login_required	
 def edit(request, pk):
     """Edit an event's info.
