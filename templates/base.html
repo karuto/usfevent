@@ -34,10 +34,10 @@
         </li>
         {% endif %}
 
-        <li class="global-item" id="global-trigger">
+        <li class="global-item">
             {% if request.user.is_authenticated %}
             <a href="/">
-                <img class="global-avatar" src="/webhost_media/{{ u.avatar }}"/>
+                <img id="global-trigger" class="global-avatar" src="/webhost_media/{{ u.avatar }}"/>
             </a>
             {% else %}
             <img class="global-avatar" src="/webhost_media/static/avatar_blank.jpg"/>
@@ -47,17 +47,26 @@
 
 <script>
 $(function(){
-    //$('.submenu-list').hide();
+    $('.submenu-list').hide();
     // Refer to http://api.jquery.com/hover/
     $("#global-trigger").hover(function(){
         /* handlerIn(eventObject) */
         $(this).addClass("hover");
-        //$('.submenu-list').css('display', 'block');
-        $('.submenu-list').show();
+        var t = $("#global-trigger");
+        var pos_t = t.position().top + t.height();
+        var pos_l = t.position().left;
+        var top_offset = $(".global-nav").height;
+        console.log(pos_t);
+        console.log(pos_l);
+        $('.submenu-list').css('top', pos_t + top_offset);
+        $('.submenu-list').css('left', pos_l);
+        $('.submenu-list').css('position', 'absolute');
+        $('.submenu-list').toggle();  
     }, function(){
         /* handlerOut(eventObject) */
         $(this).removeClass("hover");
-        $('.submenu-list').hide();
+        $('.submenu-list').fadeOut(1000);
+        $('.submenu-list').toggle();
         //$('.submenu-list').css('display', 'none');
     });
 });
@@ -128,34 +137,35 @@ $(function(){
     {% block content %}
     {% endblock %}
     
-    <aside class="submenu-list">
-        {% if request.user.is_authenticated %}
-        {% if u.is_superuser %}
-        <li class="submenu-item">
-            <a class="submenu-link" href="{%url mgmt.views.overview %}">Management</a>
-        </li>
-        {% endif %}
-        <li class="submenu-item">
-            <a class="submenu-link" href="{%url accounts.views.index %}">Profile</a>
-        </li>
-        <li class="submenu-item">
-            <a class="submenu-link" href="{%url accounts.views.logout %}">Logout</a>
-        </li>
-        {% else %}
-        <li class="submenu-item">
-            <a class="submenu-link" href="{%url accounts.views.register %}">Register</a>
-        </li>
-        <li class="submenu-item">
-            <a class="submenu-link" href="{%url accounts.views.login %}">Login</a>
-        </li>
-        {% endif %}        
-    </aside>
-    
     </div><!-- .layout-primary-wrap -->
     
     
     </div><!-- .layout-main-inner-wrap -->
     </div><!-- .layout-main-wrap -->
+
+<aside class="submenu-list">
+    {% if request.user.is_authenticated %}
+    {% if u.is_superuser %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url mgmt.views.overview %}">Management</a>
+    </li>
+    {% endif %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.index %}">Profile</a>
+    </li>
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.logout %}">Logout</a>
+    </li>
+    {% else %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.register %}">Register</a>
+    </li>
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.login %}">Login</a>
+    </li>
+    {% endif %}        
+</aside>
+
 
 </div><!-- .layout-page-wrap -->
 </body>
