@@ -23,15 +23,15 @@
     {% if msg.is_read %}{% else %} is-unread {% endif %}">
     
     <img class="user-avatar-mini msg-image" 
-    src="/webhost_media/{{msg.msg_from.avatar}}"/>
+    src="/webhost_media/{{ msg.msg_from.avatar }}"/>
 
     <div class="msg-metadata">
-    <div class="msg-title">
-        <a href="/notification/{{msg.id}}/msg_open" 
+    <div class="msg-main">
+        <a href="{% url notification.views.msg_open msg.id %}" 
         id="msg_{{msg.id}}">{{msg.title}}</a>
     </div>
     <small class="msg-option">
-        <a href="/notification/{{msg.id}}/msg_delete" class="msg-option-x">x</a>
+        <a href="{% url notification.views.msg_delete msg.id %}" class="msg-option-x">x</a>
     </small>
     <small class="msg-time">{{ msg.time }}</small>
     </div><!-- .msg-metadata -->

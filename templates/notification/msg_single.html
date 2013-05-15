@@ -10,13 +10,20 @@
 </div>
 
 <div class="entry-content-mega-block">
-    <div style="padding: 20px; font-size: 18px; line-height: 170%;">
-	<p><strong>From:</strong> {{message.msg_from.django_user}}</p>
-	<p><small>{{message.time}}</small></p>
-	<p>{{message.content}}</p>
-    
-	<a class="page-hero-support form-button-mini" href="/notification/msg_box">Return</a>
-	</div>
+<div class="msg-received-detail">
+    <div class="msg-content-detail">
+    	<p>Message from {{ message.msg_from.firstname }}</p>
+	    <small class="msg-time">{{ message.time }}</small>
+	    <div class="msg-main">{{ message.content }}</div>
+    </div><!-- .msg-content-detail -->
+	
+	<a class="page-hero-support form-button-mini" 
+	href="{% url notification.views.msg_box %}">Back to list</a>
+	&emsp;
+	<a class="page-hero-support form-button-mini" 
+	href="{% url notification.views.msg_delete message.id %}">Delete</a>    
+	
+</div><!-- .msg-received-detail -->
 </div><!-- .entry-content-mega-block -->
 
 

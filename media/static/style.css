@@ -739,6 +739,12 @@ h1.entry-title {
 .msg-received-list {
   margin: 20px 0;
 }
+.msg-received-detail {
+  margin: 20px;
+}
+.msg-content-detail {
+  margin: 0 0 20px;
+}
 .msg-entry {
   margin: 10px;
   font-weight: 300;
@@ -746,14 +752,16 @@ h1.entry-title {
 .msg-image {
   float: left;
   margin: 0 20px; 
-  
 }
 .msg-metadata {
   float: left;
   width: 80%;
 }
-.msg-title {
+.msg-main {
   font-size: 18px;
+}
+.msg-content-detail .msg-main {
+  padding: 10px 0;
 }
 .msg-time {
   font-size: 14px;
@@ -771,9 +779,10 @@ h1.entry-title {
 .msg-option-x:hover {
   color: #fff;
 }
-.msg_received-list .is-unread {
+.msg-received-list .is-unread {
   font-weight: 900;
 }
+
 /* USF EVENT END */
 
 
