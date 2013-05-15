@@ -6,7 +6,11 @@
 {% if request.user.is_authenticated %}
 
 <div class="layout-content-header">
-    <h1 class="page-hero-text" id="id-e">{{ message.title }}</h1>
+    <h1 class="page-hero-text" id="id-e">
+		{% autoescape off %}
+		{{ message.title }}
+ 		{% endautoescape %}	      
+    </h1>
 </div>
 
 <div class="entry-content-mega-block">

@@ -25,6 +25,7 @@ from accounts.models import UserProfile
 from event.models import Comment
 from event.models import Event
 from event.models import Like
+from event.models import Order
 from event.views import index
 from global_func import base_template_vals
 from notification.models import Message
@@ -112,6 +113,8 @@ def overview(request):
                                     affiliation_msg__iregex=r'^.{1,}$').filter(
                                     is_approved=False)
         template_var["user_num"] = len(template_var["user_list"])
+        template_var["order_list"] = Order.objects.filter(is_approved=False)
+        template_var["order_num"] = len(template_var["order_list"])
         template_var["event_list"] = Event.objects.filter(is_approved=False)
         template_var["event_num"] = len(template_var["event_list"])
         return render_to_response("mgmt/overview.html", template_var,
@@ -130,7 +133,7 @@ def approve_user(request, pk):
         approved_user.is_moderator = True
         approved_user.is_approved = True
         approved_user.save()
-        #system notification
+        # System notification
         to_user = approved_user
         from_user = template_var["u"]
         event_id = 0
@@ -148,11 +151,31 @@ def approve_event(request, pk):
         approved_event = Event.objects.get(id=pk)
         approved_event.is_approved = True
         approved_event.save()
-        #system notification
+        # System notification
         to_user = approved_event.author
         from_user = template_var["u"]
         event_id = pk
         sys_notification(to_user, "approve_event", from_user, event_id)
+        return HttpResponseRedirect(reverse('overview'))
+    else:
+        return HttpResponseRedirect(reverse('index'))
+    
+
+@login_required
+def approve_order(request, pk): 
+    template_var = base_template_vals(request)
+    user = template_var["u"]
+    if user.is_superuser:
+        approved_order = Order.objects.get(id=pk)
+        approved_order.is_approved = True
+        approved_order.save()
+        # System notification # TODO Bin, add this
+        """
+        to_user = approved_event.author
+        from_user = template_var["u"]
+        event_id = pk
+        sys_notification(to_user, "approve_event", from_user, event_id)
+        """
         return HttpResponseRedirect(reverse('overview'))
     else:
         return HttpResponseRedirect(reverse('index'))

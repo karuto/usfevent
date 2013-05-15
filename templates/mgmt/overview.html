@@ -6,8 +6,8 @@
 </div>
 <div class="layout-hero-blocks clearfix-modern">
     <div class="main-item-block hero-block">
-        <h2 class="aligncenter hero-block-header">Poster Order form</h2>
-        <h3 class="aligncenter hero-header-num">{{ user_num }}</h3>
+        <h2 class="aligncenter hero-block-header">Poster Order forms</h2>
+        <h3 class="aligncenter hero-header-num">{{ order_num }}</h3>
     </div>
     <div class="main-item-block hero-block">
         <h2 class="aligncenter hero-block-header">Moderator requests</h2>
@@ -20,6 +20,31 @@
 </div><!-- .layout-hero-blocks -->
 
 <div class="layout-content-header">
+    <h1 class="page-hero-text" id="id-m">Poster Order forms ({{ order_num }})</h1>
+</div>
+
+<div class="entry-content-mega-block">
+    <div style="padding: 20px">
+	{% if order_list %}
+	{% for app_order in order_list %}		
+	    <a href="{% url mgmt.views.approve_order app_order.id %}">
+	    <span class="page-subhero-text"><strong> Approve </strong>
+	    {{ app_order.client_name }}'s {{ app_order.project_name }}
+	    </span>
+	    </a>
+	    <p><b>Design Concept:</b> {{ app_order.design_concept }}</p>
+	    <p><b>Design Text:</b> {{ app_order.design_text }}</p>
+	    <br>
+	{% endfor %}{% else %}
+	    <p class="empty-content-prompt">
+	    There's no pending poster order forms at the moment.
+	    </p>
+	{% endif %}
+	</div>
+</div>
+
+
+<div class="layout-content-header">
     <h1 class="page-hero-text" id="id-m">Moderator requests ({{ user_num }})</h1>
 </div>
 
@@ -30,13 +55,18 @@
 	    <a href="{% url mgmt.views.approve_user app_user.id %}">
 	    <img class="user-avatar-mini" src="/webhost_media/{{ app_user.avatar }}"/>
 	    <span class="page-subhero-text"><strong> Approve </strong>
-	    {{ app_user.firstname }} </a>: {{ app_user.affiliation_msg }}
+	    {{ app_user.firstname }}: {{ app_user.affiliation_msg }}
 	    </span>
+	    </a>
+	    <p><b>Request message:</b> {{ app_user.affiliation_msg }}</p>
 	    <br>
-	{% endfor %}{% endif %}
+	{% endfor %}{% else %}
+	    <p class="empty-content-prompt">
+	    There's no pending moderator requests at the moment.
+	    </p>
+	{% endif %}
 	</div>
 </div>
-
 
 
 <div class="layout-content-header">
@@ -45,7 +75,7 @@
 
 <div class="entry-content-mega-block">
     <div style="padding: 20px">
-{%if event_list%}
+    {% if event_list %}
 	{% for app_event in event_list %}	
 	    <a href="{% url mgmt.views.approve_event app_event.id %}">
 	    <img class="user-avatar-mini" src="/webhost_media/{{ app_event.image1 }}"/>
@@ -53,7 +83,11 @@
 	    {{ app_event.title }} </a>
 	    </span>
 	    <br>
-	{% endfor %}{% endif %}
+	{% endfor %}{% else %}
+	    <p class="empty-content-prompt">
+	    There's no pending event submissions at the moment.
+	    </p>
+    {% endif %}
 	</div>
 </div>
 

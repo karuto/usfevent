@@ -7,4 +7,5 @@ urlpatterns = patterns('mgmt.views',
     url(r'^$', 'overview', name="overview"),
     url(r'^approve_user/(?P<pk>\d+)$', 'approve_user', name="approve_user"),
     url(r'^approve_event/(?P<pk>\d+)$', 'approve_event', name="approve_event"),
+    url(r'^approve_order/(?P<pk>\d+)$', 'approve_order', name="approve_order"),
 )

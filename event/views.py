@@ -396,6 +396,7 @@ def edit(request, pk):
 
 
 def order(request):
+    # TODO Needs docstring
     template_var = base_template_vals(request)
     
     template_var["tags"] = Tag.objects.all()
@@ -441,7 +442,8 @@ def order(request):
                 elif(project_type == "project_other"):
                     order.project_other = True
 
-                order.save()
+            order.is_approved = False;
+            order.save()
 
             return HttpResponseRedirect(reverse("index"))   
         

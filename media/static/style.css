@@ -447,6 +447,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   text-transform: uppercase;
 }
 
+/* Mgmt related */
 .hero-header-num,
 .hero-block-header {
   color: white;
@@ -456,7 +457,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   text-transform: uppercase;
 }
 .hero-block-header {
-  font-size: 27px;
+  font-size: 25px;
   padding: 20px 20px 0;
 }
 .hero-header-num {
@@ -469,6 +470,10 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 .page-hero-support {
   display: inline;
   font-size: 18px;
+}
+.empty-content-prompt {
+  font-size: 18px;
+  font-weight: 300;
 }
 
 /* Entry item related */

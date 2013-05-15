@@ -47,6 +47,7 @@ class Order(models.Model):
     is_banner = models.BooleanField(default=False)
     is_other = models.BooleanField(default=False)
     project_other = models.CharField(max_length=100, blank=True)
+    is_approved = models.BooleanField(default=False)
 
     def __unicode__(self):
         return unicode("Project %s by %s" % (self.project_name, self.client_name))
