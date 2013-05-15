@@ -14,12 +14,11 @@
 <body>
 <div class="layout-page-wrap">
     
-    <header class="layout-header-wrap">
-    <div class="layout-main-wrap">
+<header class="layout-header-wrap">
+<div class="layout-main-wrap">
     
-        <nav class="external-nav"></nav>
-        
-        <nav class="global-nav"> 
+    <nav class="external-nav"></nav>    
+    <nav class="global-nav"> 
 
         <form role="search" method="get" id="searchform" action="/events/search">
           <input id="searchform-text" type="text" name="query" />
@@ -35,53 +34,52 @@
         {% endif %}
 
         <li class="global-item">
+            <img id="global-trigger" class="global-avatar" 
             {% if request.user.is_authenticated %}
-            <a href="/">
-                <img id="global-trigger" class="global-avatar" src="/webhost_media/{{ u.avatar }}"/>
-            </a>
+            src="/webhost_media/{{ u.avatar }}"            
             {% else %}
-            <img class="global-avatar" src="/webhost_media/static/avatar_blank.jpg"/>
+            src="/webhost_media/static/avatar_blank.jpg"
             {% endif %}
+            />
         </li>
-        </nav>        
+    </nav>        
 
-<script>
-$(function(){
-    $('.submenu-list').hide();
-    // Refer to http://api.jquery.com/hover/
-    $("#global-trigger").hover(function(){
-        /* handlerIn(eventObject) */
-        $(this).addClass("hover");
-        var t = $("#global-trigger");
-        var pos_t = t.position().top + t.height();
-        var pos_l = t.position().left;
-        var top_offset = $(".global-nav").height;
-        console.log(pos_t);
-        console.log(pos_l);
-        $('.submenu-list').css('top', pos_t + top_offset);
-        $('.submenu-list').css('left', pos_l);
-        $('.submenu-list').css('position', 'absolute');
-        $('.submenu-list').toggle();  
-    }, function(){
-        /* handlerOut(eventObject) */
-        $(this).removeClass("hover");
-        $('.submenu-list').fadeOut(1000);
-        $('.submenu-list').toggle();
-        //$('.submenu-list').css('display', 'none');
+    <script>
+    /* JS for handling the global dropdown submenu's logic. */
+    $(function(){
+        $('.submenu-list').hide();
+        // Refer to http://api.jquery.com/hover/
+        $("#global-trigger").hover(function(){
+            /* handlerIn(eventObject) */
+            $(this).addClass("hover");
+            var t = $("#global-trigger");
+            var pos_t = t.position().top + t.height();
+            var pos_l = t.position().left;
+            var top_offset = $(".global-nav").height;
+            $('.submenu-list').css('top', pos_t + top_offset);
+            $('.submenu-list').css('left', pos_l);
+            $('.submenu-list').css('position', 'absolute');
+            $('.submenu-list').toggle();  
+        }, function(){
+            /* handlerOut(eventObject) */
+            $(this).removeClass("hover");
+            $('.submenu-list').fadeOut(1000);
+            $('.submenu-list').toggle();
+            //$('.submenu-list').css('display', 'none');
+        });
     });
-});
-</script>        
+    </script>        
 
         
-    </div><!-- .layout-main-wrap -->
-    </header><!-- .layout-header-wrap -->
+</div><!-- .layout-main-wrap -->
+</header><!-- .layout-header-wrap -->
     
-    <header class="layout-subheader-wrap">
-    Subheader here
-    </header><!-- .layout-subheader-wrap -->
-            
-    <div class="layout-main-wrap">
-    <div class="layout-main-inner-wrap">
+<header class="layout-subheader-wrap">
+Subheader here
+</header><!-- .layout-subheader-wrap -->
+        
+<div class="layout-main-wrap">
+<div class="layout-main-inner-wrap">
 
     <aside class="layout-sidebar-wrap">
         <a href="{% url event.views.homepage %}"><img style="width: 170px; margin: -30px 0 0;" src="/webhost_media/static/logo.png"></a>
