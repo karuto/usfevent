@@ -9,6 +9,7 @@
 <script>
 $(function() {
     $( "#datepicker" ).datepicker();
+    $( "#datepicker" ).datepicker('setDate', new Date());
 });
 </script>
 <!--JQuery DatePicker css and js ends-->
@@ -40,7 +41,7 @@ $(function() {
 <div class="entry-content-block">
 <input class="form-field-regular" type="text" name="title" placeholder="EVENT TITLE"/><br> 
 <input class="form-field-regular" type="text" name="refer" placeholder="EVENT URL"/><br>
-<input class="form-field-regular" type="text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id="datepicker"/><br>
+<input class="form-field-regular" type="text" name="date"  placeholder="EVENT DATE mm/dd/yyyy" id="datepicker" readonly/><br>
 <label class="form-label-regular" for="major">Event Time:</label>
 <select class="form-dropdown-regular" name="time" size="1">
 
@@ -60,8 +61,8 @@ TAGS / CATEGORIES <br>
 {% for tag in tags %}
 <input type="checkbox" id="id_{{tag}}" name="tags" value="{{tag}}" >
 <label style="display:inline;" class="form-label-regular" for="id_{{tag}}">{{tag}}</label>
-		&nbsp;
-    		
+&nbsp;
+</input>    		
 {% endfor %}
 
 <input class="form-button-regular" type="submit" value="Submit for approval" />

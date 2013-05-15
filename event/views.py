@@ -20,6 +20,7 @@ from django.shortcuts import render_to_response
 from django.template import Context
 from django.template import loader
 from django.template import RequestContext
+from django.utils.html import strip_tags
 
 # app-level imports
 from accounts.models import UserProfile
@@ -34,7 +35,7 @@ from taggit.models import Tag
 
 
 def homepage(request):
-    """Creates standard index page view for Don's Affairs.
+    """Creates standard homepage view for Don's Affairs.
     
     Gets user profile object and its list of "Like" objects,
     list of "Event" objects inorder of creation and formats
@@ -332,44 +333,8 @@ def share_email(request, pk):
     return redirect('index')
     
 
-@login_required
-def save_event(request):
-    """Saves event to profile for later access.
-    
-    Creates a message object that is sent to the user about the event.
-    
-    Args:
-        request: Django's HttpRequest object that contains metadata.
-            https://docs.djangoproject.com/en/dev/ref/request-response/
-    
-    Returns:
-        IF REQUEST IS POST:
-        HttpResponseRedirect to /events/msg/
-        ELSE:
-        event/message_send.html with template_vars
-    
-    Raises:
-        None.
-    """
-    template_var = base_template_vals(request)
-    template_var["allusers"] = UserProfile.objects.all()    
-    if request.method == "POST":
-        if request.user.is_authenticated():
-            message = Message()
-            message.msg_from = UserProfile.objects.filter(
-                               django_user=request.user)[0]
-            message.msg_to = UserProfile.objects.filter(
-                             id__exact=request.POST["msg_to_django_user_id"])[0]
-            message.content = request.POST["content"]
-            message.save()
-        return HttpResponseRedirect("/events/msg/")
-        
-    return render_to_response("event/message_send.html", template_var, 
-                              context_instance=RequestContext(request))
-                              
-
 @login_required	
-def edit_event(request, pk):
+def edit(request, pk):
     """Edit an event's info.
     
     Creates and saves a Like object which contains the User who liked the event.
@@ -410,7 +375,7 @@ def edit_event(request, pk):
             # Deal with tags checkbox list
             tags = request.POST.getlist("tags")                        
             if len(tags) == 0:
-                tags = "untagged"
+                event.tags.add("untagged")
             else:
                 taglist = list(tags)
                 for t in taglist:
@@ -463,9 +428,9 @@ def post(request):
     from_user = UserProfile.objects.get(django_user=request.user)
     if user.is_moderator or user.is_superuser:
         if request.method == "POST":
-            title_ = request.POST["title"]
-            body_ =  request.POST["body"]
-            refer_ = request.POST["refer"]
+            title_ = strip_tags(request.POST["title"])
+            body_ =  strip_tags(request.POST["body"])
+            refer_ = strip_tags(request.POST["refer"])
             date_ = request.POST["date"]
             time_ = request.POST["time"]            
             try:
@@ -475,10 +440,10 @@ def post(request):
             except ValueError:
                 print "input date format is wrong"
                 
-            loc_ = request.POST["loc"]
+            loc_ = strip_tags(request.POST["loc"])
             tags_ = request.POST.getlist("tags")
             if(len(tags_) == 0):
-                tags_ = "untagged"
+                tags_ = ["untagged"]
             try:
                 image1_ = request.FILES["picture"]
                 event = Event(title=title_, body=body_, location=loc_,

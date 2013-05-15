@@ -59,15 +59,20 @@ def sys_notification(target, types, from_user, event_id):
     print "prepare to send"
 
     if (types == "followed"):
+        message.title = str(from_user.django_user) + " followed you."
         message.content = str(from_user.django_user) + " followed you."
         print "send"
     elif(types == "add_comment"):
+        message.title = str(from_user.django_user) + " comments on your event."
         message.content = str(from_user.django_user) + " comments on your event." + "<a href='/events/"+ event_id+"'>link</a>"
     elif(types == "save_event"):
+        message.title = "The event saved successfully. "
         message.content = "The event saved successfully. " + "<a href='/events/"+ event_id+"'>link</a>"
     elif(types == "approve_event"):
+        message.title = "The event has been approved."
         message.content = "The event has been approved. " + "<a href='/events/"+ event_id+"'>link</a>"
     elif(types == "approve_user"):
+        message.title = "You have been promoted. "
         message.content = "You have been promoted. "
     
 
@@ -102,8 +107,37 @@ def msg_open(request, pk):
     if(msg):
         msg.is_read = True
         msg.save()
-    template_var["msg"] = msg
-    return HttpResponse(msg.content)
+    template_var["message"] = msg
+    return render_to_response("notification/msg_single.html", template_var,
+                              context_instance=RequestContext(request))
+
+
+@login_required
+def msg_delete(request, pk):
+    """Deletes single message view.
+    
+    Collects message object based on pk, sets the message as read and saves the message.
+    
+    Args:
+        request: Django's HttpRequest object that contains metadata.
+            https://docs.djangoproject.com/en/dev/ref/request-response/
+        pk: ID of message.
+    
+    Returns:
+        HttpResponse with the message's content.
+        
+    Raises:
+        None.
+    """
+    template_var = base_template_vals(request)
+    current_user_profile = UserProfile.objects.filter(
+                          django_user=request.user)[0]
+    msg = Message.objects.get(msg_to=current_user_profile, id=pk)
+    
+
+    if(msg):
+        msg.delete()
+    return redirect('msg_box')
 
 
 @login_required
@@ -126,7 +160,7 @@ def msg_box(request):
     current_user_profile = UserProfile.objects.filter(
                           django_user=request.user)[0]
     template_var["msg_received_list"] = Message.objects.filter(
-                                        msg_to=current_user_profile)
+                                        msg_to=current_user_profile).order_by('-time')
     return render_to_response("notification/msg_box.html", template_var,
                               context_instance=RequestContext(request))
                               

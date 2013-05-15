@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="layout-content-header">
+    <h1 class="page-hero-text">See More Saved Events</h1>
+</div>
+
+
+
+
+<div id="layout-posts-masonry">
+{% for e in saved_events %}
+    <div class="main-item-block main-item-style post-item">            
+        <a href="{%url single e.event.id %}">
+		<img class="entry-image" src="/webhost_media/{{e.event.image1}}" width="100%">
+	   </a>
+        <a href="{% url like_event e.event.id %}" title="Click to save this event for later">
+            <div class="entry-bookmark"></div>
+        </a>
+        <header class="entry-header">
+            <h1 class="entry-title">
+                <a href="{%url single e.event.id %}">{{ e.event.title }}</a>
+            </h1>
+            <h3 class="main-item-meta roboto-font">
+                {{ e.event.event_time|date:"m-d-Y" }} &nbsp;{{ e.event.event_time|time}}<br>
+                {{ e.event.location }}
+            </h3>
+        </header>
+
+    </div>
+{% endfor %}
+</div><!-- #layout-posts-masonry -->
+
+
+
+
+
+{% endblock %}

@@ -14,82 +14,91 @@
 <body>
 <div class="layout-page-wrap">
     
-    <header class="layout-header-wrap">
-    <div class="layout-main-wrap">
+<header class="layout-header-wrap">
+<div class="layout-main-wrap">
     
-        <nav class="external-nav">
-        <li class="external-item"><a href="/events">Don's Affairs</a></li>
-        {% if request.user.is_authenticated %}
-        {% if u.is_superuser %}
-        <li class="external-item"><a href="{%url mgmt.views.overview %}">Management</a></li>
-        {% endif %}
-        <li class="external-item"><a href="{%url accounts.views.index %}">Profile</a></li>
-        <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
-        {% else %}
-        <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
-        <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
-        {% endif %}
-        </nav>
-
-<style>
-.global-item {
-  display: inline;
-  float: right;
-}
-</style>
-
-        
-        <li class="global-item"><a href="/">
-        <img class="user-avatar-mini" style="width: 25px; height:25px; margin:10px;"
-         src="/webhost_media/{{ u.avatar }}"/>
-        </a></li>
-
-        {% if request.user.is_authenticated %}
-	    <li class="global-item" style="width: 25px; height:25px; margin:10px; background-color:red;" ><a href="/notification/msg_box"><b class="aligncenter" style="color:white" id = "msg_new_number">{{msg_unread}}</b></a></li>
-	    
-	    <script>
-		function myFunction(){
-		    setInterval(function(){
-			    document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
-		    },3000);
-		}
-		</script>
-		
-        {% endif %}
-
-
+    <nav class="external-nav"></nav>    
+    <nav class="global-nav"> 
 
         <form role="search" method="get" id="searchform" action="/events/search">
-          <input id="searchform-text" type="text" value="{{request.session.query_session}}" name="query" id="query" />
-		<select id = "sorted_method_id" name="sorted_method" style="display:none;">
-  			<option value="desc">Descending Order</option>
-  			<option value="asc">Ascending Order</option>
-  			<option value="alphabet">Alphabetical Order</option>
-		</select>
+          <input id="searchform-text" type="text" name="query" />
           <input id="searchform-submit" type="submit" id="searchsubmit" value="Search" />
         </form>
+
+        {% if request.user.is_authenticated %}
+	    <li class="global-item global-msg">
+	        <a href="{% url notification.views.msg_box %}">
+	        <b class="global-msg-count">{{msg_unread}}</b>
+	        </a>
+        </li>
+        {% endif %}
+
+        <li class="global-item">
+            <img id="global-trigger" class="global-avatar" 
+            {% if request.user.is_authenticated %}
+            src="/webhost_media/{{ u.avatar }}"            
+            {% else %}
+            src="/webhost_media/static/avatar_blank.jpg"
+            {% endif %}
+            />
+        </li>
+    </nav>        
+
+    <script>
+    /* JS for handling the global dropdown submenu's logic. */
+    $(function(){
+        $('.submenu-list').hide();
+        // Refer to http://api.jquery.com/hover/
+        $("#global-trigger").hover(function(){
+            /* handlerIn(eventObject) */
+            $(this).addClass("hover");
+            var t = $("#global-trigger");
+            var pos_t = t.position().top + t.height();
+            var pos_l = t.position().left;
+            var top_offset = $(".global-nav").height;
+            $('.submenu-list').css('top', pos_t + top_offset);
+            $('.submenu-list').css('left', pos_l);
+            $('.submenu-list').css('position', 'fixed');
+            $('.submenu-list').toggle();  
+        }, function(){
+            /* handlerOut(eventObject) */
+            $(this).removeClass("hover");
+            $('.submenu-list').fadeOut(1000);
+            $('.submenu-list').toggle();
+            //$('.submenu-list').css('display', 'none');
+        });
+    });
+    </script>        
+
         
-    </div><!-- .layout-main-wrap -->
-    </header><!-- .layout-header-wrap -->
+</div><!-- .layout-main-wrap -->
+</header><!-- .layout-header-wrap -->
     
-    <header class="layout-subheader-wrap">
-    Subheader here
-    </header><!-- .layout-subheader-wrap -->
-    
+<header class="layout-subheader-wrap">
+Subheader here
+</header><!-- .layout-subheader-wrap -->
         
-    <div class="layout-main-wrap">
-    <div class="layout-main-inner-wrap">
+<div class="layout-main-wrap">
+<div class="layout-main-inner-wrap">
 
     <aside class="layout-sidebar-wrap">
-        <img style="width: 170px; margin: -30px 0 0;" src="/webhost_media/static/logo.png">
+        <a href="{% url event.views.homepage %}"><img style="width: 170px; margin: -30px 0 0;" src="/webhost_media/static/logo.png"></a>
         <!--<a href="/events"><h1><img src="/webhost_media/static/gc_logo.png" class="site-logo-img"></h1></a>!-->
+        
+        <div class="sidebar-divider"><a href="{% url event.views.order %}">Order</a></div>
+        
         <div class="sidebar-divider"><a href="">My events</a></div>
         {% if u.is_moderator %}
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.post %}">Submit event</a></h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.post %}">Submit event</a>
+        </h4>
         {% endif %}
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.search %}">Search event</a></h4>
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.archives %}">Event archives</a></h4>
-        <h4 class="sidebar-item"><a class="sidebar-link" href="{%url event.views.msg_send %}">Send messages</a></h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.search %}">Search event</a>
+        </h4>
+        <h4 class="sidebar-item">
+            <a class="sidebar-link" href="{% url event.views.archives %}">Event archives</a>
+        </h4>
         
         <div class="sidebar-divider">CATEGORIES</div>
         
@@ -103,7 +112,7 @@
         <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/community">Community</a></h4>
         <h4 class="sidebar-item"><a class="sidebar-link" href="/events/tag/miscellaneous">Miscellaneous</a></h4>
         
-        <div class="sidebar-divider"><a href="">Friends' events</a></div>
+        <div class="sidebar-divider"><a href="{% url accounts.views.see_more_friends_events u.id %}">Friends' events</a></div>
     </aside><!-- .layout-sidebar-wrap -->
 
 
@@ -123,13 +132,38 @@
     </script>
     
     
-        {% block content %}
-        {% endblock %}
+    {% block content %}
+    {% endblock %}
+    
     </div><!-- .layout-primary-wrap -->
     
     
     </div><!-- .layout-main-inner-wrap -->
     </div><!-- .layout-main-wrap -->
+
+<aside class="submenu-list">
+    {% if request.user.is_authenticated %}
+    {% if u.is_superuser %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url mgmt.views.overview %}">Management</a>
+    </li>
+    {% endif %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.index %}">Profile</a>
+    </li>
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.logout %}">Logout</a>
+    </li>
+    {% else %}
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.register %}">Register</a>
+    </li>
+    <li class="submenu-item">
+        <a class="submenu-link" href="{%url accounts.views.login %}">Login</a>
+    </li>
+    {% endif %}        
+</aside>
+
 
 </div><!-- .layout-page-wrap -->
 </body>

@@ -8,8 +8,9 @@ from django.db import models
 class Message(models.Model):
     msg_from = models.ForeignKey(UserProfile, related_name="msg_from")
     msg_to = models.ForeignKey(UserProfile, related_name="msg_to")
+    title = models.CharField(max_length=100)
     content = models.TextField()
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=datetime.now())
     is_read = models.BooleanField(default=False)
     def __unicode__(self):
         return str(self.msg_from) + " <== From | To ==> " +str(self.msg_to)
