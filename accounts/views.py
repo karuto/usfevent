@@ -365,7 +365,8 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))  
         
     if request.method == "POST":
-        print request.POST
+        print "REQUEST", request.FILES
+      #  print "PICTURE!!!! ", request.FILES["picture"]
         # TODO: don't assume all these fields are in the POST! Check if exist.
         if "-" in request.POST['firstname']:
             new = []
@@ -398,11 +399,19 @@ def register(request):
             aff_ = request.POST['aff']
             aff_test = True        
         affmsg_ = strip_tags(request.POST['affmsg'])
-
+        pic_test = -1
+        extensions = ('.jpeg', '.jpg', '.gif', '.png') # Tuple with allowed image extensions
+        if 'picture' in request.FILES:
+            if str(request.FILES['picture']).endswith(extensions):
+                print "FOUNDPICTURE"
+                pic_test = 1
+            else:
+                pic_test = 0
+                print "FOUND INVALID PICTURE"
         # Check for clean input
         results = sanitize(firstname, lastname, email, bio_, password)
         print "results ", results
-        if all(results) and aff_test is True: #all tests passed
+        if all(results) and aff_test is True and pic_test != 0: #all tests passed
             print "tests passed"
             firstname = " ".join(firstname.split())
             print "firstname ", firstname
@@ -435,6 +444,13 @@ def register(request):
             if len(affmsg_) > 0:
                 old_input['affmsg'] = affmsg_
             old_input['errors'] = errors
+            if pic_test != -1:
+                print "PEW PEW ", str(request.FILES['picture'])
+                if pic_test == True:
+                    old_input['pic'] = pic_test
+                    old_input['picture'] = str(request.FILES['picture'])
+                else:
+                    old_input['pic'] = pic_test
             old_input['grad_years'] = template_var["grad_years"]
             print "old input ", old_input
             return render_to_response(template, old_input,

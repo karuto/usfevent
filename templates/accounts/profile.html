@@ -8,6 +8,97 @@
     <h1 class="page-hero-text page-hero-inline">Hi, {{ up.firstname }} {{ up.lastname }}</h1>
     &emsp;
     <a class="page-hero-support form-button-mini" href="{% url accounts.views.edit_profile %}">Edit Profile</a>
+    <div id="divInfo"></div>
+    <div id="fb-root"></div>
+    <script>
+      // Additional JS functions here
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '	295417230590753', // App ID
+          channelUrl : '//127.0.0.1:8000/', // Channel File
+          status     : true, // check login status
+          cookie     : true, // enable cookies to allow the server to access the session
+          xfbml      : true  // parse XFBML
+        });
+        
+        FB.getLoginStatus(function(response) {
+            var divInfo = document.getElementById("divInfo");
+            if (response.status === 'connected') {
+                // connected
+                testAPI();
+            } else if (response.status === 'not_authorized') {
+                // not_authorized
+                divInfo.innerHTML = '<img src=\"/webhost_media/static/fbconnect.png\" onclick=\"login()\" />';
+               
+            } else {
+                // not_logged_in
+                divInfo.innerHTML = '<img src=\"/webhost_media/static/fbconnect.png\" onclick=\"login()\" />';
+            }
+        });
+        // Additional init code here
+
+      };
+
+      function login() {
+        FB.login(function(response) {
+            
+    //        FB.login(handleLogin);
+            if (response.authResponse) {
+                // connected
+                testAPI();
+            } else {
+                // cancelled
+            }
+        });
+      }
+
+      function testAPI() {
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api("/me?fields=name,picture", handleMe);
+        FB.api("/me/friends?fields=installed,name,picture", handleFriends);
+        FB.api('/me', function(response) {
+            console.log('Good to see you, ' + response.name + '.');
+        });
+      }
+
+      function handleMe(response) {
+        var divInfo = document.getElementById("divInfo");
+
+        divInfo.innerHTML = "<h1>Me</h1>";
+        divInfo.innerHTML += "Name: " + response.name + "<br />";
+        divInfo.innerHTML += "Profile: <a href=\"https://www.facebook.com/" + response.id + "\">Profile Link<a/></br>";
+        divInfo.innerHTML += "<img src=" + response.picture.data.url + " /><br /><br />";
+      }
+
+      function handleFriends(response) {
+        var divInfo = document.getElementById("divInfo");
+
+        var friends = response.data;
+
+        divInfo.innerHTML += "<h1>My Friends</h1>";
+        
+        for (var i = 0; i < friends.length; i++) {
+
+          if (friends[i].installed) {
+              
+              divInfo.innerHTML += "Name: " + friends[i].name + "<br />";
+              divInfo.innerHTML += "Installed: " + friends[i].installed + "<br />";
+              divInfo.innerHTML += "Profile: <a href=\"https://www.facebook.com/" + friends[i].id + "\">Profile Link<a/></br>";
+              divInfo.innerHTML += "<img src=" + friends[i].picture.data.url + " /><br /><br />";
+          }
+          
+        }
+      }
+
+      // Load the SDK Asynchronously
+      (function(d){
+         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement('script'); js.id = id; js.async = true;
+         js.src = "//connect.facebook.net/en_US/all.js";
+         ref.parentNode.insertBefore(js, ref);
+       }(document));
+    </script> 
 </div>
 
 <div class="layout-profile-content clearfix-modern">
