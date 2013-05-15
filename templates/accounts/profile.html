@@ -11,7 +11,7 @@
   window.fbAsyncInit = function() {
     FB.init({
       appId      : '	295417230590753', // App ID
-      channelUrl : '//127.0.0.1:8000/', // Channel File
+      channelUrl : document.domain, // Channel File
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : true  // parse XFBML
@@ -127,7 +127,8 @@
             <div id="fb-root"></div>
             </div>
             
-            <h3 class="profile-bio"><!--<strong>Bio:</strong>--> {{ up.bio }}</h3>
+<!--            <h3 class="profile-bio"> {{ up.bio }}</h3>
+-->
         </div><!-- .profile-metadata -->
     </div><!-- .profile-content -->      
 </div><!-- .layout-profile-content -->
