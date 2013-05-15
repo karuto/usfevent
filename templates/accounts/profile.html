@@ -70,16 +70,19 @@
     var divInfo = document.getElementById("divInfo");
 
     var friends = response.data;
-
-    divInfo.innerHTML += "<div class='fb-friend-count'>You have " + friends.length + " friends here!</div>";
+    var f_counts = 0;
+    var friendsData = ""; 
+    
         
     for (var i = 0; i < friends.length; i++) {
 
       if (friends[i].installed) {
-          divInfo.innerHTML += "<a class='fb-friend-unit' href='https://www.facebook.com/" + friends[i].id + "' title='" + friends[i].name + "'><img src=" + friends[i].picture.data.url + " /></a>";
-      }
-      
+          f_counts++;
+          friendsData += "<a class='fb-friend-unit' href='https://www.facebook.com/" + friends[i].id + "' title='" + friends[i].name + "'><img src=" + friends[i].picture.data.url + " /></a>";
+      }      
     }
+    divInfo.innerHTML += "<div class='fb-friend-count'>You have " + f_counts + " friends here!</div>" + friendsData;
+    
   }
 
   // Load the SDK Asynchronously
