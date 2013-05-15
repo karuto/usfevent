@@ -82,7 +82,8 @@ body {
   line-height: 1;
 }
 ol,
-ul {
+ul,
+li {
   list-style: none;
 }
 blockquote,
@@ -316,25 +317,44 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
 
 /* Header related */
 /* USF EVENT BEGIN */
-.external-nav{
-  float: left;
-  line-height: 46px;
+.global-nav,
+.external-nav {
+  line-height: 45px;
+}
+.external-nav {
   border-left: 1px solid #f0f0f0;
+  float: left;
+}
+.global-nav {
   border-right: 1px solid #f0f0f0;
+  float: right;
 }
 .external-item {
   font-weight: 900;
   display: inline-block;
-  list-style: none;
   padding: 0 5px;
   text-transform: uppercase;
 }
-.external-item:last-child {
-  padding-right: 20px;
-}
 .global-item {
-  display: inline;
-  float: right;
+  display: inline-block;
+  float: left;
+  margin: 10px;
+}
+.global-avatar,
+.global-msg {
+  height: 25px;
+  width: 25px;
+}
+.global-msg {
+  background-color: #74D8DB;
+  text-align: center;
+}
+.global-msg-count {
+  color: white;
+  display: block;
+  line-height: 25px;
+  font-size: 16px;
+  font-weight: 900;
 }
 .site-logo-img {
   max-width: 80%;
@@ -342,8 +362,10 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   padding: 0 0 20px;
 }
 #searchform {
-  display: inline;
+  display: inline-block;
   float: right;
+  height: 45px;
+  margin: 0 10px;
 }
 #searchform input {
   font-size: 12px;
@@ -362,6 +384,42 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   text-indent: -9999px;
   width: 20px;
 }
+
+#global-trigger {
+  position: relative; 
+}
+.submenu-list {
+}
+.submenu-item {
+  background-color: #74D8DB;
+  height: 25px;
+  margin: 10px 0;
+  padding: 1px 10px 0; /* 25px in height */
+  width: 250px;
+}
+.submenu-link {
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+/* 
+	LEVEL ONE
+*/
+ul.dropdown                         { position: relative; }
+ul.dropdown li                      { font-weight: bold; float: left; zoom: 1; background: #ccc; }
+
+/* 
+	LEVEL TWO
+*/
+ul.dropdown ul 						{ width: 220px; visibility: hidden; position: absolute; top: 100%; left: 0; }
+ul.dropdown ul li 					{ font-weight: normal; background: #f6f6f6; color: #000; 
+									  border-bottom: 1px solid #ccc; float: none; }
+									  
+                                    /* IE 6 & 7 Needs Inline Block */
+ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block; } 
+
+
 /* USF EVENT END */
 
 

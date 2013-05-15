@@ -17,49 +17,52 @@
     <header class="layout-header-wrap">
     <div class="layout-main-wrap">
     
-        <nav class="external-nav">
-        <li class="external-item"><a href="/events">Don's Affairs</a></li>
-        {% if request.user.is_authenticated %}
-        {% if u.is_superuser %}
-        <li class="external-item"><a href="{%url mgmt.views.overview %}">Management</a></li>
-        {% endif %}
-        <li class="external-item"><a href="{%url accounts.views.index %}">Profile</a></li>
-        <li class="external-item"><a href="{%url accounts.views.logout %}">Logout</a></li>
-        {% else %}
-        <li class="external-item"><a href="{%url accounts.views.register %}">Register</a></li>
-        <li class="external-item"><a href="{%url accounts.views.login %}">Login</a></li>
-        {% endif %}
-        </nav>
+        <nav class="external-nav"></nav>
         
-        <li class="global-item"><a href="/">
-        <img class="user-avatar-mini" style="width: 25px; height:25px; margin:10px;"
-         src="/webhost_media/{{ u.avatar }}"/>
-        </a></li>
-
-        {% if request.user.is_authenticated %}
-	    <li class="global-item" style="width: 25px; height:25px; margin:10px; background-color:red;" ><a href="/notification/msg_box"><b class="aligncenter" style="color:white" id = "msg_new_number">{{msg_unread}}</b></a></li>
-	    
-	    <script>
-		function myFunction(){
-		    setInterval(function(){
-			    document.getElementById("msg_new_number").innerHTML='{{msg|length}}';
-		    },3000);
-		}
-		</script>
-		
-        {% endif %}
-
-
+        <nav class="global-nav"> 
 
         <form role="search" method="get" id="searchform" action="/events/search">
-          <input id="searchform-text" type="text" value="{{request.session.query_session}}" name="query" id="query" />
-		<select id = "sorted_method_id" name="sorted_method" style="display:none;">
-  			<option value="desc">Descending Order</option>
-  			<option value="asc">Ascending Order</option>
-  			<option value="alphabet">Alphabetical Order</option>
-		</select>
+          <input id="searchform-text" type="text" name="query" />
           <input id="searchform-submit" type="submit" id="searchsubmit" value="Search" />
         </form>
+
+        {% if request.user.is_authenticated %}
+	    <li class="global-item global-msg">
+	        <a href="{% url notification.views.msg_box %}">
+	        <b class="global-msg-count">{{msg_unread}}</b>
+	        </a>
+        </li>
+        {% endif %}
+
+        <li class="global-item" id="global-trigger">
+            {% if request.user.is_authenticated %}
+            <a href="/">
+                <img class="global-avatar" src="/webhost_media/{{ u.avatar }}"/>
+            </a>
+            {% else %}
+            <img class="global-avatar" src="/webhost_media/static/avatar_blank.jpg"/>
+            {% endif %}
+        </li>
+        </nav>        
+
+<script>
+$(function(){
+    //$('.submenu-list').hide();
+    // Refer to http://api.jquery.com/hover/
+    $("#global-trigger").hover(function(){
+        /* handlerIn(eventObject) */
+        $(this).addClass("hover");
+        //$('.submenu-list').css('display', 'block');
+        $('.submenu-list').show();
+    }, function(){
+        /* handlerOut(eventObject) */
+        $(this).removeClass("hover");
+        $('.submenu-list').hide();
+        //$('.submenu-list').css('display', 'none');
+    });
+});
+</script>        
+
         
     </div><!-- .layout-main-wrap -->
     </header><!-- .layout-header-wrap -->
@@ -67,8 +70,7 @@
     <header class="layout-subheader-wrap">
     Subheader here
     </header><!-- .layout-subheader-wrap -->
-    
-        
+            
     <div class="layout-main-wrap">
     <div class="layout-main-inner-wrap">
 
@@ -123,8 +125,32 @@
     </script>
     
     
-        {% block content %}
-        {% endblock %}
+    {% block content %}
+    {% endblock %}
+    
+    <aside class="submenu-list">
+        {% if request.user.is_authenticated %}
+        {% if u.is_superuser %}
+        <li class="submenu-item">
+            <a class="submenu-link" href="{%url mgmt.views.overview %}">Management</a>
+        </li>
+        {% endif %}
+        <li class="submenu-item">
+            <a class="submenu-link" href="{%url accounts.views.index %}">Profile</a>
+        </li>
+        <li class="submenu-item">
+            <a class="submenu-link" href="{%url accounts.views.logout %}">Logout</a>
+        </li>
+        {% else %}
+        <li class="submenu-item">
+            <a class="submenu-link" href="{%url accounts.views.register %}">Register</a>
+        </li>
+        <li class="submenu-item">
+            <a class="submenu-link" href="{%url accounts.views.login %}">Login</a>
+        </li>
+        {% endif %}        
+    </aside>
+    
     </div><!-- .layout-primary-wrap -->
     
     
