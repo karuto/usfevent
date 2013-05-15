@@ -7,4 +7,5 @@ urlpatterns = patterns('notification.views',
 
     url(r'^msg_box$', "msg_box", name='msg_box'),
     url(r'^(?P<pk>\d+)/msg_open$', "msg_open", name='msg_open'),
+    url(r'^(?P<pk>\d+)/msg_delete$', "msg_delete", name='msg_delete'),
 )

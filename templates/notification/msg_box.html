@@ -11,26 +11,30 @@
 
 <div class="entry-content-mega-block">
     <div style="padding: 20px; font-size: 18px; line-height: 170%;">
+	{% ifequal msg_received_list|length 0 %} 
+	<p>No notification receives yet.</p>
+	{% endifequal %}
 {% for msg in msg_received_list %}
-    <strong>From:</strong> {{msg.msg_from.django_user}}<br>
-    <strong>Date: </strong>{{msg.time}}<br>
-    <strong>Content:</strong>
+    <table>
+	
+		<tr>
+			<td >
+				<img src="/webhost_media/{{msg.msg_from.avatar}}" style="height:50px;width:50px;"/>
+			</td>
+			<td style="width:100%;">
     {% if msg.is_read %}
-    <a href="/notification/{{msg.id}}/msg_open" style="display: inline;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
+    <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight:'normal';" id="msg_{{msg.id}}">{{msg.title}}</a>
+	<a href="/notification/{{msg.id}}/msg_delete" style="display: inline;font-weight: bold;float:right;">x</a>
     
     {% else %}
-     <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight: bold;" onclick="myFunction('{{msg.content}}', 'msg_{{msg.id}}')" id="msg_{{msg.id}}">{{msg.content}}</a>
+     <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight: bold;" id="msg_{{msg.id}}">{{msg.title}}</a>
+	<a href="/notification/{{msg.id}}/msg_delete" style="display: inline;font-weight: bold;float:right;">x</a>
     {% endif %}
-    <script>
-	function myFunction(message, id)
-	{
-		alert(message);
-		document.getElementById("msg_{{msg.id}}").style.font-weight= '';
+    <p>{{msg.time}}</p>
+			</td>
+		</tr>
+    </table>
 
-	}
-    </script>
-    
-    <br><br>
 {% endfor %}
 	</div>
 </div><!-- .entry-content-mega-block -->
