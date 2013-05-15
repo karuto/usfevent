@@ -11,7 +11,7 @@ class Event(models.Model):
     title = models.CharField(max_length=100)
     body = models.TextField()
     refer = models.URLField(blank=True)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(default=datetime.now)
     event_time = models.DateTimeField(default=datetime.now)
     location = models.CharField(max_length=100, default="USF Graphics Center")
     tags = TaggableManager()
@@ -25,7 +25,7 @@ class Event(models.Model):
         
 
 class Order(models.Model):
-    created_time = models.DateTimeField(auto_now=True)
+    created_time = models.DateTimeField(default=datetime.now)
     client_name = models.CharField(max_length=100)
     client_org = models.CharField(max_length=100)
     client_phone = models.CharField(max_length=100)
@@ -60,7 +60,7 @@ class Comment(models.Model):
     user = models.ForeignKey(UserProfile)
     event = models.ForeignKey(Event)
     content = models.TextField()
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=datetime.now)
     
     def __unicode__(self):
         return unicode("%s: %s" % (self.event, self.content[:50]))
@@ -73,7 +73,7 @@ admin.site.register(Comment, CommentAdmin)
 class Like(models.Model):
     user = models.ForeignKey(UserProfile)
     event = models.ForeignKey(Event)
-    time = models.DateTimeField(auto_now=True)
+    time = models.DateTimeField(default=datetime.now)
     def __unicode__(self):
         return str(self.user.django_user) + " likes " +(self.event.title)
     

@@ -77,6 +77,7 @@ def sys_notification(target, types, from_user, event_id):
     
 
     else:
+        message.title = "Unknown System Notification."
         message.content = "Unknown System Notification."    
     message.save()
 

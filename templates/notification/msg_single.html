@@ -10,11 +10,16 @@
 </div>
 
 <div class="entry-content-mega-block">
+
 <div class="msg-received-detail">
     <div class="msg-content-detail">
     	<p>Message from {{ message.msg_from.firstname }}</p>
 	    <small class="msg-time">{{ message.time }}</small>
-	    <div class="msg-main">{{ message.content }}</div>
+	    <div class="msg-main">
+		{% autoescape off %}
+		{{ message.content }}
+ 		{% endautoescape %}	    
+	    </div>
     </div><!-- .msg-content-detail -->
 	
 	<a class="page-hero-support form-button-mini" 
@@ -25,7 +30,6 @@
 	
 </div><!-- .msg-received-detail -->
 </div><!-- .entry-content-mega-block -->
-
 
 
 {% endif %}
