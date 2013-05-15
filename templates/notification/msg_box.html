@@ -9,37 +9,37 @@
     <h1 class="page-hero-text" id="id-e">Notifications ({{ msg_unread }})</h1>
 </div>
 
+
+
 <div class="entry-content-mega-block">
-    <div style="padding: 20px; font-size: 18px; line-height: 170%;">
+    <div class="msg-received-list">
+
 	{% ifequal msg_received_list|length 0 %} 
-	<p>No notification receives yet.</p>
+    	<p>No notification receives yet.</p>
 	{% endifequal %}
-{% for msg in msg_received_list %}
-    <table>
 	
-		<tr>
-			<td >
-				<img src="/webhost_media/{{msg.msg_from.avatar}}" style="height:50px;width:50px;"/>
-			</td>
-			<td style="width:100%;">
-    {% if msg.is_read %}
-    <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight:'normal';" id="msg_{{msg.id}}">{{msg.title}}</a>
-	<a href="/notification/{{msg.id}}/msg_delete" style="display: inline;font-weight: bold;float:right;">x</a>
+    {% for msg in msg_received_list %}
+    <div class="msg-entry clearfix-modern 
+    {% if msg.is_read %}{% else %} is-unread {% endif %}">
     
-    {% else %}
-     <a href="/notification/{{msg.id}}/msg_open" style="display: inline;font-weight: bold;" id="msg_{{msg.id}}">{{msg.title}}</a>
-	<a href="/notification/{{msg.id}}/msg_delete" style="display: inline;font-weight: bold;float:right;">x</a>
-    {% endif %}
-    <p>{{msg.time}}</p>
-			</td>
-		</tr>
-    </table>
+    <img class="user-avatar-mini msg-image" 
+    src="/webhost_media/{{msg.msg_from.avatar}}"/>
 
-{% endfor %}
-	</div>
+    <div class="msg-metadata">
+    <div class="msg-title">
+        <a href="/notification/{{msg.id}}/msg_open" 
+        id="msg_{{msg.id}}">{{msg.title}}</a>
+    </div>
+    <small class="msg-option">
+        <a href="/notification/{{msg.id}}/msg_delete" class="msg-option-x">x</a>
+    </small>
+    <small class="msg-time">{{ msg.time }}</small>
+    </div><!-- .msg-metadata -->
+    </div><!-- msg-entry -->
+
+    {% endfor %}
+	</div><!-- .msg-received-list -->
 </div><!-- .entry-content-mega-block -->
-
-
 
 {% endif %}
     

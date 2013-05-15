@@ -403,28 +403,7 @@ box-shadow:         0px -5px 15px rgba(50, 50, 50, 0.1);
   font-weight: 900;
   text-transform: uppercase;
 }
-
-/* 
-	LEVEL ONE
-*/
-ul.dropdown                         { position: relative; }
-ul.dropdown li                      { font-weight: bold; float: left; zoom: 1; background: #ccc; }
-
-/* 
-	LEVEL TWO
-*/
-ul.dropdown ul 						{ width: 220px; visibility: hidden; position: absolute; top: 100%; left: 0; }
-ul.dropdown ul li 					{ font-weight: normal; background: #f6f6f6; color: #000; 
-									  border-bottom: 1px solid #ccc; float: none; }
-									  
-                                    /* IE 6 & 7 Needs Inline Block */
-ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block; } 
-
-
 /* USF EVENT END */
-
-
-
 
 
 .site-header { /* #masthead */
@@ -436,9 +415,6 @@ ul.dropdown ul li a					{ border-right: none; width: 100%; display: inline-block
   margin: 0 auto;
   max-width: 1238px; /* 1+1238+1 = 1240 */
 }
-
-
-
 
 /* USF EVENT BEGIN */
 /* Universal modules, main framework components */
@@ -741,28 +717,6 @@ h1.entry-title {
   padding: 10px;
 }
 
-/* USF EVENT END */
-
-
-
-
-
-
-.layout-page-navigation .nav-item {
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 0.1em;
-}
-.layout-page-navigation .nav-previous {
-  float: left;
-  text-align: left;
-}
-.layout-page-navigation .nav-next {
-  float: right;
-  text-align: right;
-}
-
-
 /* Entry related */
 .entry-masthead { /* This is where the feature image lies */
   background-attachment: scroll;
@@ -774,215 +728,53 @@ h1.entry-title {
   position: relative;
   width: 100%;
 }
-.layout-single-post .entry-header .entry-title {
-  font-family: "Microsoft Yahei","冬青黑体简体中文 w3","黑体", serif;
-  font-size: 32px;
-  font-weight: 900;
-  line-height: 42px;
-  padding: 20px;  
-  text-shadow: 0 1px 1px Darkred;
-}
-.empty-masthead {
-  height: 250px;
-  text-align: center;
-}
-.encourage-icon {
-  margin: 35px auto; /* 175+35+35 = 245 */
-}
 .entry-summary {
   margin: 20px;
-}
-.empty-item .entry-summary {
-  color: #ce5333;
-  font-family: "Microsoft Yahei","冬青黑体简体中文 w3","黑体", serif;
-  font-size: 21px;
-  font-weight: bold;
-  /*font-weight: 900;*/
-  line-height: 42px;
-  margin-top: 10px;
-  text-align: center;
-  text-shadow: 0px 1px 1px #FF9999;
-  vertical-align: middle;
-}
-.entry-copyright {
-  background-color: #F5F5F5;
-  border-bottom: 1px solid #d0d0d0;
-  border-top: 1px solid #d0d0d0;
-  color: #666;
-  font-size: 12px;
-  line-height: 170%;
-  margin-top: 40px;
-  padding: 30px;
-}
-.entry-copyright:hover,
-.author-meta:hover {
-  color: #444;
-}
-.layout-feature-post .author-info-table,
-.layout-feature-post .entry-copyright {
-  /*padding: 20px 50px;*/
-}
-.author-info-table {
-  background-color: #F0F0F0;
-  display: table;
-  width: 100%;
-}
-.entry-author-info {
-  display: table-row;
-}
-.author-avatar,
-.author-meta {
-  display: table-cell;
-  position: relative;
-  vertical-align: top;
-}
-.author-avatar {
-  padding: 20px 20px 30px;
-  width: 20%;
-}
-img.avatar {
-  -webkit-border-radius: 200px;
-  border-radius: 200px;
-  -webkit-box-shadow: 0 1px 5px #bbb;
-  -moz-box-shadow: 0 1px 5px #bbb;
-  box-shadow: 0 1px 5px #bbb;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 3px;
-  text-align: center;
-}
-.author-meta {
-  color: #666;
-  padding: 20px 20px 30px;
-  width: 80%;
-}
-.author-name {
-  font-size: 21px;
-  /*font-weight: bold;*/
-  line-height: 30px;
-}
-.author-contact-item {
-  font-size: 12px;
-  display: inline-block;
-  margin: 0;
-}
-.author-desc {
-  font-size: 12px;
-  line-height: 21px;
-}
-.entry-nav-single {
-  display: table;
-  margin: 20px 0;
-  padding: 20px 0;
-  width: 100%;
-}
-.entry-nav-single .nav-previous,
-.entry-nav-single .nav-next {
-  font-weight: bold;
-  display: table-cell;
-  padding: 0px 20px;
-  vertical-align: center;
-  width: 50%; 
-}
-.entry-nav-single .nav-previous {
-  border-right: 1px solid #d0d0d0;
-  margin: 20px 0px 20px 0px;
-  text-align: right;
-}
-.entry-nav-single .nav-next {
-  border-left: 1px solid #d0d0d0;
-  margin: 20px 0px 20px 0px;
-  text-align: left;
-}
-
-/* Entry content related */
-.entry-content {
 }
 #page-content {
   margin: 30px;
 }
-.layout-feature-post .entry-content {
-  margin: 30px 0;
-}
-.entry-content h2,
-.entry-content p {
-  margin-bottom: 21px;
-  text-shadow: 0 1px 0 #F9F6ED, 0 1px 0 rgba(0, 0, 0, .15);
-}
-.entry-content > p:last-child {
-  /*background-color: teal;*/
-  margin-bottom: 50px; /* Huge margin for last one! */
-}
-.entry-content h2 {
-  border-bottom: 1px dashed #E6E6E6;
-  font-family: "Microsoft Yahei","冬青黑体简体中文 w3","黑体", serif;
-  font-size: 20px;
-  font-weight: 900;
-  padding: 5px 0;
-  text-shadow: 0px 1px 1px Darkred;
-}
-.entry-content blockquote {
-  border-left: 5px solid #ce5333;
-  color: darkRed;
-  margin: 2em 0;
-  padding: 0 0 0 20px;
-}
-/* Image post format related support */
 
-.format-image .entry-content {
-  text-align: center;
-  margin: 0 0 30px;
+/* Notification related */
+.msg-received-list {
+  margin: 20px 0;
 }
-.format-image .entry-content p {
-  margin: 20px 30px;
+.msg-entry {
+  margin: 10px;
+  font-weight: 300;
 }
-
-.format-image .entry-content blockquote {
-  border: 0;
-  margin: 0 30px;
+.msg-image {
+  float: left;
+  margin: 0 20px; 
+  
 }
-.format-image .wp-caption {
-  width: 100%;
+.msg-metadata {
+  float: left;
+  width: 80%;
 }
-.post img {
-  height: auto;
-  max-width: 100%;
+.msg-title {
+  font-size: 18px;
 }
-.wp-caption {
-
-}
-.entry-comicbits-meta {
-  background-color: #F0F0F0;
-  padding: 30px;
-}
-.entry-comicbits-meta .roboto-font {
-  color: #666;
-  text-transform: none;
-}
-.format-image .wp-caption-text{
-  padding: 0 20px;
-  text-align: center;
-}
-.format-image .entry-copyright {
-  text-align: center;
-}
-.format-image .entry-title {
+.msg-time {
   font-size: 14px;
-  font-weight: bold;
-  text-shadow: 0px 1px 1px #FF9999;
 }
-.format-image .entry-copyright .entry-meta {
-  margin: 5px 0;
+.msg-option {
+  float: right;
+  font-size: 18px;
+  font-weight: 900;
+  padding: 5px 10px;
 }
-.format-image .WPSNS_main {
-  margin: 0 auto;
+
+.msg-option:hover {
+  background: #74D8DB;
 }
-.format-image .flexslider {
-  border: 0;
-  margin-bottom: 60px; 
-  margin-top: 0;
+.msg-option-x:hover {
+  color: #fff;
 }
+.msg_received-list .is-unread {
+  font-weight: 900;
+}
+/* USF EVENT END */
 
 
 /* Entry content related legacy support */
