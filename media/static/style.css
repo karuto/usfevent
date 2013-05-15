@@ -587,8 +587,16 @@ h1.entry-title {
   padding: 10px 0 0;
 }
 .profile-following-button {
-  margin: 10px 0 0;
+  margin: 20px 0 10px;
   color:white;
+}
+.fb-friend-count {
+  color: #444;
+  margin: 0 0 10px;
+  font-weight: 900;
+}
+.fb-friend-unit {
+  margin-right: 10px;
 }
 .layout-entry-interactions{
   background-color: white;
@@ -651,6 +659,10 @@ h1.entry-title {
   font-size: 18px;
   font-weight: 900;
   text-transform: uppercase;
+}
+
+.profile-bio {
+  margin: 10px 0;
 }
 .profile-event-image {
   float: left;
