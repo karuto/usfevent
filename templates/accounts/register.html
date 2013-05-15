@@ -11,16 +11,33 @@
 
 <form action="" enctype="multipart/form-data" method="post">{% csrf_token %}
 <div class="main-item-block">
-	<div id="preview">
+	 
+	 {% if pic %}
+	 <div id="preview">
          <img id="imghead" src=''>
-	</div>
+	 </div>
 	 <div style="position:relative;">
 		<button id="browzer_button" 
 		style="position:absolute; margin-left:30px; width:150px;"/>Upload avatar</button>
 		<input type="file" name="picture" style="opacity:0; z-index:1;"
 		 onchange="document.getElementById('browzer_button').value = 
 		 this.value;previewImage(this);" />
+     {% else %}
+     <div id="preview">
+         <img id="imghead" src=''>
 	 </div>
+	 <div style="position:relative;">
+		<button id="browzer_button" 
+		style="position:absolute; margin-left:30px; width:150px;"/>Upload avatar</button>
+		<input type="file" name="picture" style="opacity:0; z-index:1;"
+		 onchange="document.getElementById('browzer_button').value = 
+		 this.value;previewImage(this);" />
+		 {% if pic == 0 %}
+         </br><p class="form-prompt">* INVALID IMAGE UPLOADED</p>
+         {% endif %}
+	 {% endif %}
+	 </div>
+	 
 </div>
 
 <div class="entry-content-block">
