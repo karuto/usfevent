@@ -13,9 +13,12 @@
     <div style="padding: 20px; font-size: 18px; line-height: 170%;">
 	<p><strong>From:</strong> {{message.msg_from.django_user}}</p>
 	<p><small>{{message.time}}</small></p>
-	<p>{{message.content}}</p>
-    
-	<a class="page-hero-support form-button-mini" href="/notification/msg_box">Return</a>
+	<p>
+		{% autoescape off %}
+     			{{ message.content }}
+     		{% endautoescape %}
+	</p>
+     <a class="page-hero-support form-button-mini" href="/notification/msg_box">Return</a>
 	</div>
 </div><!-- .entry-content-mega-block -->
 

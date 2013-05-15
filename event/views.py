@@ -27,6 +27,7 @@ from accounts.models import UserProfile
 from event.models import Comment
 from event.models import Event
 from event.models import Like
+from event.models import Order
 from global_func import base_template_vals
 from notification.models import Message
 from notification.views import sys_notification
@@ -64,7 +65,7 @@ def index(request):
     """Creates standard index page view for Don's Affairs.
 
     Gets user profile object and its list of "Like" objects,
-    list of "Event" objects inorder of creation and formats
+    list of "Event" objects in order of creation and formats
     each event object to its title.
     
     Args:
@@ -395,6 +396,55 @@ def edit(request, pk):
 
 
 def order(request):
+    template_var = base_template_vals(request)
+    
+    template_var["tags"] = Tag.objects.all()
+    if request.method == "POST":
+            order = Order()
+            order.client_name = request.POST["client_name"]
+            order.client_phone = request.POST["client_phone"]
+            order.client_email = request.POST["client_email"]
+            order.client_org = request.POST["client_org"]
+            order.client_is_sponsored = request.POST["client_is_sponsored"]
+            order.project_name = request.POST["project_name"]
+            #order.project_deadline = request.POST["project_deadline"]
+            order.event_location = request.POST["event_location"]
+            #order.event_time = request.POST["event_time"]
+            order.design_text = request.POST["design_text"]
+            order.design_concept = request.POST["design_concept"]
+
+
+            event_date = request.POST["event_date"]
+            event_time = request.POST["event_time"]            
+            event_datetime = event_date + ' ' + event_time 
+            order.event_time = datetime.strptime(event_datetime, '%m/%d/%Y %H:%M')        
+            order.project_deadline = datetime.strptime(request.POST["project_deadline"], '%m/%d/%Y')
+    
+            project_types = request.POST.getlist("project_type")
+            for project_type in project_types:
+                if(project_type == "type_poster"):
+                    order.is_poster = True
+                elif(project_type == "type_flyer"):
+                    order.is_flyer = True
+                elif(project_type == "type_handbill"):
+                    order.is_handbill = True
+                elif(project_type == "type_businesscard"):
+                    order.is_businesscard = True
+                elif(project_type == "type_invitation"):
+                    order.is_invitation = True
+                elif(project_type == "type_logo"):
+                    order.is_logo = True
+                elif(project_type == "type_banner"):
+                    order.is_banner = True
+                elif(project_type == "type_other"):
+                    order.is_other = True
+                elif(project_type == "project_other"):
+                    order.project_other = True
+
+                order.save()
+
+            return HttpResponseRedirect(reverse("index"))   
+        
     template_var = base_template_vals(request)
     return render_to_response("event/event_order.html", template_var,
                                   context_instance=RequestContext(request)) 
